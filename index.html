@@ -1,20 +1,13 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<title>Retro Games</title>
-
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Retro Games</title><style>
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
 
-html,
-body {
+html, body {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -32,10 +25,6 @@ button,
 input {
     font-family: inherit;
 }
-
-/* =========================
-   TOPO
-========================= */
 
 #topbar {
     position: sticky;
@@ -60,8 +49,8 @@ input {
 
 #search {
     flex: 1;
-
     min-width: 0;
+
     padding: 10px 14px;
 
     border: 1px solid #333;
@@ -70,10 +59,6 @@ input {
     background: #1a1a1a;
     color: white;
     outline: none;
-}
-
-#search:focus {
-    border-color: #777;
 }
 
 #systemButtons {
@@ -98,10 +83,6 @@ input {
     color: black;
 }
 
-/* =========================
-   BIBLIOTECA
-========================= */
-
 #library {
     padding: 20px;
 }
@@ -118,10 +99,7 @@ input {
 
 #games {
     display: grid;
-
-    grid-template-columns:
-        repeat(auto-fill, minmax(180px, 1fr));
-
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 15px;
 }
 
@@ -129,7 +107,6 @@ input {
     display: block;
 
     padding: 18px;
-
     min-height: 110px;
 
     background: #151515;
@@ -166,26 +143,18 @@ input {
 .gameName {
     font-size: 17px;
     font-weight: bold;
-
     word-break: break-word;
 }
 
 .gameType {
     margin-top: 6px;
-
     font-size: 12px;
     color: #888;
 }
 
-/* =========================
-   EMULADOR
-========================= */
-
 #emulatorScreen {
     position: fixed;
-
     inset: 0;
-
     z-index: 9999;
 
     display: none;
@@ -199,7 +168,6 @@ input {
 
 #game {
     position: absolute;
-
     inset: 0;
 
     width: 100%;
@@ -212,10 +180,6 @@ input {
     max-width: 100%;
     max-height: 100%;
 }
-
-/* =========================
-   BOTÃO VOLTAR
-========================= */
 
 #backButton {
     position: fixed;
@@ -246,13 +210,8 @@ input {
     display: block;
 }
 
-/* =========================
-   CARREGANDO
-========================= */
-
 #loading {
     position: fixed;
-
     inset: 0;
 
     z-index: 10000;
@@ -294,13 +253,8 @@ input {
     }
 }
 
-/* =========================
-   CRT
-========================= */
-
 #crt {
     position: fixed;
-
     inset: 0;
 
     z-index: 9998;
@@ -324,10 +278,6 @@ input {
 #crt.show {
     display: block;
 }
-
-/* =========================
-   MOBILE
-========================= */
 
 @media (max-width: 650px) {
 
@@ -359,9 +309,7 @@ input {
     }
 
     #games {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
     }
 
@@ -371,10 +319,6 @@ input {
     }
 }
 
-/* =========================
-   FULLSCREEN
-========================= */
-
 :fullscreen {
     background: #000;
 }
@@ -382,93 +326,54 @@ input {
 :-webkit-full-screen {
     background: #000;
 }
-</style>
-</head>
-
-<body>
-
-<!-- =========================
-     BIBLIOTECA
-========================= -->
-
-<div id="topbar">
-
-    <div id="logo">
-        🎮 Retro Games
-    </div>
-
-    <input
-        id="search"
-        type="search"
-        placeholder="Pesquisar jogo..."
-        autocomplete="off"
-    >
-
-    <div id="systemButtons">
-
-        <button
-            class="systemButton active"
-            data-system="gb">
-            Game Boy
-        </button>
-
-        <button
-            class="systemButton"
-            data-system="snes">
-            SNES
-        </button>
-
-    </div>
-
+</style></head><body><div id="topbar"><div id="logo">
+    🎮 Retro Games
 </div>
 
+<input
+    id="search"
+    type="search"
+    placeholder="Pesquisar jogo..."
+    autocomplete="off"
+>
 
-<div id="library">
+<div id="systemButtons">
 
-    <h1 id="libraryTitle">
+    <button
+        class="systemButton active"
+        data-system="gb">
         Game Boy
-    </h1>
+    </button>
 
-    <div id="status">
-        Carregando jogos...
-    </div>
-
-    <div id="games"></div>
-
-</div>
-
-
-<!-- =========================
-     EMULADOR
-========================= -->
-
-<div id="emulatorScreen">
-
-    <div id="game"></div>
+    <button
+        class="systemButton"
+        data-system="snes">
+        SNES
+    </button>
 
 </div>
 
+</div><div id="library"><h1 id="libraryTitle">
+    Game Boy
+</h1>
 
-<button id="backButton">
+<div id="status">
+    Carregando jogos...
+</div>
+
+<div id="games"></div>
+
+</div><div id="emulatorScreen"><div id="game"></div>
+
+</div><button id="backButton">
     ← Voltar
-</button>
+</button><div id="loading"><div class="loader"></div>
 
-
-<div id="loading">
-
-    <div class="loader"></div>
-
-    <div id="loadingText">
-        Carregando jogo...
-    </div>
-
+<div id="loadingText">
+    Carregando jogo...
 </div>
 
-
-<div id="crt"></div>
-
-
-<script>
+</div><div id="crt"></div><script>
 
 /* =========================================================
    CONFIGURAÇÃO
@@ -476,6 +381,8 @@ input {
 
 const GITHUB_USER = "Rique106br";
 const GITHUB_REPO = "Pokemon-red-nft";
+
+const BASE_PATH = "/Pokemon-red-nft/";
 
 const GITHUB_API =
     `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/`;
@@ -485,20 +392,20 @@ const SYSTEMS = {
     gb: {
         name: "Game Boy",
         folder: "gb",
+        core: "gb",
+        icon: "🟢",
 
         extensions: [
             ".gb",
             ".gbc"
-        ],
-
-        core: "gb",
-
-        icon: "🟢"
+        ]
     },
 
     snes: {
         name: "SNES",
         folder: "snes",
+        core: "snes",
+        icon: "🎮",
 
         extensions: [
             ".sfc",
@@ -506,11 +413,7 @@ const SYSTEMS = {
             ".fig",
             ".swc",
             ".bsx"
-        ],
-
-        core: "snes",
-
-        icon: "🎮"
+        ]
     }
 
 };
@@ -554,15 +457,8 @@ const crt =
     document.getElementById("crt");
 
 
-/* =========================================================
-   ESTADO
-========================================================= */
-
 let currentSystem = "gb";
-
 let allGames = [];
-
-let emulatorStarted = false;
 
 
 /* =========================================================
@@ -571,23 +467,18 @@ let emulatorStarted = false;
 
 function normalizeGameName(filename) {
 
-    let name = filename;
+    let name =
+        filename.replace(/\.[^/.]+$/, "");
 
-    // remove extensão
-    name = name.replace(/\.[^/.]+$/, "");
+    name =
+        name.replace(/[_-]+/g, " ");
 
-    // troca separadores
-    name = name.replace(/[_-]+/g, " ");
+    name =
+        name.replace(/\s+/g, " ");
 
-    // remove espaços duplicados
-    name = name.replace(/\s+/g, " ");
-
-    // capitalização
-    name = name
+    return name
         .trim()
-        .replace(/\b\w/g, char => char.toUpperCase());
-
-    return name;
+        .replace(/\b\w/g, c => c.toUpperCase());
 }
 
 
@@ -600,89 +491,125 @@ function createSlug(filename) {
     let name =
         filename.replace(/\.[^/.]+$/, "");
 
-    name = name
+    return name
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-
-    name = name
+        .replace(/[\u0300-\u036f]/g, "")
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "_")
         .replace(/^_+|_+$/g, "");
-
-    return name;
 }
 
 
 /* =========================================================
-   PEGAR ROMS DO GITHUB
+   ESCAPAR HTML
+========================================================= */
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+
+/* =========================================================
+   URL CURTA
+========================================================= */
+
+function buildGamePath(game) {
+
+    return (
+        BASE_PATH +
+        game.system +
+        "/" +
+        encodeURIComponent(game.slug)
+    );
+
+}
+
+
+/* =========================================================
+   CARREGAR JOGOS
 ========================================================= */
 
 async function loadGames(system) {
 
-    const config = SYSTEMS[system];
+    const config =
+        SYSTEMS[system];
 
     gamesContainer.innerHTML = "";
 
     status.textContent =
-        `Procurando jogos em /${config.folder}/ ...`;
+        `Procurando jogos em /${config.folder}/...`;
 
     try {
 
-        const response = await fetch(
-            GITHUB_API + config.folder
-        );
+        const response =
+            await fetch(
+                GITHUB_API +
+                config.folder
+            );
 
         if (!response.ok) {
 
             throw new Error(
-                `GitHub API respondeu ${response.status}`
+                "Erro GitHub API: " +
+                response.status
             );
 
         }
 
-        const files = await response.json();
+        const files =
+            await response.json();
 
-        allGames = files
-            .filter(file => {
+        allGames =
+            files
+                .filter(file => {
 
-                if (file.type !== "file") {
-                    return false;
-                }
+                    if (
+                        file.type !== "file"
+                    ) {
+                        return false;
+                    }
 
-                const filename =
-                    file.name.toLowerCase();
+                    const name =
+                        file.name.toLowerCase();
 
-                return config.extensions.some(
-                    extension =>
-                        filename.endsWith(extension)
-                );
+                    return config.extensions.some(
+                        ext =>
+                            name.endsWith(ext)
+                    );
 
-            })
-            .map(file => {
+                })
+                .map(file => {
 
-                return {
+                    return {
 
-                    name:
-                        normalizeGameName(file.name),
+                        name:
+                            normalizeGameName(
+                                file.name
+                            ),
 
-                    filename:
-                        file.name,
+                        filename:
+                            file.name,
 
-                    slug:
-                        createSlug(file.name),
+                        slug:
+                            createSlug(
+                                file.name
+                            ),
 
-                    downloadUrl:
-                        file.download_url,
+                        downloadUrl:
+                            file.download_url,
 
-                    path:
-                        file.path,
+                        system:
+                            system
 
-                    system:
-                        system
+                    };
 
-                };
-
-            });
+                });
 
         renderGames();
 
@@ -691,24 +618,7 @@ async function loadGames(system) {
         console.error(error);
 
         status.textContent =
-            "Não foi possível carregar os jogos.";
-
-        gamesContainer.innerHTML = `
-            <div style="
-                grid-column:1/-1;
-                padding:20px;
-                color:#aaa;
-                background:#151515;
-                border-radius:12px;
-            ">
-                Erro ao acessar a pasta
-                <strong>/${config.folder}/</strong>.
-
-                <br><br>
-
-                Verifique se a pasta existe no GitHub.
-            </div>
-        `;
+            "Erro ao carregar os jogos.";
 
     }
 
@@ -735,18 +645,17 @@ function renderGames() {
                 .includes(query)
         );
 
-    if (filtered.length === 0) {
+    if (!filtered.length) {
 
         status.textContent =
-            query
-                ? "Nenhum jogo encontrado."
-                : "Nenhum jogo encontrado nesta pasta.";
+            "Nenhum jogo encontrado.";
 
         return;
+
     }
 
     status.textContent =
-        `${filtered.length} jogo${filtered.length === 1 ? "" : "s"} encontrado${filtered.length === 1 ? "" : "s"}.`;
+        `${filtered.length} jogo${filtered.length > 1 ? "s" : ""} encontrado${filtered.length > 1 ? "s" : ""}.`;
 
 
     filtered.forEach(game => {
@@ -754,13 +663,15 @@ function renderGames() {
         const card =
             document.createElement("a");
 
-        card.className = "game";
+        card.className =
+            "game";
+
+        /*
+         * ESTE É O LINK CURTO
+         */
 
         card.href =
-            buildGameUrl(game);
-
-        card.dataset.name =
-            game.name.toLowerCase();
+            buildGamePath(game);
 
         card.innerHTML = `
 
@@ -779,48 +690,44 @@ function renderGames() {
         `;
 
 
-        /*
-         * IMPORTANTE:
-         *
-         * Não deixamos o navegador navegar para
-         * outra página.
-         *
-         * Assim podemos solicitar fullscreen
-         * durante o toque/clique do usuário.
-         */
+        card.addEventListener(
+            "click",
+            event => {
 
-        card.addEventListener("click", event => {
+                event.preventDefault();
 
-            event.preventDefault();
+                /*
+                 * Fullscreen dentro do toque
+                 */
 
-            /*
-             * O fullscreen é solicitado imediatamente
-             * dentro do gesto do usuário.
-             */
-            requestFullscreen();
+                requestFullscreen();
 
 
-            /*
-             * Atualiza a URL sem recarregar a página.
-             */
-            history.pushState(
-                {
-                    game: true,
-                    slug: game.slug,
-                    system: game.system
-                },
-                "",
-                buildGamePath(game)
-            );
+                /*
+                 * Salva a URL curta
+                 */
+
+                history.pushState(
+                    {
+                        game: true
+                    },
+                    "",
+                    buildGamePath(game)
+                );
 
 
-            startEmulator(
-                game.downloadUrl,
-                game.system,
-                game.name
-            );
+                /*
+                 * Inicia o jogo
+                 */
 
-        });
+                startEmulator(
+                    game.downloadUrl,
+                    game.system,
+                    game.name
+                );
+
+            }
+        );
 
 
         gamesContainer.appendChild(card);
@@ -831,98 +738,42 @@ function renderGames() {
 
 
 /* =========================================================
-   ESCAPAR HTML
-========================================================= */
-
-function escapeHtml(text) {
-
-    const div =
-        document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-}
-
-
-/* =========================================================
-   URL CURTA
-========================================================= */
-
-function buildGamePath(game) {
-
-    return (
-        "/" +
-        game.system +
-        "/" +
-        encodeURIComponent(game.slug)
-    );
-
-}
-
-
-/*
- * URL usada nos cards.
- *
- * Exemplo:
- *
- * /snes/super_mario_world
- *
- * /gb/pokemon_red
- */
-
-function buildGameUrl(game) {
-
-    return buildGamePath(game);
-
-}
-
-
-/* =========================================================
    FULLSCREEN
 ========================================================= */
 
 async function requestFullscreen() {
 
-    /*
-     * Se já estiver em fullscreen,
-     * não fazemos nada.
-     */
-
-    if (
-        document.fullscreenElement ||
-        document.webkitFullscreenElement
-    ) {
-        return;
-    }
-
     try {
 
-        if (document.documentElement.requestFullscreen) {
+        if (
+            document.fullscreenElement ||
+            document.webkitFullscreenElement
+        ) {
+            return;
+        }
 
-            await document.documentElement.requestFullscreen();
-
-        } else if (
-            document.documentElement.webkitRequestFullscreen
+        if (
+            document.documentElement
+                .requestFullscreen
         ) {
 
-            document.documentElement.webkitRequestFullscreen();
+            await document.documentElement
+                .requestFullscreen();
+
+        } else if (
+            document.documentElement
+                .webkitRequestFullscreen
+        ) {
+
+            document.documentElement
+                .webkitRequestFullscreen();
 
         }
 
     } catch (error) {
 
-        /*
-         * Alguns navegadores, principalmente em
-         * determinados celulares, podem bloquear
-         * fullscreen.
-         *
-         * Nesse caso o emulador continua funcionando
-         * normalmente.
-         */
-
         console.log(
-            "Fullscreen não permitido:",
+            "Fullscreen bloqueado:",
             error
         );
 
@@ -932,7 +783,7 @@ async function requestFullscreen() {
 
 
 /* =========================================================
-   INICIAR EMULADOR
+   INICIAR EMULATORJS
 ========================================================= */
 
 function startEmulator(
@@ -942,64 +793,57 @@ function startEmulator(
 ) {
 
     if (!rom) {
-
-        alert(
-            "Não foi possível encontrar a ROM."
-        );
-
         return;
-
     }
-
 
     const config =
         SYSTEMS[system];
 
 
-    /*
-     * Mostra tela do emulador
-     */
+    library.style.display =
+        "none";
 
-    library.style.display = "none";
-    topbar.style.display = "none";
+    topbar.style.display =
+        "none";
 
-    emulatorScreen.classList.add("show");
+    emulatorScreen.classList.add(
+        "show"
+    );
 
-    backButton.classList.add("show");
+    backButton.classList.add(
+        "show"
+    );
 
-    loading.classList.add("show");
+    loading.classList.add(
+        "show"
+    );
 
     loadingText.textContent =
         `Carregando ${name}...`;
 
 
-    /*
-     * CRT somente no SNES
-     */
-
     if (system === "snes") {
 
-        crt.classList.add("show");
+        crt.classList.add(
+            "show"
+        );
 
     } else {
 
-        crt.classList.remove("show");
+        crt.classList.remove(
+            "show"
+        );
 
     }
 
 
-    /*
-     * Remove instância anterior
-     */
-
-    const gameElement =
-        document.getElementById("game");
-
-    gameElement.innerHTML = "";
+    document.getElementById(
+        "game"
+    ).innerHTML = "";
 
 
     /*
-     * Configuração EmulatorJS
+     * EmulatorJS
      */
 
     window.EJS_player =
@@ -1020,9 +864,6 @@ function startEmulator(
     window.EJS_startOnLoaded =
         true;
 
-    window.EJS_biosUrl =
-        "";
-
     window.EJS_mouse =
         false;
 
@@ -1030,11 +871,7 @@ function startEmulator(
         false;
 
     /*
-     * Não precisamos criar os controles
-     * manualmente.
-     *
-     * O EmulatorJS cria o gamepad virtual
-     * quando estiver disponível no dispositivo.
+     * Controles virtuais
      */
 
     window.EJS_virtualGamepad =
@@ -1042,52 +879,176 @@ function startEmulator(
 
 
     /*
-     * Pequeno atraso para garantir que
-     * o elemento #game esteja visível.
+     * Remove loader antigo
      */
 
-    setTimeout(() => {
+    const oldLoader =
+        document.getElementById(
+            "emulatorjs-loader"
+        );
 
-        const oldLoader =
-            document.getElementById(
-                "emulatorjs-loader"
+    if (oldLoader) {
+        oldLoader.remove();
+    }
+
+
+    /*
+     * Carrega EmulatorJS
+     */
+
+    const script =
+        document.createElement("script");
+
+    script.id =
+        "emulatorjs-loader";
+
+    script.src =
+        "https://cdn.emulatorjs.org/stable/data/loader.js";
+
+    script.async = true;
+
+    script.onload = () => {
+
+        loading.classList.remove(
+            "show"
+        );
+
+    };
+
+    document.body.appendChild(
+        script
+    );
+
+}
+
+
+/* =========================================================
+   ABRIR PELA URL
+========================================================= */
+
+async function openGameFromUrl() {
+
+    const path =
+        window.location.pathname;
+
+
+    /*
+     * Remove a parte:
+     *
+     * /Pokemon-red-nft/
+     */
+
+    if (
+        !path.startsWith(BASE_PATH)
+    ) {
+        return false;
+    }
+
+
+    const relative =
+        path
+            .slice(BASE_PATH.length)
+            .replace(/^\/+|\/+$/g, "");
+
+
+    const parts =
+        relative.split("/");
+
+
+    if (parts.length !== 2) {
+        return false;
+    }
+
+
+    const system =
+        parts[0].toLowerCase();
+
+    const slug =
+        decodeURIComponent(parts[1]);
+
+
+    if (!SYSTEMS[system]) {
+        return false;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                GITHUB_API +
+                SYSTEMS[system].folder
             );
 
-        if (oldLoader) {
-            oldLoader.remove();
+        if (!response.ok) {
+            return false;
         }
 
 
-        const script =
-            document.createElement("script");
-
-        script.id =
-            "emulatorjs-loader";
-
-        script.src =
-            "https://cdn.emulatorjs.org/stable/data/loader.js";
-
-        script.async = true;
+        const files =
+            await response.json();
 
 
-        script.onload = () => {
+        const file =
+            files.find(item => {
 
-            loading.classList.remove("show");
-
-        };
-
-
-        script.onerror = () => {
-
-            loadingText.textContent =
-                "Erro ao carregar o EmulatorJS.";
-
-        };
+                if (
+                    item.type !== "file"
+                ) {
+                    return false;
+                }
 
 
-        document.body.appendChild(script);
+                const name =
+                    item.name.toLowerCase();
 
-    }, 100);
+
+                if (
+                    !SYSTEMS[system]
+                        .extensions
+                        .some(ext =>
+                            name.endsWith(ext)
+                        )
+                ) {
+                    return false;
+                }
+
+
+                return (
+                    createSlug(item.name) ===
+                    slug
+                );
+
+            });
+
+
+        if (!file) {
+            return false;
+        }
+
+
+        currentSystem =
+            system;
+
+
+        startEmulator(
+            file.download_url,
+            system,
+            normalizeGameName(
+                file.name
+            )
+        );
+
+
+        return true;
+
+    } catch (error) {
+
+        console.error(error);
+
+        return false;
+
+    }
 
 }
 
@@ -1096,40 +1057,15 @@ function startEmulator(
    VOLTAR
 ========================================================= */
 
-function backToLibrary() {
+async function backToLibrary() {
 
-    /*
-     * Para o emulador
-     */
+    const game =
+        document.getElementById(
+            "game"
+        );
 
-    emulatorStarted = false;
+    game.innerHTML = "";
 
-
-    /*
-     * Limpa EmulatorJS
-     */
-
-    try {
-
-        if (
-            window.EJS_emulator &&
-            typeof window.EJS_emulator.stop === "function"
-        ) {
-
-            window.EJS_emulator.stop();
-
-        }
-
-    } catch (error) {
-
-        console.log(error);
-
-    }
-
-
-    /*
-     * Remove o loader antigo
-     */
 
     const loader =
         document.getElementById(
@@ -1141,19 +1077,6 @@ function backToLibrary() {
     }
 
 
-    /*
-     * Limpa o container
-     */
-
-    document.getElementById(
-        "game"
-    ).innerHTML = "";
-
-
-    /*
-     * Esconde emulador
-     */
-
     emulatorScreen.classList.remove(
         "show"
     );
@@ -1162,39 +1085,35 @@ function backToLibrary() {
         "show"
     );
 
-    crt.classList.remove(
-        "show"
-    );
-
     loading.classList.remove(
         "show"
     );
 
-
-    /*
-     * Mostra biblioteca
-     */
-
-    topbar.style.display = "";
-    library.style.display = "";
+    crt.classList.remove(
+        "show"
+    );
 
 
-    /*
-     * Volta para a URL principal
-     */
+    topbar.style.display =
+        "";
+
+    library.style.display =
+        "";
+
 
     history.pushState(
         {},
         "",
-        window.location.pathname
+        BASE_PATH
     );
 
 
-    /*
-     * Sai do fullscreen
-     */
+    await exitFullscreen();
 
-    exitFullscreen();
+
+    loadGames(
+        currentSystem
+    );
 
 }
 
@@ -1207,7 +1126,9 @@ async function exitFullscreen() {
 
     try {
 
-        if (document.fullscreenElement) {
+        if (
+            document.fullscreenElement
+        ) {
 
             await document.exitFullscreen();
 
@@ -1229,7 +1150,27 @@ async function exitFullscreen() {
 
 
 /* =========================================================
-   BOTÕES GAME BOY / SNES
+   BOTÃO VOLTAR
+========================================================= */
+
+backButton.addEventListener(
+    "click",
+    backToLibrary
+);
+
+
+/* =========================================================
+   PESQUISA
+========================================================= */
+
+search.addEventListener(
+    "input",
+    renderGames
+);
+
+
+/* =========================================================
+   TROCAR SISTEMA
 ========================================================= */
 
 document
@@ -1240,24 +1181,19 @@ document
             "click",
             () => {
 
-                const system =
-                    button.dataset.system;
-
                 currentSystem =
-                    system;
+                    button.dataset.system;
 
 
                 document
                     .querySelectorAll(
                         ".systemButton"
                     )
-                    .forEach(btn => {
-
+                    .forEach(btn =>
                         btn.classList.remove(
                             "active"
-                        );
-
-                    });
+                        )
+                    );
 
 
                 button.classList.add(
@@ -1266,13 +1202,17 @@ document
 
 
                 libraryTitle.textContent =
-                    SYSTEMS[system].name;
+                    SYSTEMS[
+                        currentSystem
+                    ].name;
 
 
                 search.value = "";
 
 
-                loadGames(system);
+                loadGames(
+                    currentSystem
+                );
 
             }
         );
@@ -1281,60 +1221,35 @@ document
 
 
 /* =========================================================
-   PESQUISA
-========================================================= */
-
-search.addEventListener(
-    "input",
-    () => {
-
-        renderGames();
-
-    }
-);
-
-
-/* =========================================================
-   BOTÃO VOLTAR
-========================================================= */
-
-backButton.addEventListener(
-    "click",
-    () => {
-
-        backToLibrary();
-
-    }
-);
-
-
-/* =========================================================
-   BOTÃO FÍSICO VOLTAR / HISTÓRICO
+   HISTÓRICO DO NAVEGADOR
 ========================================================= */
 
 window.addEventListener(
     "popstate",
-    () => {
+    async () => {
 
-        const path =
-            window.location.pathname;
+        const opened =
+            await openGameFromUrl();
 
+        if (!opened) {
 
-        /*
-         * Se estamos na página de um jogo,
-         * podemos tentar abrir o jogo novamente.
-         */
+            emulatorScreen.classList.remove(
+                "show"
+            );
 
-        if (
-            path.startsWith("/gb/") ||
-            path.startsWith("/snes/")
-        ) {
+            backButton.classList.remove(
+                "show"
+            );
 
-            loadGameFromUrl();
+            topbar.style.display =
+                "";
 
-        } else {
+            library.style.display =
+                "";
 
-            backToLibrary();
+            loadGames(
+                currentSystem
+            );
 
         }
 
@@ -1343,219 +1258,36 @@ window.addEventListener(
 
 
 /* =========================================================
-   ABRIR JOGO DIRETAMENTE PELA URL
-========================================================= */
-
-async function loadGameFromUrl() {
-
-    const path =
-        window.location.pathname
-            .replace(/^\/+/, "")
-            .replace(/\/+$/, "");
-
-
-    const parts =
-        path.split("/");
-
-
-    if (parts.length < 2) {
-
-        return;
-
-    }
-
-
-    const system =
-        parts[0].toLowerCase();
-
-
-    const slug =
-        decodeURIComponent(
-            parts.slice(1).join("/")
-        );
-
-
-    if (!SYSTEMS[system]) {
-
-        return;
-
-    }
-
-
-    /*
-     * Busca automaticamente a pasta
-     * correspondente.
-     */
-
-    try {
-
-        const response =
-            await fetch(
-                GITHUB_API +
-                SYSTEMS[system].folder
-            );
-
-
-        if (!response.ok) {
-            return;
-        }
-
-
-        const files =
-            await response.json();
-
-
-        const file =
-            files.find(item => {
-
-                if (
-                    item.type !== "file"
-                ) {
-                    return false;
-                }
-
-
-                const extension =
-                    "." +
-                    item.name
-                        .split(".")
-                        .pop()
-                        .toLowerCase();
-
-
-                if (
-                    !SYSTEMS[system]
-                        .extensions
-                        .includes(extension)
-                ) {
-
-                    return false;
-
-                }
-
-
-                return (
-                    createSlug(item.name) ===
-                    slug
-                );
-
-            });
-
-
-        if (!file) {
-
-            /*
-             * Se não encontrou o jogo,
-             * mostra biblioteca.
-             */
-
-            return;
-
-        }
-
-
-        /*
-         * Atualiza botão ativo
-         */
-
-        currentSystem =
-            system;
-
-
-        document
-            .querySelectorAll(
-                ".systemButton"
-            )
-            .forEach(button => {
-
-                button.classList.toggle(
-                    "active",
-                    button.dataset.system ===
-                    system
-                );
-
-            });
-
-
-        /*
-         * Inicia jogo.
-         *
-         * OBS:
-         * Se a pessoa abriu o link diretamente,
-         * o navegador pode não permitir fullscreen,
-         * porque não houve toque/clique imediatamente
-         * antes do requestFullscreen().
-         */
-
-        startEmulator(
-            file.download_url,
-            system,
-            normalizeGameName(file.name)
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Erro abrindo jogo pela URL:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   INICIALIZAÇÃO
+   INICIAR SITE
 ========================================================= */
 
 async function init() {
 
     /*
-     * Primeiro verificamos se a URL já aponta
-     * diretamente para um jogo.
+     * Primeiro tenta descobrir se a URL
+     * atual é de um jogo.
      */
 
-    const path =
-        window.location.pathname
-            .replace(/^\/+/, "")
-            .replace(/\/+$/, "");
-
-
-    const isGameUrl =
-        path.startsWith("gb/") ||
-        path.startsWith("snes/");
-
-
-    if (isGameUrl) {
-
-        /*
-         * Não carregamos a biblioteca primeiro.
-         */
-
-        await loadGameFromUrl();
-
-        return;
-
-    }
+    const opened =
+        await openGameFromUrl();
 
 
     /*
-     * Página normal.
+     * Se não for, abre a biblioteca.
      */
 
-    loadGames("gb");
+    if (!opened) {
+
+        loadGames(
+            "gb"
+        );
+
+    }
 
 }
 
 
-/* =========================================================
-   COMEÇAR
-========================================================= */
-
 init();
 
-</script>
-
-</body>
+</script></body>
 </html>
