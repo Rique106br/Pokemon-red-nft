@@ -30,39 +30,42 @@
             font-size: 18px;
             color: #ffca28;
             text-align: center;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div id="status">Carregando Pokémon Red do Archive.org...</div>
+    <div id="status">Baixando Pokémon Red do Archive.org...</div>
     <div id="game"></div>
 
     <script type="text/javascript">
-        const romUrl = "https://archive.org/download/Pokemon-red-and-blue/Pok%C3%A9mon%20-%20Red%20Version%20%28USA%2C%20Europe%29.gb";
+        const archiveUrl = "https://archive.org/download/Pokemon-red-and-blue/Pok%C3%A9mon%20-%20Red%20Version%20%28USA%2C%20Europe%29.gb";
+        
+        // Passa o link por um bypass de CORS para o navegador aceitar o download
+        const corsProxyUrl = "https://corsproxy.io/?" + encodeURIComponent(archiveUrl);
 
-        // Baixa a ROM via JavaScript nativo para escapar do bloqueio de CORS do navegador
-        fetch(romUrl)
+        fetch(corsProxyUrl)
             .then(response => {
-                if (!response.ok) throw new Error("Erro ao baixar do Archive.org");
+                if (!response.ok) throw new Error("Não foi possível acessar a ROM via Proxy.");
                 return response.blob();
             })
             .then(blob => {
-                // Cria um link interno virtual em memória local (blob:)
-                const blobUrl = URL.createObjectURL(blob);
+                // Cria uma URL local em memória (blob:) contendo o arquivo .gb real
+                const localRomUrl = URL.createObjectURL(blob);
                 
                 document.getElementById('status').style.display = 'none';
 
-                // Configura o EmulatorJS apontando para o arquivo local em memória
+                // Configura o emulador para rodar direto da memória local
                 window.EJS_player = "#game";
                 window.EJS_core = "gb";
                 window.EJS_gameName = "Pokémon Red";
                 window.EJS_color = "#e52521";
                 window.EJS_startOnLoaded = true;
                 window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
-                window.EJS_gameUrl = blobUrl;
+                window.EJS_gameUrl = localRomUrl;
 
-                // Carrega o motor do emulador somente após a ROM estar 100% baixada na memória
+                // Carrega os scripts do emulador só agora que a ROM já está em memória
                 const script = document.createElement('script');
                 script.src = "https://cdn.emulatorjs.org/stable/data/loader.js";
                 document.body.appendChild(script);
