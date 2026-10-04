@@ -1,399 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-    name="viewport"
-    content="width=device-width,
-             initial-scale=1.0,
-             maximum-scale=1.0,
-             user-scalable=no"
->
-
-<title>RETRO</title>
+<title>Teste ROM</title>
 
 <style>
-
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
-
-html,
 body {
     margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-}
-
-/* =========================
-   MENU
-========================= */
-
-#topbar {
-    width: 100%;
-    height: 58px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 14px;
-
     background: #111;
-    border-bottom: 1px solid #333;
-
-    position: relative;
-    z-index: 10000;
-}
-
-.logo {
-    font-size: 21px;
-    font-weight: 900;
-    letter-spacing: 3px;
-}
-
-.buttons {
-    display: flex;
-    gap: 8px;
-}
-
-.buttons a {
-    display: block;
-
-    padding: 10px 13px;
-
-    background: #222;
     color: white;
+    font-family: Arial;
+    text-align: center;
+}
 
-    border: 1px solid #555;
+#status {
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 500px;
+    border-radius: 12px;
+    background: #222;
+    font-size: 18px;
+}
+
+.ok {
+    color: #00ff66;
+}
+
+.erro {
+    color: #ff3333;
+}
+
+button {
+    padding: 14px 20px;
+    margin: 10px;
+    border: 0;
     border-radius: 8px;
-
-    text-decoration: none;
     font-weight: bold;
-    font-size: 14px;
 }
-
-.buttons a:hover {
-    background: #333;
-}
-
-.buttons a.active {
-    background: white;
-    color: black;
-}
-
-/* =========================
-   ÁREA DO EMULADOR
-========================= */
-
-#game-container {
-    position: absolute;
-
-    top: 58px;
-    left: 0;
-
-    width: 100%;
-    height: calc(100% - 58px);
-
-    background: #000;
-
-    overflow: hidden;
-}
-
-#game {
-    width: 100%;
-    height: 100%;
-}
-
-/* =========================
-   CRT
-========================= */
-
-#crt {
-    position: absolute;
-
-    top: 58px;
-    left: 0;
-
-    width: 100%;
-    height: calc(100% - 58px);
-
-    pointer-events: none;
-
-    z-index: 9000;
-
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            rgba(0,0,0,0) 0px,
-            rgba(0,0,0,0) 2px,
-            rgba(0,0,0,0.12) 3px
-        );
-
-    box-shadow:
-        inset 0 0 90px rgba(0,0,0,0.5);
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 700px) {
-
-    #topbar {
-        height: 50px;
-        padding: 0 8px;
-    }
-
-    .logo {
-        font-size: 16px;
-        letter-spacing: 2px;
-    }
-
-    .buttons {
-        gap: 5px;
-    }
-
-    .buttons a {
-        font-size: 11px;
-        padding: 8px 8px;
-    }
-
-    #game-container {
-        top: 50px;
-        height: calc(100% - 50px);
-    }
-
-    #crt {
-        top: 50px;
-        height: calc(100% - 50px);
-    }
-}
-
 </style>
-
 </head>
 
 <body>
 
+<h1>Teste do Pokémon FireRed</h1>
 
-<!-- =====================================================
-     MENU
-===================================================== -->
-
-<div id="topbar">
-
-    <div class="logo">
-        RETRO
-    </div>
-
-    <div class="buttons">
-
-        <a
-            id="red"
-            href="?game=red">
-            Pokémon Red
-        </a>
-
-        <a
-            id="fire"
-            href="?game=firered">
-            Pokémon FireRed
-        </a>
-
-    </div>
-
+<div id="status">
+    Verificando ROM...
 </div>
 
-
-<!-- =====================================================
-     EMULATORJS
-===================================================== -->
-
-<div id="game-container">
-
-    <div id="game"></div>
-
-</div>
-
-
-<!-- =====================================================
-     CRT
-===================================================== -->
-
-<div id="crt"></div>
-
+<button onclick="location.href='?jogar=1'">
+    Tentar iniciar jogo
+</button>
 
 <script>
 
-/*
-===========================================================
-  CONFIGURAÇÃO
-===========================================================
-*/
+const rom = "gba/pokemon_firered.gba";
 
-const params =
-    new URLSearchParams(window.location.search);
+const status = document.getElementById("status");
 
-const game =
-    params.get("game") || "red";
+fetch(rom, {
+    method: "HEAD",
+    cache: "no-store"
+})
+.then(response => {
 
+    if (!response.ok) {
 
-/*
-===========================================================
-  ROM
-===========================================================
-*/
+        status.className = "erro";
 
-let rom;
-let core;
-let gameName;
+        status.innerHTML =
+            "❌ ROM NÃO ENCONTRADA<br><br>" +
+            "HTTP: " + response.status +
+            "<br><br>" +
+            "Caminho procurado:<br>" +
+            rom;
 
+        return;
+    }
 
-/*
-  Pokémon Red
-*/
+    status.className = "ok";
 
-if (game === "red") {
+    status.innerHTML =
+        "✅ ROM ENCONTRADA!<br><br>" +
+        "HTTP: " + response.status +
+        "<br><br>" +
+        "O arquivo está sendo encontrado pelo GitHub Pages.";
 
-    rom = "gb/pokemon_red.gb";
+})
+.catch(error => {
 
-    core = "gb";
+    status.className = "erro";
 
-    gameName = "Pokémon Red";
+    status.innerHTML =
+        "❌ ERRO AO ACESSAR ROM<br><br>" +
+        error;
 
-}
-
-
-/*
-  Pokémon FireRed
-*/
-
-else {
-
-    rom = "gba/pokemon_firered.gba";
-
-    core = "gba";
-
-    gameName = "Pokémon FireRed";
-
-}
-
-
-/*
-===========================================================
-  BOTÃO ATIVO
-===========================================================
-*/
-
-if (game === "firered") {
-
-    document
-        .getElementById("fire")
-        .classList.add("active");
-
-}
-
-else {
-
-    document
-        .getElementById("red")
-        .classList.add("active");
-
-}
-
-
-/*
-===========================================================
-  EMULATORJS
-===========================================================
-*/
-
-window.EJS_player = "#game";
-
-
-/*
-  gb = Game Boy
-  gba = Game Boy Advance
-
-  O próprio EmulatorJS usa mGBA
-  para Game Boy Advance.
-*/
-
-window.EJS_core = core;
-
-
-/*
-  ROM local do GitHub Pages
-*/
-
-window.EJS_gameUrl = rom;
-
-
-/*
-  Nome do jogo
-*/
-
-window.EJS_gameName = gameName;
-
-
-/*
-  CDN oficial do EmulatorJS.
-
-  Estou usando STABLE porque a própria documentação
-  recomenda stable para produção.
-*/
-
-window.EJS_pathtodata =
-    "https://cdn.emulatorjs.org/stable/data/";
-
-
-/*
-  Iniciar automaticamente
-*/
-
-window.EJS_startOnLoaded = true;
-
-
-/*
-  Não exigir BIOS.
-
-  Para Pokémon Red e FireRed ela não é necessária.
-*/
-
-window.EJS_biosUrl = "";
-
-
-/*
-  Interface em português.
-*/
-
-window.EJS_language = 7;
-
-
-/*
-===========================================================
-  CARREGA EMULATORJS
-===========================================================
-*/
-
-const loader =
-    document.createElement("script");
-
-loader.src =
-    "https://cdn.emulatorjs.org/stable/data/loader.js";
-
-loader.async = true;
-
-document.body.appendChild(loader);
+});
 
 </script>
 
