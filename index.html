@@ -15,7 +15,12 @@
 
 <title>RETRO GAMES</title>
 
+
 <style>
+
+/* =====================================================
+   RESET
+===================================================== */
 
 * {
     box-sizing: border-box;
@@ -24,6 +29,7 @@
 
 html,
 body {
+
     margin: 0;
     padding: 0;
 
@@ -33,12 +39,17 @@ body {
     background: #080808;
     color: white;
 
-    font-family: Arial, sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
 }
 
-/* =========================
-   MENU
-========================= */
+
+/* =====================================================
+   TOPO
+===================================================== */
 
 #topbar {
 
@@ -56,6 +67,8 @@ body {
 
     justify-content: space-between;
 
+    gap: 10px;
+
     padding: 8px 14px;
 
     background: #111;
@@ -63,7 +76,9 @@ body {
     border-bottom: 1px solid #333;
 
     z-index: 10000;
+
 }
+
 
 .logo {
 
@@ -72,7 +87,9 @@ body {
     font-weight: 900;
 
     letter-spacing: 3px;
+
 }
+
 
 .menu {
 
@@ -83,9 +100,15 @@ body {
     flex-wrap: wrap;
 
     justify-content: flex-end;
+
 }
 
+
 .menu a {
+
+    display: block;
+
+    padding: 9px 12px;
 
     color: white;
 
@@ -95,103 +118,128 @@ body {
 
     border-radius: 8px;
 
-    padding: 9px 12px;
-
     text-decoration: none;
 
     font-size: 13px;
 
     font-weight: bold;
+
 }
+
+
+.menu a:hover {
+
+    background: #333;
+
+}
+
 
 .menu a.active {
 
     background: white;
 
     color: black;
+
 }
 
 
-/* =========================
-   LISTA
-========================= */
+/* =====================================================
+   BIBLIOTECA
+===================================================== */
 
 #library {
 
-    padding: 18px;
+    width: 100%;
 
-    max-width: 900px;
+    max-width: 1000px;
 
     margin: auto;
+
+    padding: 20px;
+
 }
+
 
 .title {
 
-    font-size: 22px;
+    font-size: 24px;
 
-    font-weight: bold;
+    font-weight: 900;
 
-    margin-bottom: 14px;
+    margin-bottom: 15px;
+
 }
+
 
 #search {
 
     width: 100%;
 
-    padding: 14px;
+    height: 48px;
 
-    margin-bottom: 18px;
+    padding: 0 15px;
 
-    background: #191919;
+    margin-bottom: 22px;
+
+    background: #181818;
 
     color: white;
 
     border: 1px solid #444;
 
-    border-radius: 9px;
+    border-radius: 10px;
 
     outline: none;
 
     font-size: 16px;
+
 }
+
 
 #search:focus {
 
-    border-color: white;
+    border-color: #fff;
+
 }
 
 
-/* =========================
-   JOGOS
-========================= */
+/* =====================================================
+   SISTEMAS
+===================================================== */
 
 .system {
 
-    margin-bottom: 28px;
+    margin-bottom: 30px;
+
 }
+
 
 .system-title {
 
-    font-size: 18px;
+    font-size: 19px;
 
     font-weight: bold;
 
-    margin-bottom: 10px;
+    padding-bottom: 9px;
 
-    padding-bottom: 7px;
+    margin-bottom: 12px;
 
     border-bottom: 1px solid #333;
+
 }
+
 
 .games {
 
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fill, minmax(180px, 1fr));
+        repeat(auto-fill, minmax(190px, 1fr));
 
     gap: 10px;
+
 }
+
 
 .game {
 
@@ -199,77 +247,95 @@ body {
 
     padding: 15px;
 
-    background: #1b1b1b;
+    min-height: 75px;
+
+    background: #191919;
+
+    color: white;
 
     border: 1px solid #333;
 
     border-radius: 10px;
 
-    color: white;
-
     text-decoration: none;
 
-    transition: .15s;
+    transition:
+        transform .15s,
+        background .15s;
+
 }
+
 
 .game:hover {
 
     background: #292929;
 
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+
 }
 
+
 .game-name {
+
+    font-size: 15px;
 
     font-weight: bold;
 
     word-break: break-word;
+
 }
+
 
 .game-file {
 
-    margin-top: 6px;
+    margin-top: 7px;
 
     color: #888;
 
     font-size: 11px;
+
+    word-break: break-all;
+
 }
 
 
-/* =========================
+/* =====================================================
    CARREGANDO
-========================= */
+===================================================== */
 
 #loading {
 
+    padding: 35px 10px;
+
     text-align: center;
 
-    padding: 40px 15px;
-
     color: #aaa;
+
 }
+
 
 #error {
 
     display: none;
 
-    margin: 20px 0;
+    margin: 15px 0;
 
     padding: 15px;
 
-    border-radius: 9px;
-
     background: #241111;
 
-    border: 1px solid #6b2929;
+    border: 1px solid #713333;
+
+    border-radius: 10px;
 
     color: #ff7777;
+
 }
 
 
-/* =========================
+/* =====================================================
    EMULADOR
-========================= */
+===================================================== */
 
 #emulator {
 
@@ -277,22 +343,29 @@ body {
 
     inset: 0;
 
-    background: black;
+    display: none;
+
+    background: #000;
 
     z-index: 50000;
 
-    display: none;
 }
+
 
 #game {
 
     width: 100%;
 
     height: 100%;
+
+    background: #000;
+
 }
 
 
-/* botão voltar */
+/* =====================================================
+   BOTÃO VOLTAR
+===================================================== */
 
 #back {
 
@@ -304,56 +377,123 @@ body {
 
     z-index: 100000;
 
+    display: none;
+
     padding: 10px 14px;
 
-    border: 0;
-
-    border-radius: 8px;
-
-    background: rgba(0,0,0,.75);
+    background:
+        rgba(0, 0, 0, .8);
 
     color: white;
 
+    border: 1px solid #555;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
     font-weight: bold;
 
-    display: none;
 }
 
 
-/* =========================
-   MOBILE
-========================= */
+/* =====================================================
+   CRT
+===================================================== */
 
-@media(max-width:700px) {
+#crt {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 90000;
+
+    pointer-events: none;
+
+    display: none;
+
+    background:
+
+        repeating-linear-gradient(
+
+            to bottom,
+
+            rgba(0,0,0,0) 0px,
+
+            rgba(0,0,0,0) 2px,
+
+            rgba(0,0,0,.10) 3px
+
+        );
+
+    box-shadow:
+
+        inset 0 0 100px
+        rgba(0,0,0,.45);
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
 
     #topbar {
 
         min-height: 50px;
 
         padding: 7px 9px;
+
     }
+
 
     .logo {
 
         font-size: 16px;
+
+        letter-spacing: 2px;
+
     }
+
+
+    .menu {
+
+        gap: 5px;
+
+    }
+
 
     .menu a {
 
+        padding: 7px 8px;
+
         font-size: 11px;
 
-        padding: 7px 8px;
     }
+
 
     #library {
 
         padding: 14px;
+
     }
+
 
     .games {
 
         grid-template-columns:
             repeat(2, 1fr);
+
+    }
+
+
+    .game {
+
+        padding: 13px;
+
     }
 
 }
@@ -362,18 +502,20 @@ body {
 
 </head>
 
+
 <body>
 
 
-<!-- =========================
+<!-- =====================================================
      MENU
-========================= -->
+===================================================== -->
 
 <header id="topbar">
 
     <div class="logo">
         RETRO
     </div>
+
 
     <nav class="menu">
 
@@ -390,15 +532,17 @@ body {
 </header>
 
 
-<!-- =========================
+
+<!-- =====================================================
      BIBLIOTECA
-========================= -->
+===================================================== -->
 
 <main id="library">
 
     <div class="title">
         Biblioteca
     </div>
+
 
     <input
         id="search"
@@ -407,86 +551,111 @@ body {
         autocomplete="off"
     >
 
+
     <div id="loading">
-        Procurando jogos...
+        🔎 Procurando jogos...
     </div>
 
+
     <div id="error"></div>
+
+
+
+    <!-- GAME BOY -->
 
     <section
         id="gb"
         class="system"
-        style="display:none">
+        style="display:none"
+    >
 
         <div class="system-title">
             🎮 Game Boy
         </div>
 
+
         <div
             id="gbGames"
-            class="games">
-        </div>
+            class="games"
+        ></div>
 
     </section>
 
 
+
+    <!-- SNES -->
+
     <section
         id="snes"
         class="system"
-        style="display:none">
+        style="display:none"
+    >
 
         <div class="system-title">
             🕹️ Super Nintendo
         </div>
 
+
         <div
             id="snesGames"
-            class="games">
-        </div>
+            class="games"
+        ></div>
 
     </section>
 
 </main>
 
 
-<!-- =========================
+
+<!-- =====================================================
      EMULADOR
-========================= -->
+===================================================== -->
 
 <div id="emulator">
 
-    <button id="back"
-            onclick="closeGame()">
+    <button
+        id="back"
+        onclick="closeGame()"
+    >
         ← Voltar
     </button>
+
 
     <div id="game"></div>
 
 </div>
 
 
+<div id="crt"></div>
+
+
+
 <script>
 
 /* =====================================================
-   CONFIGURAÇÃO DO REPOSITÓRIO
+   CONFIGURAÇÃO DO GITHUB
 ===================================================== */
 
 /*
-   Seu site é:
+    MUDE SOMENTE SE SEU REPOSITÓRIO
+    NÃO FOR ESTE.
 
-   rique106br.github.io/Pokemon
+    Seu exemplo:
 
-   Então:
+    https://rique106br.github.io/Pokemon/
 
-   usuário = rique106br
-   repositório = Pokemon
+    usuário:
+    rique106br
+
+    repositório:
+    Pokemon
 */
 
 const GITHUB_USER =
-    "Rique106br";
+    "rique106br";
 
 const GITHUB_REPO =
-    "Pokemon-red-nft";
+    "Pokemon";
 
 
 /* =====================================================
@@ -496,95 +665,143 @@ const GITHUB_REPO =
 const extensions = {
 
     gb: [
+
         ".gb",
+
         ".gbc"
+
     ],
 
+
     snes: [
+
         ".sfc",
+
         ".smc",
+
         ".fig",
+
         ".swc",
+
         ".bsx"
+
     ]
 
 };
 
 
 /* =====================================================
-   DADOS
+   LISTA DE JOGOS
 ===================================================== */
 
 let allGames = [];
 
 
 /* =====================================================
-   PEGAR ARQUIVOS DO GITHUB
+   ACESSAR PASTA DO GITHUB
 ===================================================== */
 
 async function getFolder(folder) {
 
-    const url =
+    const apiUrl =
+
         "https://api.github.com/repos/" +
+
         GITHUB_USER +
+
         "/" +
+
         GITHUB_REPO +
+
         "/contents/" +
+
         folder;
 
+
     const response =
-        await fetch(url);
+        await fetch(apiUrl);
+
 
     if (!response.ok) {
 
         throw new Error(
-            "Não foi possível acessar a pasta " +
+
+            "Não consegui acessar a pasta " +
+
             folder +
-            " (" +
-            response.status +
-            ")"
+
+            ". HTTP " +
+
+            response.status
+
         );
 
     }
 
+
     const files =
         await response.json();
 
-    return files.filter(file =>
-        file.type === "file"
+
+    if (!Array.isArray(files)) {
+
+        throw new Error(
+            "Resposta inválida do GitHub."
+        );
+
+    }
+
+
+    return files.filter(
+        file => file.type === "file"
     );
 
 }
 
 
 /* =====================================================
-   VER EXTENSÃO
+   VERIFICAR EXTENSÃO
 ===================================================== */
 
 function isValid(file, system) {
 
-    const name =
+    const filename =
         file.name.toLowerCase();
 
+
     return extensions[system]
-        .some(ext =>
-            name.endsWith(ext)
+        .some(
+            extension =>
+                filename.endsWith(extension)
         );
+
 }
 
 
 /* =====================================================
-   NOME BONITO
+   NOME DO JOGO
 ===================================================== */
 
 function cleanName(filename) {
 
     return filename
-        .replace(/\.(gb|gbc|sfc|smc|fig|swc|bsx)$/i, "")
-        .replace(/[_-]+/g, " ")
-        .replace(/\b\w/g, c =>
-            c.toUpperCase()
-        );
+
+        .replace(
+            /\.(gb|gbc|sfc|smc|fig|swc|bsx)$/i,
+            ""
+        )
+
+        .replace(
+            /[_-]+/g,
+            " "
+        )
+
+        .replace(
+            /\s+/g,
+            " "
+        )
+
+        .trim();
 
 }
 
@@ -598,36 +815,104 @@ function createGame(file, system) {
     const card =
         document.createElement("a");
 
+
     card.className =
         "game";
 
+
+    /*
+       IMPORTANTE:
+
+       O GitHub fornece uma URL direta
+       para o arquivo.
+
+       Isso funciona inclusive para:
+
+       Super Mario World.smc
+    */
+
+    const romUrl =
+        file.download_url;
+
+
     card.href =
+
         "?play=" +
+
         encodeURIComponent(
-            file.download_url
+            romUrl
         ) +
+
         "&core=" +
-        system +
+
+        encodeURIComponent(
+            system
+        ) +
+
         "&name=" +
+
         encodeURIComponent(
             cleanName(file.name)
         );
+
 
     card.innerHTML =
 
         '<div class="game-name">' +
 
-        cleanName(file.name) +
+        escapeHtml(
+            cleanName(file.name)
+        ) +
 
         '</div>' +
 
         '<div class="game-file">' +
 
-        file.name +
+        escapeHtml(
+            file.name
+        ) +
 
         '</div>';
 
+
     return card;
+
+}
+
+
+/* =====================================================
+   PROTEÇÃO HTML
+===================================================== */
+
+function escapeHtml(text) {
+
+    return text
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
 }
 
 
@@ -642,92 +927,124 @@ function renderGames() {
             "gbGames"
         );
 
+
     const snesBox =
         document.getElementById(
             "snesGames"
         );
 
+
     gbBox.innerHTML = "";
+
     snesBox.innerHTML = "";
 
+
     let gbCount = 0;
+
     let snesCount = 0;
 
-    allGames.forEach(game => {
 
-        const card =
-            createGame(
-                game.file,
-                game.system
-            );
+    allGames.forEach(
+        game => {
 
-        if (game.system === "gb") {
 
-            gbBox.appendChild(card);
+            const card =
+                createGame(
+                    game.file,
+                    game.system
+                );
 
-            gbCount++;
+
+            if (
+                game.system === "gb"
+            ) {
+
+                gbBox.appendChild(
+                    card
+                );
+
+                gbCount++;
+
+            }
+
+
+            if (
+                game.system === "snes"
+            ) {
+
+                snesBox.appendChild(
+                    card
+                );
+
+                snesCount++;
+
+            }
 
         }
-
-        if (game.system === "snes") {
-
-            snesBox.appendChild(card);
-
-            snesCount++;
-
-        }
-
-    });
+    );
 
 
     document.getElementById("gb")
         .style.display =
-        gbCount ? "block" : "none";
+            gbCount > 0
+                ? "block"
+                : "none";
 
 
     document.getElementById("snes")
         .style.display =
-        snesCount ? "block" : "none";
+            snesCount > 0
+                ? "block"
+                : "none";
 
 }
 
 
 /* =====================================================
-   PESQUISA
+   BUSCA
 ===================================================== */
 
 document
     .getElementById("search")
     .addEventListener(
         "input",
-        function() {
+        function () {
 
             const query =
                 this.value
                     .toLowerCase()
                     .trim();
 
+
             document
                 .querySelectorAll(".game")
-                .forEach(card => {
+                .forEach(
+                    card => {
 
-                    const text =
-                        card.innerText
-                            .toLowerCase();
+                        const text =
+                            card.innerText
+                                .toLowerCase();
 
-                    card.style.display =
-                        text.includes(query)
-                            ? "block"
-                            : "none";
 
-                });
+                        card.style.display =
+
+                            text.includes(
+                                query
+                            )
+
+                                ? "block"
+
+                                : "none";
+
+                    }
+                );
 
         }
     );
 
 
 /* =====================================================
-   PROCURAR AUTOMATICAMENTE
+   PROCURAR ROMS AUTOMATICAMENTE
 ===================================================== */
 
 async function scanGames() {
@@ -741,12 +1058,18 @@ async function scanGames() {
 
 
         /*
-         * Procura GB e SNES
-         * ao mesmo tempo.
-         */
+           Limpa lista anterior.
+        */
 
-        const [gb, snes] =
-            await Promise.all([
+        allGames = [];
+
+
+        /*
+           Procura as duas pastas.
+        */
+
+        const results =
+            await Promise.allSettled([
 
                 getFolder("gb"),
 
@@ -756,45 +1079,86 @@ async function scanGames() {
 
 
         /*
-         * GB
-         */
+           GAME BOY
+        */
 
-        gb
-            .filter(file =>
-                isValid(file, "gb")
-            )
-            .forEach(file => {
+        if (
+            results[0].status ===
+            "fulfilled"
+        ) {
 
-                allGames.push({
+            results[0]
+                .value
+                .filter(
+                    file =>
+                        isValid(
+                            file,
+                            "gb"
+                        )
+                )
+                .forEach(
+                    file => {
 
-                    system: "gb",
+                        allGames.push({
 
-                    file: file
+                            system: "gb",
 
-                });
+                            file: file
 
-            });
+                        });
+
+                    }
+                );
+
+        }
 
 
         /*
-         * SNES
-         */
+           SNES
+        */
 
-        snes
-            .filter(file =>
-                isValid(file, "snes")
-            )
-            .forEach(file => {
+        if (
+            results[1].status ===
+            "fulfilled"
+        ) {
 
-                allGames.push({
+            results[1]
+                .value
+                .filter(
+                    file =>
+                        isValid(
+                            file,
+                            "snes"
+                        )
+                )
+                .forEach(
+                    file => {
 
-                    system: "snes",
+                        allGames.push({
 
-                    file: file
+                            system: "snes",
 
-                });
+                            file: file
 
-            });
+                        });
+
+                    }
+                );
+
+        }
+
+
+        /*
+           Ordenar alfabeticamente.
+        */
+
+        allGames.sort(
+            (a, b) =>
+                a.file.name
+                    .localeCompare(
+                        b.file.name
+                    )
+        );
 
 
         renderGames();
@@ -806,27 +1170,46 @@ async function scanGames() {
             "none";
 
 
-        if (allGames.length === 0) {
+        /*
+           Se nenhuma pasta existir.
+        */
+
+        if (
+            allGames.length === 0
+        ) {
 
             showError(
-                "Nenhum ROM encontrado nas pastas gb/ e snes/."
+
+                "Nenhum ROM encontrado.<br><br>" +
+
+                "Verifique se existem as pastas:" +
+
+                "<br><br>" +
+
+                "<b>gb/</b>" +
+
+                "<br>" +
+
+                "<b>snes/</b>"
+
             );
 
         }
 
     }
 
-    catch(error) {
+    catch (error) {
 
         console.error(error);
+
 
         document.getElementById(
             "loading"
         ).style.display =
             "none";
 
+
         showError(
-            "Não consegui procurar os ROMs.<br><br>" +
             error.message
         );
 
@@ -836,27 +1219,29 @@ async function scanGames() {
 
 
 /* =====================================================
-   ERRO
+   MOSTRAR ERRO
 ===================================================== */
 
 function showError(message) {
 
-    const box =
+    const error =
         document.getElementById(
             "error"
         );
 
-    box.innerHTML =
-        message;
 
-    box.style.display =
+    error.innerHTML =
+        "❌ " + message;
+
+
+    error.style.display =
         "block";
 
 }
 
 
 /* =====================================================
-   INICIAR EMULADOR
+   INICIAR EMULATORJS
 ===================================================== */
 
 function startEmulator() {
@@ -866,11 +1251,14 @@ function startEmulator() {
             window.location.search
         );
 
+
     const rom =
         params.get("play");
 
+
     const core =
         params.get("core");
+
 
     const name =
         params.get("name") ||
@@ -878,8 +1266,9 @@ function startEmulator() {
 
 
     /*
-     * Não está jogando.
-     */
+       Se não existe ROM na URL,
+       mostramos a biblioteca.
+    */
 
     if (!rom) {
 
@@ -891,13 +1280,31 @@ function startEmulator() {
 
 
     /*
-     * Esconde biblioteca.
-     */
+       Verifica o core.
+    */
+
+    if (
+        core !== "gb" &&
+        core !== "snes"
+    ) {
+
+        window.location.href =
+            window.location.pathname;
+
+        return;
+
+    }
+
+
+    /*
+       Esconder biblioteca.
+    */
 
     document.getElementById(
         "library"
     ).style.display =
         "none";
+
 
     document.getElementById(
         "topbar"
@@ -906,13 +1313,14 @@ function startEmulator() {
 
 
     /*
-     * Mostra emulador.
-     */
+       Mostrar emulador.
+    */
 
     document.getElementById(
         "emulator"
     ).style.display =
         "block";
+
 
     document.getElementById(
         "back"
@@ -921,69 +1329,188 @@ function startEmulator() {
 
 
     /*
-     * EmulatorJS
-     */
+       CRT somente no SNES.
+
+       Se quiser tirar completamente,
+       pode colocar false.
+    */
+
+    if (core === "snes") {
+
+        document.getElementById(
+            "crt"
+        ).style.display =
+            "block";
+
+    }
+
+
+    /*
+       Limpar jogador.
+    */
+
+    document.getElementById(
+        "game"
+    ).innerHTML =
+        "";
+
+
+    /* =================================================
+       EMULATORJS
+    ================================================= */
+
+
+    /*
+       Elemento do jogador.
+    */
 
     window.EJS_player =
         "#game";
 
+
+    /*
+       CORE
+
+       Game Boy:
+       gb
+
+       Super Nintendo:
+       snes
+    */
+
     window.EJS_core =
         core;
+
+
+    /*
+       URL DIRETA DO ROM
+    */
 
     window.EJS_gameUrl =
         rom;
 
+
+    /*
+       Nome.
+    */
+
     window.EJS_gameName =
         name;
+
+
+    /*
+       Dados do EmulatorJS.
+    */
 
     window.EJS_pathtodata =
         "https://cdn.emulatorjs.org/stable/data/";
 
+
+    /*
+       Começar automaticamente.
+    */
+
     window.EJS_startOnLoaded =
         true;
+
+
+    /*
+       BIOS vazia.
+
+       GB e SNES não precisam de BIOS
+       para os jogos comuns.
+    */
 
     window.EJS_biosUrl =
         "";
 
+
+    /*
+       Idioma.
+    */
+
     window.EJS_language =
         7;
+
+
+    /*
+       Cor da interface.
+    */
 
     window.EJS_color =
         "#ffffff";
 
 
     /*
-     * SNES sem mouse
-     */
+       Mouse desligado.
+    */
 
-    if (core === "snes") {
-
-        window.EJS_mouse =
-            false;
-
-        window.EJS_multitap =
-            false;
-
-    }
+    window.EJS_mouse =
+        false;
 
 
     /*
-     * Carrega EmulatorJS.
-     */
+       Multitap desligado.
+    */
+
+    window.EJS_multitap =
+        false;
+
+
+    /*
+       NÃO fazemos:
+
+       EJS_VirtualGamepadSettings = [];
+
+       porque queremos que o
+       controle virtual apareça
+       no celular.
+    */
+
+
+    /* =================================================
+       CARREGAR LOADER
+    ================================================= */
+
 
     const script =
         document.createElement(
             "script"
         );
 
+
     script.src =
         "https://cdn.emulatorjs.org/stable/data/loader.js";
+
 
     script.async =
         true;
 
+
+    script.onload =
+        function () {
+
+            console.log(
+                "EmulatorJS carregado."
+            );
+
+        };
+
+
+    script.onerror =
+        function () {
+
+            showError(
+                "Não foi possível carregar o EmulatorJS."
+            );
+
+        };
+
+
     document.body
-        .appendChild(script);
+        .appendChild(
+            script
+        );
 
 }
 
@@ -993,6 +1520,10 @@ function startEmulator() {
 ===================================================== */
 
 function closeGame() {
+
+    /*
+       Volta para a biblioteca.
+    */
 
     window.location.href =
         window.location.pathname;
