@@ -1,42 +1,64 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Boy NFC Emulator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Game Boy NFC Cartridge</title>
     <style>
-        body, html {
+        body {
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
+            background: #111;
+            color: #fff;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             overflow: hidden;
         }
-        #game {
+        #status {
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #aaa;
+        }
+        iframe {
             width: 100%;
             height: 100%;
+            border: none;
         }
     </style>
 </head>
 <body>
 
-    <div id="game"></div>
+<div id="status">A carregar o cartucho...</div>
 
-    <script type="text/javascript">
-        // Pega o nome da ROM passado na URL (?rom=pokemon_red.gb) ou usa pokemon_red.gb por padrão
-        const urlParams = new URLSearchParams(window.location.search);
-        const romName = urlParams.get('rom') || 'pokemon_red.gb';
+<script>
+    // Procura o nome da ROM passado no link (?rom=pokemon_red.gb) ou carrega pokemon_red.gb por defeito
+    const urlParams = new URLSearchParams(window.location.search);
+    const romFile = urlParams.get('rom') || 'pokemon_red.gb';
 
-        EJS_player = "#game";
-        EJS_core = "gb";
-        EJS_gameName = "Pokémon Red";
-        EJS_color = "#e52521";
-        EJS_startOnLoaded = true;
-        EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
-        EJS_gameUrl = romName; // Pega o arquivo direto da raiz do seu GitHub Pages
-    </script>
+    // Redireciona para o emulador web leve usando a ROM do teu próprio repositório no GitHub
+    const githubUser = window.location.hostname.split('.')[0];
+    const repoName = window.location.pathname.split('/')[1];
+    
+    // Constrói o link relativo direto da tua ROM no GitHub Pages
+    const rawRomUrl = window.location.origin + window.location.pathname.replace('index.html', '') + romFile;
 
-    <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+    // Usa a interface limpa do EmulatorJS embutida via iframe encapsulado sem erro de CORS
+    const embedUrl = `https://emulatorjs.org/demo.html?core=gb&rom=${encodeURIComponent(rawRomUrl)}`;
+
+    const iframe = document.createElement('iframe');
+    iframe.src = embedUrl;
+    iframe.allow = "autoplay; gamepad";
+    
+    iframe.onload = () => {
+        document.getElementById('status').style.display = 'none';
+    };
+
+    document.body.appendChild(iframe);
+</script>
+
 </body>
 </html>
