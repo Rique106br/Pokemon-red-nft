@@ -3,62 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Game Boy NFC Cartridge</title>
+    <title>Cartucho Game Boy NFC</title>
     <style>
-        body {
+        body, html {
             margin: 0;
             padding: 0;
-            background: #111;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
             color: #fff;
-            font-family: sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            font-family: sans-serif;
             overflow: hidden;
         }
         #status {
+            font-size: 16px;
+            color: #ffca28;
             margin-bottom: 10px;
-            font-size: 14px;
-            color: #aaa;
         }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+        canvas {
+            width: 95vw;
+            max-width: 480px;
+            height: auto;
+            image-rendering: pixelated;
+            border: 2px solid #333;
+            border-radius: 4px;
+        }
+        .controls {
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            grid-gap: 10px;
+            justify-content: center;
+        }
+        .btn {
+            background: #222;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .btn:active {
+            background: #555;
         }
     </style>
 </head>
 <body>
 
-<div id="status">A carregar o cartucho...</div>
+    <div id="status">Iniciando Cartucho...</div>
+    <canvas id="mainCanvas" width="160" height="144"></canvas>
 
-<script>
-    // Procura o nome da ROM passado no link (?rom=pokemon_red.gb) ou carrega pokemon_red.gb por defeito
-    const urlParams = new URLSearchParams(window.location.search);
-    const romFile = urlParams.get('rom') || 'pokemon_red.gb';
+    <!-- Usando o motor nativo leve via CDN estável JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/binJS/0.2.1/binJS.min.js"></script>
+    <script>
+        const statusDiv = document.getElementById('status');
+        
+        // Pega a ROM da raiz do seu repositório GitHub
+        const romUrl = './pokemon_red.gb';
 
-    // Redireciona para o emulador web leve usando a ROM do teu próprio repositório no GitHub
-    const githubUser = window.location.hostname.split('.')[0];
-    const repoName = window.location.pathname.split('/')[1];
-    
-    // Constrói o link relativo direto da tua ROM no GitHub Pages
-    const rawRomUrl = window.location.origin + window.location.pathname.replace('index.html', '') + romFile;
+        statusDiv.innerText = "Lendo ROM do Cartucho...";
 
-    // Usa a interface limpa do EmulatorJS embutida via iframe encapsulado sem erro de CORS
-    const embedUrl = `https://emulatorjs.org/demo.html?core=gb&rom=${encodeURIComponent(rawRomUrl)}`;
-
-    const iframe = document.createElement('iframe');
-    iframe.src = embedUrl;
-    iframe.allow = "autoplay; gamepad";
-    
-    iframe.onload = () => {
-        document.getElementById('status').style.display = 'none';
-    };
-
-    document.body.appendChild(iframe);
-</script>
-
+        fetch(romUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Arquivo 'pokemon_red.gb' não encontrado na raiz do GitHub!");
+                }
+                return response.arrayBuffer();
+            })
+            .then(buffer => {
+                statusDiv.innerText = "Pokémon Red Carregado! Processando...";
+                
+                // Redireciona para o player web ultraleve sem travas de CORS
+                const blob = new Blob([buffer], { type: 'application/octet-stream' });
+                const blobUrl = URL.createObjectURL(blob);
+                
+                // Carrega a ROM direto no motor web limpo
+                window.location.href = "https://emulatorjs.org/demo.html?core=gb&rom=" + encodeURIComponent(window.location.href.replace('index.html', '') + 'pokemon_red.gb');
+            })
+            .catch(err => {
+                statusDiv.style.color = "#ff5252";
+                statusDiv.innerText = "Erro: " + err.message;
+            });
+    </script>
 </body>
 </html>
