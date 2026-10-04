@@ -3,22 +3,15 @@
 <head>
 <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width,
-             initial-scale=1,
-             maximum-scale=1,
-             user-scalable=no"
->
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1,
+               maximum-scale=1,
+               user-scalable=no">
 
 <title>Retro Player</title>
 
 <style>
-
-/* =========================================================
-   RESET
-========================================================= */
-
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -29,224 +22,133 @@ body {
     width: 100%;
     height: 100%;
     margin: 0;
-    padding: 0;
-
-    background: #050505;
-
-    color: #fff;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
     overflow: hidden;
+    background: #050505;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-
-/* =========================================================
-   FUNDO
-========================================================= */
-
 body {
-
     background:
-
         radial-gradient(
             circle at center,
-            #202020 0%,
-            #0c0c0c 45%,
+            #252525 0%,
+            #0b0b0b 55%,
             #000 100%
         );
 }
 
 
-/* =========================================================
+/* ================================
    APP
-========================================================= */
+================================ */
 
 #app {
-
     width: 100%;
     height: 100%;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
 }
 
 
-/* =========================================================
-   BARRA SUPERIOR
-========================================================= */
+/* ================================
+   TOPO
+================================ */
 
 #topbar {
-
     position: fixed;
-
     top: 0;
     left: 0;
     right: 0;
 
-    height: 54px;
+    height: 52px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
-    padding: 0 15px;
+    padding: 0 14px;
 
-    background:
-        rgba(0,0,0,.88);
+    background: rgba(0,0,0,.9);
 
-    border-bottom:
-        1px solid #303030;
+    border-bottom: 1px solid #333;
 
-    z-index: 1000;
-
-    backdrop-filter:
-        blur(8px);
+    z-index: 100;
 }
-
 
 #logo {
-
     font-size: 15px;
-
-    font-weight: 800;
-
+    font-weight: bold;
     letter-spacing: 2px;
-
-    color: #fff;
 }
 
-
-#game-name {
-
+#game-title {
     position: absolute;
-
     left: 50%;
-
-    transform:
-        translateX(-50%);
+    transform: translateX(-50%);
 
     font-size: 13px;
-
     color: #aaa;
 
+    max-width: 45vw;
+
     white-space: nowrap;
-
-    max-width: 40vw;
-
     overflow: hidden;
-
     text-overflow: ellipsis;
 }
 
-
-/* =========================================================
-   BOTÕES
-========================================================= */
-
-.toolbar {
-
+.buttons {
     display: flex;
-
-    gap: 7px;
+    gap: 6px;
 }
 
-
 button {
+    border: 1px solid #444;
 
-    appearance: none;
+    background: #222;
 
-    border: 0;
+    color: white;
+
+    padding: 8px 11px;
 
     border-radius: 7px;
 
-    padding:
-        8px 11px;
-
-    color: #fff;
-
-    background:
-        #242424;
-
-    border:
-        1px solid #3b3b3b;
-
-    font-size: 12px;
-
     cursor: pointer;
 
-    transition:
-        .15s ease;
+    font-size: 12px;
 }
-
-
-button:hover {
-
-    background:
-        #333;
-}
-
 
 button:active {
-
-    transform:
-        scale(.94);
+    transform: scale(.94);
 }
 
 
-/* =========================================================
+/* ================================
    ÁREA DO JOGO
-========================================================= */
+================================ */
 
-#game-wrapper {
+#game-container {
+    position: fixed;
 
-    position: relative;
-
-    width:
-        min(96vw, 1100px);
-
-    height:
-        min(78vh, 720px);
-
-    margin-top: 45px;
+    top: 52px;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     background: #000;
 
-    border-radius: 12px;
-
     overflow: hidden;
-
-    box-shadow:
-        0 25px 80px
-        rgba(0,0,0,.75);
-
-    border:
-        1px solid #272727;
 }
 
 
-/* =========================================================
+/* ================================
    EMULADOR
-========================================================= */
+================================ */
 
 #emulator {
-
     width: 100%;
     height: 100%;
 
@@ -256,12 +158,11 @@ button:active {
 }
 
 
-/* =========================================================
+/* ================================
    CRT
-========================================================= */
+================================ */
 
 #crt {
-
     position: absolute;
 
     inset: 0;
@@ -270,55 +171,22 @@ button:active {
 
     z-index: 20;
 
-    opacity: 1;
-
-    transition:
-        opacity .2s ease;
-}
-
-
-/*
-    Scanlines
-*/
-
-#crt::before {
-
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
+    display: none;
 
     background:
-
         repeating-linear-gradient(
-
             to bottom,
-
-            rgba(255,255,255,.035)
-            0px,
-
-            rgba(255,255,255,.035)
-            1px,
-
-            rgba(0,0,0,.13)
-            2px,
-
-            rgba(0,0,0,.13)
-            4px
-
+            rgba(255,255,255,.035) 0px,
+            rgba(255,255,255,.035) 1px,
+            rgba(0,0,0,.13) 2px,
+            rgba(0,0,0,.13) 4px
         );
-
-    opacity: .65;
 }
 
 
-/*
-    Vinheta
-*/
+/* brilho/vinheta */
 
 #crt::after {
-
     content: "";
 
     position: absolute;
@@ -326,293 +194,176 @@ button:active {
     inset: 0;
 
     background:
-
         radial-gradient(
-
             ellipse at center,
-
             transparent 50%,
-
-            rgba(0,0,0,.18) 70%,
-
-            rgba(0,0,0,.62) 100%
-
+            rgba(0,0,0,.18) 72%,
+            rgba(0,0,0,.6) 100%
         );
-
 }
 
 
-/* =========================================================
-   RGB / CURVATURA SIMULADA
-========================================================= */
+/* ================================
+   MENU
+================================ */
 
-#game-wrapper.crt-on {
-
-    box-shadow:
-
-        0 25px 80px
-        rgba(0,0,0,.8),
-
-        inset
-        0 0 45px
-        rgba(0,0,0,.55);
-}
-
-
-/* =========================================================
-   TELA DE CARREGAMENTO
-========================================================= */
-
-#loading {
-
+#menu {
     position: fixed;
 
     inset: 0;
 
-    z-index: 2000;
+    z-index: 200;
 
-    display: none;
+    display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     background:
-        rgba(0,0,0,.92);
+        radial-gradient(
+            circle,
+            #1d1d1d,
+            #050505 70%
+        );
 }
 
+.menu-box {
+    width: min(92vw, 480px);
 
-.loading-box {
+    padding: 30px;
+
+    border-radius: 16px;
+
+    background: #131313;
+
+    border: 1px solid #333;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.8);
 
     text-align: center;
 }
 
+.menu-box h1 {
+    margin: 0 0 8px;
+
+    font-size: 28px;
+}
+
+.menu-box p {
+    margin: 0 0 25px;
+
+    color: #888;
+}
+
+.game-list {
+    display: grid;
+
+    gap: 10px;
+}
+
+.game {
+    width: 100%;
+
+    padding: 16px;
+
+    text-align: left;
+
+    background: #1e1e1e;
+
+    border: 1px solid #333;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+}
+
+.game:hover {
+    background: #292929;
+}
+
+.game small {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #777;
+}
+
+
+/* ================================
+   CARREGANDO
+================================ */
+
+#loading {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 500;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0,0,0,.9);
+}
+
+.loader {
+    text-align: center;
+}
 
 .spinner {
-
     width: 45px;
-
     height: 45px;
 
-    margin:
-        0 auto 18px;
+    margin: 0 auto 15px;
 
-    border:
+    border: 4px solid #333;
 
-        4px solid
-        #333;
+    border-top-color: white;
 
-    border-top-color:
-        #fff;
-
-    border-radius:
-        50%;
+    border-radius: 50%;
 
     animation:
         spin 1s linear infinite;
 }
 
-
 @keyframes spin {
-
     to {
-
-        transform:
-            rotate(360deg);
-
+        transform: rotate(360deg);
     }
 }
 
 
-/* =========================================================
-   MENU
-========================================================= */
-
-#menu {
-
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 1500;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    background:
-
-        radial-gradient(
-            circle at center,
-            #1a1a1a,
-            #050505 70%
-        );
-}
-
-
-.menu-card {
-
-    width:
-        min(92vw, 500px);
-
-    padding:
-        30px;
-
-    border-radius:
-        16px;
-
-    background:
-        #121212;
-
-    border:
-        1px solid #333;
-
-    box-shadow:
-        0 25px 80px
-        rgba(0,0,0,.8);
-
-    text-align:
-        center;
-}
-
-
-.menu-card h1 {
-
-    margin:
-        0 0 8px;
-
-    font-size:
-        28px;
-}
-
-
-.menu-card p {
-
-    color:
-        #999;
-
-    margin:
-        0 0 25px;
-}
-
-
-/* =========================================================
-   JOGOS
-========================================================= */
-
-.game-list {
-
-    display:
-        grid;
-
-    gap:
-        10px;
-}
-
-
-.game-button {
-
-    width:
-        100%;
-
-    padding:
-        16px;
-
-    text-align:
-        left;
-
-    font-size:
-        15px;
-
-    background:
-        #1e1e1e;
-
-    border:
-        1px solid #333;
-
-    border-radius:
-        10px;
-}
-
-
-.game-button span {
-
-    display:
-        block;
-
-    color:
-        #777;
-
-    font-size:
-        11px;
-
-    margin-top:
-        4px;
-}
-
-
-/* =========================================================
+/* ================================
    MOBILE
-========================================================= */
+================================ */
 
 @media(max-width:700px) {
 
     #topbar {
-
-        height:
-            48px;
-
-        padding:
-            0 9px;
+        height: 48px;
+        padding: 0 8px;
     }
-
 
     #logo {
-
-        font-size:
-            12px;
-
-        letter-spacing:
-            1px;
+        font-size: 12px;
     }
 
-
-    #game-name {
-
-        display:
-            none;
+    #game-title {
+        display: none;
     }
 
-
-    #game-wrapper {
-
-        width:
-            100vw;
-
-        height:
-            calc(100vh - 48px);
-
-        margin-top:
-            48px;
-
-        border-radius:
-            0;
-
-        border:
-            0;
+    #game-container {
+        top: 48px;
     }
 
-
-    .toolbar button {
-
-        padding:
-            7px 9px;
+    button {
+        padding: 7px 9px;
     }
-
 }
-
 </style>
 </head>
 
@@ -620,61 +371,47 @@ button:active {
 <body>
 
 
-<!-- =======================================================
+<!-- =================================
      APP
-======================================================== -->
+================================= -->
 
 <div id="app">
 
 
-    <!-- TOP BAR -->
+    <!-- TOPO -->
 
-    <header id="topbar">
+    <div id="topbar">
 
         <div id="logo">
             RETRO
         </div>
 
-
-        <div id="game-name">
+        <div id="game-title">
             Nenhum jogo
         </div>
 
+        <div class="buttons">
 
-        <div class="toolbar">
-
-            <button
-                onclick="toggleCRT()"
-                id="crtButton"
-            >
-                CRT: ON
+            <button onclick="toggleCRT()">
+                CRT
             </button>
 
-
-            <button
-                onclick="fullscreen()"
-            >
+            <button onclick="fullscreen()">
                 ⛶
             </button>
 
-
-            <button
-                onclick="backToMenu()"
-            >
+            <button onclick="showMenu()">
                 ☰
             </button>
 
         </div>
 
-    </header>
+    </div>
 
 
+    <!-- JOGO -->
 
-    <!-- GAME -->
-
-    <main id="game-wrapper"
-          class="crt-on">
-
+    <div id="game-container">
 
         <iframe
             id="emulator"
@@ -689,23 +426,21 @@ button:active {
             allowfullscreen>
         </iframe>
 
-
         <div id="crt"></div>
 
-
-    </main>
+    </div>
 
 </div>
 
 
 
-<!-- =======================================================
+<!-- =================================
      MENU
-======================================================== -->
+================================= -->
 
-<section id="menu">
+<div id="menu">
 
-    <div class="menu-card">
+    <div class="menu-box">
 
         <h1>
             🎮 RETRO PLAYER
@@ -719,39 +454,36 @@ button:active {
         <div class="game-list">
 
 
-            <!-- POKÉMON RED -->
+            <!-- ========================
+                 POKÉMON RED
+            ========================= -->
 
             <button
-                class="game-button"
-                onclick="
-                    startGame('pokemon-red')
-                "
-            >
+                class="game"
+                onclick="startGame('pokemon-red')">
 
                 🔴 Pokémon Red
 
-                <span>
-                    Game Boy • filtro GBC
-                </span>
+                <small>
+                    Game Boy • visual GBC
+                </small>
 
             </button>
 
 
-
-            <!-- POKÉMON FIRE RED -->
+            <!-- ========================
+                 POKÉMON FIRE RED
+            ========================= -->
 
             <button
-                class="game-button"
-                onclick="
-                    startGame('pokemon-firered')
-                "
-            >
+                class="game"
+                onclick="startGame('pokemon-firered')">
 
                 🔥 Pokémon FireRed
 
-                <span>
+                <small>
                     Game Boy Advance • CRT
-                </span>
+                </small>
 
             </button>
 
@@ -760,17 +492,17 @@ button:active {
 
     </div>
 
-</section>
+</div>
 
 
 
-<!-- =======================================================
+<!-- =================================
      LOADING
-======================================================== -->
+================================= -->
 
 <div id="loading">
 
-    <div class="loading-box">
+    <div class="loader">
 
         <div class="spinner"></div>
 
@@ -786,162 +518,155 @@ button:active {
 
 <script>
 
-/* =========================================================
-   CONFIGURAÇÃO DOS JOGOS
-========================================================= */
-
+/*
+==========================================================
+ JOGOS
+==========================================================
+*/
 
 const games = {
 
-
     "pokemon-red": {
 
-        name:
-            "Pokémon Red",
+        title: "Pokémon Red",
 
-        system:
-            "gb",
+        /*
+         * Caminho da ROM dentro do seu GitHub Pages.
+         */
 
-        core:
-            "gambatte",
+        rom: "gb/pokemon_red.gb",
 
-        rom:
-            "https://archive.org/download/Pokemon-pt-br/pokemon_red.gb",
+        /*
+         * mGBA é o core que o WebRetro usa
+         * para GB/GBC/GBA.
+         */
 
-        crt:
-            false
+        core: "mgba",
+
+        crt: false
 
     },
 
 
     "pokemon-firered": {
 
-        name:
-            "Pokémon FireRed",
+        title: "Pokémon FireRed",
 
-        system:
-            "gba",
+        rom: "gba/pokemon_firered.gba",
 
-        core:
-            "mgba",
+        core: "mgba",
 
-        rom:
-            "https://archive.org/download/Pokemon-pt-br/pokemon_firered.gba",
-
-        crt:
-            true
+        crt: true
 
     }
 
 };
 
 
-
-/* =========================================================
-   WEBRETRO
-========================================================= */
-
-
 /*
-    WebRetro aceita:
-
-        core=
-        rom=
-
-    e também URL absoluta para a ROM.
-
-    Isso permite deixar as ROMs fora
-    do GitHub Pages.
+==========================================================
+ WEBRETRO
+==========================================================
 */
-
 
 const WEBRETRO =
     "https://binbashbanana.github.io/webretro/";
 
 
-
-/* =========================================================
-   ELEMENTOS
-========================================================= */
-
+/*
+==========================================================
+ ELEMENTOS
+==========================================================
+*/
 
 const emulator =
-    document.getElementById(
-        "emulator"
-    );
-
+    document.getElementById("emulator");
 
 const menu =
-    document.getElementById(
-        "menu"
-    );
-
+    document.getElementById("menu");
 
 const loading =
-    document.getElementById(
-        "loading"
-    );
+    document.getElementById("loading");
 
-
-const gameName =
-    document.getElementById(
-        "game-name"
-    );
-
-
-const wrapper =
-    document.getElementById(
-        "game-wrapper"
-    );
-
+const title =
+    document.getElementById("game-title");
 
 const crt =
-    document.getElementById(
-        "crt"
-    );
+    document.getElementById("crt");
 
 
-const crtButton =
-    document.getElementById(
-        "crtButton"
-    );
+/*
+==========================================================
+ TRANSFORMA CAMINHO LOCAL EM URL ABSOLUTA
+==========================================================
+*/
+
+function getRomURL(path) {
+
+    /*
+     * Se o site estiver em:
+     *
+     * https://usuario.github.io/retro/
+     *
+     * isto vai gerar:
+     *
+     * https://usuario.github.io/retro/gb/pokemon_red.gb
+     *
+     */
+
+    return new URL(
+        path,
+        window.location.href
+    ).href;
+
+}
 
 
-
-/* =========================================================
-   START GAME
-========================================================= */
-
+/*
+==========================================================
+ INICIAR JOGO
+==========================================================
+*/
 
 function startGame(id) {
 
-
-    const game =
-        games[id];
-
+    const game = games[id];
 
     if (!game) {
 
-        alert(
-            "Jogo não encontrado."
-        );
+        alert("Jogo não encontrado.");
 
         return;
     }
 
 
+    /*
+     * Mostra carregamento.
+     */
+
     loading.style.display =
         "flex";
 
 
-    gameName.textContent =
-        game.name;
+    /*
+     * Nome do jogo.
+     */
+
+    title.textContent =
+        game.title;
 
 
     /*
-        Montamos a URL do WebRetro.
-    */
+     * URL absoluta da ROM.
+     */
 
+    const romURL =
+        getRomURL(game.rom);
+
+
+    /*
+     * Parâmetros do WebRetro.
+     */
 
     const params =
         new URLSearchParams();
@@ -955,103 +680,97 @@ function startGame(id) {
 
     params.set(
         "rom",
-        game.rom
+        romURL
     );
 
 
     /*
-        Faz o WebRetro carregar
-        diretamente o jogo.
-    */
+     * Importante:
+     *
+     * O WebRetro precisa buscar a ROM
+     * no endereço absoluto.
+     */
 
-
-    const url =
+    const emulatorURL =
         WEBRETRO +
         "?" +
         params.toString();
 
 
+    /*
+     * Carrega o emulador.
+     */
+
     emulator.src =
-        url;
+        emulatorURL;
 
 
     /*
-        CRT somente no GBA.
-    */
-
+     * CRT:
+     *
+     * FireRed = ON
+     * Pokémon Red = OFF
+     */
 
     if (game.crt) {
-
-        wrapper.classList.add(
-            "crt-on"
-        );
 
         crt.style.display =
             "block";
 
-        crtButton.textContent =
-            "CRT: ON";
-
     } else {
-
-        wrapper.classList.remove(
-            "crt-on"
-        );
 
         crt.style.display =
             "none";
-
-        crtButton.textContent =
-            "CRT: OFF";
 
     }
 
 
     /*
-        Esconde menu.
-    */
-
+     * Esconde menu.
+     */
 
     menu.style.display =
         "none";
 
 
     /*
-        Guarda jogo atual.
-    */
-
+     * Salva o jogo atual.
+     */
 
     localStorage.setItem(
-        "retro-current-game",
+        "retro-game",
         id
     );
 
 
     /*
-        Atualiza a URL do seu site.
-    */
+     * Cria link individual.
+     *
+     * Exemplo:
+     *
+     * ?game=pokemon-red
+     */
 
-
-    const newURL =
+    const url =
         window.location.pathname +
         "?game=" +
         encodeURIComponent(id);
 
 
-    window.history.replaceState(
-        {},
+    history.replaceState(
+        null,
         "",
-        newURL
+        url
     );
 
 }
 
 
-
-/* =========================================================
-   IFRAME CARREGADO
-========================================================= */
-
+/*
+==========================================================
+ QUANDO O IFRAME TERMINAR DE CARREGAR
+==========================================================
+*/
 
 emulator.addEventListener(
     "load",
@@ -1064,62 +783,111 @@ emulator.addEventListener(
 );
 
 
+/*
+==========================================================
+ CRT
+==========================================================
+*/
 
-/* =========================================================
-   CRT
-========================================================= */
-
-
-let crtEnabled =
-    true;
+let crtOn = true;
 
 
 function toggleCRT() {
 
-
-    crtEnabled =
-        !crtEnabled;
+    crtOn = !crtOn;
 
 
-    if (crtEnabled) {
+    if (crtOn) {
 
-        crt.style.display =
-            "block";
+        /*
+         * Só mostra se o jogo atual
+         * estiver configurado com CRT.
+         */
 
-        wrapper.classList.add(
-            "crt-on"
-        );
+        const id =
+            getCurrentGame();
 
-        crtButton.textContent =
-            "CRT: ON";
+        if (
+            id &&
+            games[id] &&
+            games[id].crt
+        ) {
+
+            crt.style.display =
+                "block";
+
+        }
 
     } else {
 
         crt.style.display =
             "none";
 
-        wrapper.classList.remove(
-            "crt-on"
-        );
-
-        crtButton.textContent =
-            "CRT: OFF";
-
     }
 
 }
 
 
+/*
+==========================================================
+ DESCOBRIR JOGO ATUAL
+==========================================================
+*/
 
-/* =========================================================
-   FULLSCREEN
-========================================================= */
+function getCurrentGame() {
 
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    return params.get("game");
+
+}
+
+
+/*
+==========================================================
+ MENU
+==========================================================
+*/
+
+function showMenu() {
+
+    emulator.src =
+        "about:blank";
+
+
+    menu.style.display =
+        "flex";
+
+
+    title.textContent =
+        "Nenhum jogo";
+
+
+    crt.style.display =
+        "none";
+
+
+    history.replaceState(
+        null,
+        "",
+        window.location.pathname
+    );
+
+}
+
+
+/*
+==========================================================
+ FULLSCREEN
+==========================================================
+*/
 
 function fullscreen() {
 
-
-    const element =
+    const target =
         document.documentElement;
 
 
@@ -1128,10 +896,10 @@ function fullscreen() {
     ) {
 
         if (
-            element.requestFullscreen
+            target.requestFullscreen
         ) {
 
-            element.requestFullscreen();
+            target.requestFullscreen();
 
         }
 
@@ -1150,163 +918,52 @@ function fullscreen() {
 }
 
 
+/*
+==========================================================
+ ABRIR JOGO PELO LINK
+==========================================================
+*/
 
-/* =========================================================
-   MENU
-========================================================= */
-
-
-function backToMenu() {
-
-
-    /*
-        Limpa o iframe.
-    */
-
-
-    emulator.src =
-        "about:blank";
-
-
-    gameName.textContent =
-        "Nenhum jogo";
-
-
-    menu.style.display =
-        "flex";
-
-
-    /*
-        Retira ?game=
-    */
-
-
-    window.history.replaceState(
-        {},
-        "",
-        window.location.pathname
-    );
-
-}
-
-
-
-/* =========================================================
-   ABRIR ?game=
-========================================================= */
-
-
-function loadFromURL() {
-
-
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
-
+function loadFromLink() {
 
     const id =
-        params.get(
-            "game"
-        );
+        getCurrentGame();
 
 
-    if (
-        id &&
-        games[id]
-    ) {
-
-        startGame(id);
+    if (!id) {
 
         return;
 
     }
 
 
-    /*
-        Se não existe parâmetro,
-        tenta o último jogo.
-    */
+    if (!games[id]) {
 
-
-    const last =
-        localStorage.getItem(
-            "retro-current-game"
+        alert(
+            "Esse jogo não existe no catálogo."
         );
-
-
-    if (
-        last &&
-        games[last]
-    ) {
-
-        /*
-            Não inicia automaticamente
-            para evitar surpresa no celular.
-        */
 
         return;
 
     }
+
+
+    startGame(id);
 
 }
 
 
-
-/* =========================================================
-   TECLADO
-========================================================= */
-
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-
-        /*
-            Evita que as setas
-            movimentem a página.
-        */
-
-
-        if (
-
-            event.key ===
-                "ArrowUp" ||
-
-            event.key ===
-                "ArrowDown" ||
-
-            event.key ===
-                "ArrowLeft" ||
-
-            event.key ===
-                "ArrowRight" ||
-
-            event.key ===
-                " "
-
-        ) {
-
-            event.preventDefault();
-
-        }
-
-    }
-);
-
-
-
-/* =========================================================
-   INICIALIZAÇÃO
-========================================================= */
-
+/*
+==========================================================
+ INICIALIZAÇÃO
+==========================================================
+*/
 
 window.addEventListener(
     "DOMContentLoaded",
     function() {
 
-        loadFromURL();
+        loadFromLink();
 
     }
 );
