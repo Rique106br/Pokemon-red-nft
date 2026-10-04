@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>Retro Games</title>
+<meta
+    name="viewport"
+    content="width=device-width,
+             initial-scale=1.0,
+             maximum-scale=1.0,
+             user-scalable=no"
+>
+
+<title>RETRO</title>
 
 <style>
+
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -19,83 +27,90 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
-    background: #080808;
-    color: white;
+    background: #000;
+    color: #fff;
     font-family: Arial, sans-serif;
     overflow: hidden;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
 }
 
 /* =========================
    MENU
 ========================= */
 
-#menu {
+#topbar {
+    width: 100%;
     height: 58px;
-    min-height: 58px;
-    background: #111;
-    border-bottom: 1px solid #333;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     padding: 0 14px;
-    z-index: 1000;
+
+    background: #111;
+    border-bottom: 1px solid #333;
+
+    position: relative;
+    z-index: 10000;
 }
 
 .logo {
+    font-size: 21px;
     font-weight: 900;
-    letter-spacing: 2px;
-    font-size: 20px;
+    letter-spacing: 3px;
 }
 
-.games {
+.buttons {
     display: flex;
     gap: 8px;
 }
 
-.games button {
-    border: 1px solid #555;
+.buttons a {
+    display: block;
+
+    padding: 10px 13px;
+
     background: #222;
     color: white;
-    padding: 9px 12px;
-    border-radius: 7px;
+
+    border: 1px solid #555;
+    border-radius: 8px;
+
+    text-decoration: none;
     font-weight: bold;
-    cursor: pointer;
+    font-size: 14px;
 }
 
-.games button:hover {
+.buttons a:hover {
     background: #333;
 }
 
-.games button.active {
-    background: #fff;
-    color: #000;
+.buttons a.active {
+    background: white;
+    color: black;
 }
 
 /* =========================
-   EMULATOR
+   ÁREA DO EMULADOR
 ========================= */
 
-#game {
-    position: relative;
+#game-container {
+    position: absolute;
+
+    top: 58px;
+    left: 0;
+
     width: 100%;
-    height: calc(100vh - 58px);
+    height: calc(100% - 58px);
+
     background: #000;
+
     overflow: hidden;
 }
 
-/*
-   O EmulatorJS vai criar o canvas,
-   controles touch e menu dentro deste elemento.
-*/
-
-#game canvas {
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
+#game {
+    width: 100%;
+    height: 100%;
 }
 
 /* =========================
@@ -103,25 +118,28 @@ body {
 ========================= */
 
 #crt {
-    pointer-events: none;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 58px;
-    bottom: 0;
+    position: absolute;
 
-    z-index: 900;
+    top: 58px;
+    left: 0;
+
+    width: 100%;
+    height: calc(100% - 58px);
+
+    pointer-events: none;
+
+    z-index: 9000;
 
     background:
         repeating-linear-gradient(
             to bottom,
-            rgba(0,0,0,0.00) 0px,
-            rgba(0,0,0,0.00) 2px,
-            rgba(0,0,0,0.13) 3px
+            rgba(0,0,0,0) 0px,
+            rgba(0,0,0,0) 2px,
+            rgba(0,0,0,0.12) 3px
         );
 
     box-shadow:
-        inset 0 0 80px rgba(0,0,0,0.55);
+        inset 0 0 90px rgba(0,0,0,0.5);
 }
 
 /* =========================
@@ -130,229 +148,252 @@ body {
 
 @media (max-width: 700px) {
 
-    #menu {
+    #topbar {
         height: 50px;
-        min-height: 50px;
-        padding: 0 9px;
+        padding: 0 8px;
     }
 
     .logo {
-        font-size: 15px;
+        font-size: 16px;
+        letter-spacing: 2px;
     }
 
-    .games button {
+    .buttons {
+        gap: 5px;
+    }
+
+    .buttons a {
         font-size: 11px;
-        padding: 7px 8px;
+        padding: 8px 8px;
     }
 
-    #game {
-        height: calc(100vh - 50px);
+    #game-container {
+        top: 50px;
+        height: calc(100% - 50px);
     }
 
     #crt {
         top: 50px;
+        height: calc(100% - 50px);
     }
 }
+
 </style>
+
 </head>
 
 <body>
 
-<header id="menu">
+
+<!-- =====================================================
+     MENU
+===================================================== -->
+
+<div id="topbar">
 
     <div class="logo">
         RETRO
     </div>
 
-    <div class="games">
+    <div class="buttons">
 
-        <button
-            id="gbButton"
-            onclick="loadGame('gb')">
+        <a
+            id="red"
+            href="?game=red">
             Pokémon Red
-        </button>
+        </a>
 
-        <button
-            id="gbaButton"
-            onclick="loadGame('gba')">
+        <a
+            id="fire"
+            href="?game=firered">
             Pokémon FireRed
-        </button>
+        </a>
 
     </div>
 
-</header>
+</div>
 
-<div id="game"></div>
+
+<!-- =====================================================
+     EMULATORJS
+===================================================== -->
+
+<div id="game-container">
+
+    <div id="game"></div>
+
+</div>
+
+
+<!-- =====================================================
+     CRT
+===================================================== -->
 
 <div id="crt"></div>
 
 
 <script>
 
-/* =========================================================
-   CONFIGURAÇÃO DOS JOGOS
-========================================================= */
+/*
+===========================================================
+  CONFIGURAÇÃO
+===========================================================
+*/
 
-const games = {
+const params =
+    new URLSearchParams(window.location.search);
 
-    gb: {
-        name: "Pokemon Red",
-        core: "gb",
-        rom: "gb/pokemon_red.gb"
-    },
-
-    gba: {
-        name: "Pokemon FireRed",
-        core: "gba",
-        rom: "gba/pokemon_firered.gba"
-    }
-
-};
+const game =
+    params.get("game") || "red";
 
 
-/* =========================================================
-   LÊ O JOGO PELA URL
-========================================================= */
+/*
+===========================================================
+  ROM
+===========================================================
+*/
 
-const params = new URLSearchParams(window.location.search);
+let rom;
+let core;
+let gameName;
 
-let selectedGame = params.get("game") || "gb";
 
-if (!games[selectedGame]) {
-    selectedGame = "gb";
+/*
+  Pokémon Red
+*/
+
+if (game === "red") {
+
+    rom = "gb/pokemon_red.gb";
+
+    core = "gb";
+
+    gameName = "Pokémon Red";
+
 }
 
 
-/* =========================================================
-   CARREGA EMULATORJS
-========================================================= */
+/*
+  Pokémon FireRed
+*/
 
-function loadGame(gameId) {
+else {
 
-    const game = games[gameId];
+    rom = "gba/pokemon_firered.gba";
 
-    if (!game) {
-        return;
-    }
+    core = "gba";
 
-    selectedGame = gameId;
+    gameName = "Pokémon FireRed";
 
-    /*
-     * Atualiza URL sem recarregar a página
-     */
-    const newUrl =
-        window.location.pathname +
-        "?game=" +
-        encodeURIComponent(gameId);
-
-    window.history.replaceState({}, "", newUrl);
-
-
-    /*
-     * Botões
-     */
-
-    document
-        .getElementById("gbButton")
-        .classList.toggle("active", gameId === "gb");
-
-    document
-        .getElementById("gbaButton")
-        .classList.toggle("active", gameId === "gba");
-
-
-    /*
-     * Limpa emulador anterior
-     */
-
-    document.getElementById("game").innerHTML = "";
-
-
-    /*
-     * Variáveis oficiais do EmulatorJS
-     */
-
-    window.EJS_player = "#game";
-
-    window.EJS_core = game.core;
-
-    window.EJS_gameUrl = game.rom;
-
-    /*
-     * Data do EmulatorJS
-     */
-    window.EJS_pathtodata =
-        "https://cdn.emulatorjs.org/stable/data/";
-
-    /*
-     * Nome do jogo
-     */
-    window.EJS_gameName = game.name;
-
-    /*
-     * Começa automaticamente
-     */
-    window.EJS_startOnLoaded = true;
-
-    /*
-     * Controle virtual para celular
-     */
-    window.EJS_VirtualGamepadSettings = [];
-
-    /*
-     * Usa o esquema de controles correto.
-     */
-    window.EJS_controlScheme = game.core;
-
-    /*
-     * Cor da interface
-     */
-    window.EJS_color = "#e0e0e0";
-
-    /*
-     * Idioma
-     */
-    window.EJS_language = 7;
-
-
-    /*
-     * Garante que o loader antigo seja removido.
-     */
-
-    const oldLoader =
-        document.getElementById("emulatorjs-loader");
-
-    if (oldLoader) {
-        oldLoader.remove();
-    }
-
-
-    /*
-     * Carrega EmulatorJS
-     */
-
-    const script = document.createElement("script");
-
-    script.id = "emulatorjs-loader";
-
-    script.src =
-        "https://cdn.emulatorjs.org/stable/data/loader.js";
-
-    script.async = true;
-
-    document.body.appendChild(script);
 }
 
 
-/* =========================================================
-   INICIA
-========================================================= */
+/*
+===========================================================
+  BOTÃO ATIVO
+===========================================================
+*/
 
-document.addEventListener("DOMContentLoaded", function () {
+if (game === "firered") {
 
-    loadGame(selectedGame);
+    document
+        .getElementById("fire")
+        .classList.add("active");
 
-});
+}
+
+else {
+
+    document
+        .getElementById("red")
+        .classList.add("active");
+
+}
+
+
+/*
+===========================================================
+  EMULATORJS
+===========================================================
+*/
+
+window.EJS_player = "#game";
+
+
+/*
+  gb = Game Boy
+  gba = Game Boy Advance
+
+  O próprio EmulatorJS usa mGBA
+  para Game Boy Advance.
+*/
+
+window.EJS_core = core;
+
+
+/*
+  ROM local do GitHub Pages
+*/
+
+window.EJS_gameUrl = rom;
+
+
+/*
+  Nome do jogo
+*/
+
+window.EJS_gameName = gameName;
+
+
+/*
+  CDN oficial do EmulatorJS.
+
+  Estou usando STABLE porque a própria documentação
+  recomenda stable para produção.
+*/
+
+window.EJS_pathtodata =
+    "https://cdn.emulatorjs.org/stable/data/";
+
+
+/*
+  Iniciar automaticamente
+*/
+
+window.EJS_startOnLoaded = true;
+
+
+/*
+  Não exigir BIOS.
+
+  Para Pokémon Red e FireRed ela não é necessária.
+*/
+
+window.EJS_biosUrl = "";
+
+
+/*
+  Interface em português.
+*/
+
+window.EJS_language = 7;
+
+
+/*
+===========================================================
+  CARREGA EMULATORJS
+===========================================================
+*/
+
+const loader =
+    document.createElement("script");
+
+loader.src =
+    "https://cdn.emulatorjs.org/stable/data/loader.js";
+
+loader.async = true;
+
+document.body.appendChild(loader);
 
 </script>
 
