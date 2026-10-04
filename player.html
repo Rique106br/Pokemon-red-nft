@@ -10,248 +10,551 @@
     content="width=device-width,
              initial-scale=1.0,
              maximum-scale=1.0,
-             user-scalable=no">
+             user-scalable=no,
+             viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#000000">
 
 <title>Retro Player</title>
 
 <style>
 
-*{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 
 html,
-body{
+body {
+    margin: 0;
+    padding: 0;
 
-    margin:0;
-    padding:0;
+    width: 100%;
+    height: 100%;
 
-    width:100%;
-    height:100%;
+    overflow: hidden;
 
-    overflow:hidden;
-
-    background:#000;
-
-    color:white;
+    background: #000;
+    color: #fff;
 
     font-family:
         Arial,
         Helvetica,
         sans-serif;
+}
+
+body {
+    position: fixed;
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: #000;
+}
+
+
+/* =========================================================
+   EMULADOR
+========================================================= */
+
+#game {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    min-width: 100vw;
+    min-height: 100vh;
+
+    background: #000;
+
+    overflow: hidden;
 
 }
 
-body{
-    display:flex;
-    flex-direction:column;
-}
 
+/* =========================================================
+   BARRA SUPERIOR
+========================================================= */
 
-/* ==========================================
-   TOPO
-========================================== */
+#topbar {
 
-#topbar{
+    position: fixed;
 
-    position:fixed;
+    top: 0;
+    left: 0;
 
-    top:0;
-    left:0;
+    width: 100%;
 
-    width:100%;
+    height: 48px;
 
-    height:55px;
+    z-index: 999999;
 
-    z-index:99999;
+    display: flex;
 
-    display:flex;
+    align-items: center;
 
-    align-items:center;
+    padding:
 
-    gap:10px;
+        max(5px, env(safe-area-inset-top))
 
-    padding:8px 10px;
+        10px
+
+        5px
+
+        10px;
 
     background:
-        rgba(0,0,0,.90);
-
-    border-bottom:
-        1px solid #333;
-
-}
-
-#back{
-
-    border:0;
-
-    background:#222;
-
-    color:white;
-
-    border-radius:8px;
-
-    padding:9px 12px;
-
-    font-size:14px;
-
-    cursor:pointer;
-
-}
-
-#title{
-
-    flex:1;
-
-    white-space:nowrap;
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
-
-    font-weight:bold;
-
-}
-
-
-/* ==========================================
-   ÁREA DO EMULADOR
-========================================== */
-
-#game{
-
-    position:absolute;
-
-    left:0;
-    right:0;
-    top:55px;
-    bottom:0;
-
-    width:100%;
-    height:calc(100% - 55px);
-
-    background:#000;
-
-}
-
-
-/* ==========================================
-   TELA DE INÍCIO
-========================================== */
-
-#startScreen{
-
-    position:fixed;
-
-    z-index:100000;
-
-    inset:0;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #202020 0%,
-            #050505 70%
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,.90),
+            rgba(0,0,0,.55)
         );
 
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-
-    padding:25px;
+    transition:
+        opacity .3s ease;
 
 }
 
-#startTitle{
+#backButton {
 
-    font-size:28px;
+    border: 1px solid #444;
 
-    font-weight:bold;
+    background: #181818;
 
-    margin-bottom:10px;
+    color: #fff;
 
-}
+    border-radius: 8px;
 
-#startInfo{
+    padding: 7px 12px;
 
-    color:#aaa;
+    font-size: 14px;
 
-    font-size:14px;
+    font-weight: bold;
 
-    max-width:350px;
-
-    line-height:1.5;
-
-    margin-bottom:25px;
+    cursor: pointer;
 
 }
 
-#startButton{
+#backButton:active {
 
-    border:0;
-
-    border-radius:12px;
-
-    padding:15px 28px;
-
-    background:white;
-
-    color:black;
-
-    font-weight:bold;
-
-    font-size:17px;
-
-    cursor:pointer;
+    transform: scale(.95);
 
 }
 
-#loading{
+#gameTitle {
 
-    margin-top:18px;
+    flex: 1;
 
-    color:#aaa;
+    margin-left: 10px;
 
-    font-size:13px;
+    min-width: 0;
 
-    display:none;
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+    font-size: 14px;
+
+    font-weight: bold;
 
 }
 
 
-/* ==========================================
-   MOBILE
-========================================== */
+/* =========================================================
+   TELA DE INÍCIO
+========================================================= */
 
-@media(max-width:600px){
+#startScreen {
 
-    #topbar{
+    position: fixed;
 
-        height:50px;
+    inset: 0;
+
+    z-index: 1000000;
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 25px;
+
+    background:
+
+        radial-gradient(
+            circle at center,
+            #222 0%,
+            #0b0b0b 45%,
+            #000 100%
+        );
+
+}
+
+#startIcon {
+
+    font-size: 60px;
+
+    margin-bottom: 10px;
+
+}
+
+#startTitle {
+
+    max-width: 90vw;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+
+    word-break: break-word;
+
+}
+
+#startSystem {
+
+    color: #aaa;
+
+    font-size: 14px;
+
+    margin-bottom: 24px;
+
+}
+
+#startButton {
+
+    border: 0;
+
+    border-radius: 12px;
+
+    padding: 15px 30px;
+
+    background: #fff;
+
+    color: #000;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 25px rgba(255,255,255,.15);
+
+}
+
+#startButton:active {
+
+    transform: scale(.96);
+
+}
+
+#loading {
+
+    display: none;
+
+    margin-top: 15px;
+
+    color: #aaa;
+
+    font-size: 13px;
+
+}
+
+
+/* =========================================================
+   MENSAGEM DE ERRO
+========================================================= */
+
+#errorScreen {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000001;
+
+    display: none;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 25px;
+
+    background: #000;
+
+}
+
+#errorScreen h2 {
+
+    margin: 0 0 10px;
+
+}
+
+#errorScreen p {
+
+    color: #aaa;
+
+    max-width: 450px;
+
+    line-height: 1.5;
+
+}
+
+#errorBack {
+
+    margin-top: 15px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    padding: 12px 20px;
+
+    background: #fff;
+
+    color: #000;
+
+    font-weight: bold;
+
+}
+
+
+/* =========================================================
+   AVISO RETRATO
+========================================================= */
+
+#portraitWarning {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 999998;
+
+    background: rgba(0,0,0,.96);
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-direction: column;
+
+    text-align: center;
+
+    padding: 25px;
+
+}
+
+#portraitWarning .rotateIcon {
+
+    font-size: 55px;
+
+    margin-bottom: 15px;
+
+}
+
+#portraitWarning strong {
+
+    font-size: 20px;
+
+}
+
+#portraitWarning span {
+
+    margin-top: 8px;
+
+    color: #aaa;
+
+}
+
+
+/* =========================================================
+   HORIZONTAL
+========================================================= */
+
+@media screen and (orientation: landscape) {
+
+    #topbar {
+
+        height: 45px;
 
     }
 
-    #game{
+    #game {
 
-        top:50px;
-
-        height:
-            calc(100% - 50px);
+        width: 100vw;
+        height: 100vh;
 
     }
 
-    #startTitle{
+}
 
-        font-size:24px;
+
+/* =========================================================
+   RETRATO
+========================================================= */
+
+@media screen and (orientation: portrait)
+       and (max-width: 800px) {
+
+    #portraitWarning {
+
+        display: flex;
 
     }
+
+    #topbar {
+
+        display: none;
+
+    }
+
+}
+
+
+/* =========================================================
+   CELULAR HORIZONTAL
+========================================================= */
+
+@media screen
+       and (orientation: landscape)
+       and (max-height: 600px) {
+
+    #topbar {
+
+        height: 38px;
+
+        padding:
+            3px
+            8px;
+
+    }
+
+    #backButton {
+
+        padding: 5px 9px;
+
+        font-size: 12px;
+
+    }
+
+    #gameTitle {
+
+        font-size: 12px;
+
+    }
+
+    #startIcon {
+
+        font-size: 42px;
+
+    }
+
+    #startTitle {
+
+        font-size: 22px;
+
+    }
+
+    #startSystem {
+
+        margin-bottom: 14px;
+
+    }
+
+    #startButton {
+
+        padding: 11px 24px;
+
+        font-size: 15px;
+
+    }
+
+}
+
+
+/* =========================================================
+   TELA MUITO BAIXA
+========================================================= */
+
+@media screen
+       and (orientation: landscape)
+       and (max-height: 400px) {
+
+    #startIcon {
+
+        display: none;
+
+    }
+
+    #startTitle {
+
+        font-size: 19px;
+
+        margin-bottom: 5px;
+
+    }
+
+    #startSystem {
+
+        margin-bottom: 10px;
+
+    }
+
+}
+
+
+/* =========================================================
+   FULLSCREEN
+========================================================= */
+
+:fullscreen {
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    background: #000 !important;
+
+}
+
+:-webkit-full-screen {
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    background: #000 !important;
 
 }
 
@@ -263,46 +566,50 @@ body{
 <body>
 
 
-<!-- ========================================
+<!-- ========================================================
+     EMULADOR
+========================================================= -->
+
+<div id="game"></div>
+
+
+<!-- ========================================================
      BARRA
-========================================= -->
+========================================================= -->
 
 <div id="topbar">
 
     <button
-        id="back"
+        id="backButton"
         onclick="goBack()">
 
         ← Voltar
 
     </button>
 
-    <div id="title">
+    <div id="gameTitle">
         Retro Player
     </div>
 
 </div>
 
 
-<!-- ========================================
-     EMULADOR
-========================================= -->
-
-<div id="game"></div>
-
-
-<!-- ========================================
+<!-- ========================================================
      TELA DE INÍCIO
-========================================= -->
+========================================================= -->
 
 <div id="startScreen">
 
-    <div id="startTitle">
-        🎮 Retro Player
+    <div id="startIcon">
+        🎮
     </div>
 
-    <div id="startInfo">
-        Carregando jogo...
+    <div id="startTitle">
+        Retro Player
+    </div>
+
+    <div id="startSystem">
+        Carregando...
     </div>
 
     <button
@@ -314,17 +621,66 @@ body{
     </button>
 
     <div id="loading">
+
         Carregando EmulatorJS...
+
     </div>
+
+</div>
+
+
+<!-- ========================================================
+     ERRO
+========================================================= -->
+
+<div id="errorScreen">
+
+    <h2>
+        ❌ Não foi possível abrir o jogo
+    </h2>
+
+    <p id="errorText">
+        Verifique o endereço da ROM.
+    </p>
+
+    <button
+        id="errorBack"
+        onclick="goBack()">
+
+        ← Voltar para os jogos
+
+    </button>
+
+</div>
+
+
+<!-- ========================================================
+     AVISO RETRATO
+========================================================= -->
+
+<div id="portraitWarning">
+
+    <div class="rotateIcon">
+        📱↻
+    </div>
+
+    <strong>
+        Vire o celular
+    </strong>
+
+    <span>
+        Coloque o celular na horizontal
+        para jogar.
+    </span>
 
 </div>
 
 
 <script>
 
-/* ==========================================
+/* =========================================================
    CONFIGURAÇÃO
-========================================== */
+========================================================= */
 
 const GITHUB_USER =
     "Rique106br";
@@ -336,13 +692,17 @@ const GITHUB_BRANCH =
     "main";
 
 
-const EMULATOR_DATA =
+/*
+   Versão estável do EmulatorJS.
+*/
+
+const EJS_DATA =
     "https://cdn.emulatorjs.org/stable/data/";
 
 
-/* ==========================================
+/* =========================================================
    ELEMENTOS
-========================================== */
+========================================================= */
 
 const startScreen =
     document.getElementById(
@@ -354,9 +714,14 @@ const startButton =
         "startButton"
     );
 
-const startInfo =
+const startTitle =
     document.getElementById(
-        "startInfo"
+        "startTitle"
+    );
+
+const startSystem =
+    document.getElementById(
+        "startSystem"
     );
 
 const loading =
@@ -364,15 +729,25 @@ const loading =
         "loading"
     );
 
-const title =
+const gameTitle =
     document.getElementById(
-        "title"
+        "gameTitle"
+    );
+
+const errorScreen =
+    document.getElementById(
+        "errorScreen"
+    );
+
+const errorText =
+    document.getElementById(
+        "errorText"
     );
 
 
-/* ==========================================
-   PEGAR JOGO DA URL
-========================================== */
+/* =========================================================
+   PEGAR PARÂMETRO DA URL
+========================================================= */
 
 const params =
     new URLSearchParams(
@@ -384,53 +759,119 @@ const gamePath =
     params.get("game");
 
 
-/* ==========================================
-   FORMATAR NOME
-========================================== */
+/* =========================================================
+   NORMALIZAR CAMINHO
+========================================================= */
 
-function niceName(path){
+function normalizePath(path) {
 
-    const filename =
-        path.split("/").pop();
+    if (!path) {
+        return "";
+    }
+
+    return decodeURIComponent(path)
+        .replace(/^\/+/, "")
+        .replace(/\\/g, "/");
+
+}
+
+
+/* =========================================================
+   CAMINHO DA ROM
+========================================================= */
+
+const normalizedGamePath =
+    normalizePath(gamePath);
+
+
+/* =========================================================
+   PEGAR NOME DO JOGO
+========================================================= */
+
+function getGameName(path) {
+
+    if (!path) {
+        return "Retro Player";
+    }
+
+    const parts =
+        path.split("/");
+
+    let filename =
+        parts[parts.length - 1];
+
+    filename =
+        filename.replace(
+            /\.[^/.]+$/,
+            ""
+        );
 
     return filename
-        .replace(/\.[^/.]+$/, "")
-        .replace(/[_-]+/g," ")
-        .replace(/\s+/g," ")
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ")
         .trim();
 
 }
 
 
-/* ==========================================
-   DESCOBRIR SISTEMA
-========================================== */
+/* =========================================================
+   PEGAR EXTENSÃO
+========================================================= */
 
-function getSystem(path){
+function getExtension(path) {
+
+    const match =
+        path.match(
+            /\.([^.\/]+)$/
+        );
+
+    if (!match) {
+        return "";
+    }
+
+    return match[1]
+        .toLowerCase();
+
+}
+
+
+/* =========================================================
+   DESCOBRIR SISTEMA
+========================================================= */
+
+function getSystem(path) {
 
     const lower =
         path.toLowerCase();
 
 
-    if(
-        lower.startsWith("gb/") ||
+    /*
+       GAME BOY
+    */
+
+    if (
         lower.endsWith(".gb") ||
-        lower.endsWith(".gbc")
-    ){
+        lower.endsWith(".gbc") ||
+        lower.startsWith("gb/")
+    ) {
 
         return "gb";
 
     }
 
 
-    if(
-        lower.startsWith("snes/") ||
+    /*
+       SNES
+    */
+
+    if (
         lower.endsWith(".sfc") ||
         lower.endsWith(".smc") ||
         lower.endsWith(".fig") ||
         lower.endsWith(".swc") ||
-        lower.endsWith(".bsx")
-    ){
+        lower.endsWith(".bsx") ||
+        lower.startsWith("snes/")
+    ) {
 
         return "snes";
 
@@ -442,51 +883,97 @@ function getSystem(path){
 }
 
 
-/* ==========================================
-   VALIDAR
-========================================== */
+/* =========================================================
+   DADOS DO JOGO
+========================================================= */
 
-if(!gamePath){
+const gameName =
+    getGameName(
+        normalizedGamePath
+    );
 
-    startInfo.innerHTML =
-        "❌ Nenhum jogo foi informado.";
-
-    startButton.style.display =
-        "none";
-
-}else{
-
-    const gameName =
-        niceName(gamePath);
-
-    const system =
-        getSystem(gamePath);
+const system =
+    getSystem(
+        normalizedGamePath
+    );
 
 
-    title.textContent =
-        gameName;
+/* =========================================================
+   MOSTRAR NOME
+========================================================= */
+
+startTitle.textContent =
+    gameName;
+
+gameTitle.textContent =
+    gameName;
 
 
-    startInfo.innerHTML =
-        "🎮 " +
-        gameName +
-        "<br>" +
-        (
-            system === "gb"
-                ? "Game Boy"
-                : system === "snes"
-                    ? "Super Nintendo"
-                    : "Sistema desconhecido"
-        );
+/* =========================================================
+   MOSTRAR SISTEMA
+========================================================= */
+
+if (system === "gb") {
+
+    startSystem.textContent =
+        "🎮 Game Boy";
+
+}
+else if (system === "snes") {
+
+    startSystem.textContent =
+        "🕹️ Super Nintendo";
+
+}
+else {
+
+    startSystem.textContent =
+        "❓ Sistema não reconhecido";
 
 }
 
 
-/* ==========================================
-   URL DA ROM
-========================================== */
+/* =========================================================
+   VALIDAR URL
+========================================================= */
 
-function getRomURL(path){
+if (
+    !normalizedGamePath ||
+    !system
+) {
+
+    startScreen.style.display =
+        "none";
+
+    errorScreen.style.display =
+        "flex";
+
+    errorText.textContent =
+        "A URL precisa conter um jogo válido. " +
+        "Exemplo: player.html?game=gb/pokemon_red.gb";
+
+}
+
+
+/* =========================================================
+   GERAR URL DA ROM
+========================================================= */
+
+function getRomURL(path) {
+
+    /*
+       encodeURIComponent não é usado no caminho
+       inteiro porque precisamos manter as barras.
+    */
+
+    const encodedPath =
+        path
+            .split("/")
+            .map(part =>
+                encodeURIComponent(part)
+            )
+            .join("/");
+
 
     return (
         "https://raw.githubusercontent.com/" +
@@ -496,45 +983,64 @@ function getRomURL(path){
         "/" +
         GITHUB_BRANCH +
         "/" +
-        path
+        encodedPath
     );
 
 }
 
 
-/* ==========================================
+/* =========================================================
    FULLSCREEN
-========================================== */
+========================================================= */
 
-async function requestFullscreen(){
+async function enterFullscreen() {
 
-    try{
+    try {
 
-        const element =
-            document.documentElement;
+        if (
+            !document.fullscreenElement &&
+            document.documentElement.requestFullscreen
+        ) {
 
-
-        if(
-            document.fullscreenElement
-        ){
-
-            return;
+            await document.documentElement
+                .requestFullscreen();
 
         }
 
-
-        if(
-            element.requestFullscreen
-        ){
-
-            await element.requestFullscreen();
-
-        }
-
-    }catch(error){
+    }
+    catch (error) {
 
         console.log(
-            "Fullscreen não disponível:",
+            "Fullscreen bloqueado:",
+            error
+        );
+
+    }
+
+
+    /*
+       Alguns navegadores Android permitem
+       travar a orientação depois do fullscreen.
+    */
+
+    try {
+
+        if (
+            screen.orientation &&
+            screen.orientation.lock
+        ) {
+
+            await screen.orientation.lock(
+                "landscape"
+            );
+
+        }
+
+    }
+    catch (error) {
+
+        console.log(
+            "Orientação automática não disponível:",
             error
         );
 
@@ -543,60 +1049,125 @@ async function requestFullscreen(){
 }
 
 
-/* ==========================================
-   INICIAR
-========================================== */
+/* =========================================================
+   TENTAR ORIENTAÇÃO HORIZONTAL
+========================================================= */
 
-function startGame(){
+async function forceLandscape() {
 
-    if(!gamePath){
+    try {
 
-        return;
+        if (
+            screen.orientation &&
+            screen.orientation.lock
+        ) {
+
+            await screen.orientation.lock(
+                "landscape"
+            );
+
+            return true;
+
+        }
 
     }
+    catch (error) {
 
-
-    const system =
-        getSystem(gamePath);
-
-
-    if(!system){
-
-        alert(
-            "Formato de ROM não reconhecido."
+        console.log(
+            "Não foi possível bloquear landscape:",
+            error
         );
 
+    }
+
+    return false;
+
+}
+
+
+/* =========================================================
+   CRIAR ID DO JOGO
+========================================================= */
+
+function createGameID(path) {
+
+    let hash = 0;
+
+
+    for (
+        let i = 0;
+        i < path.length;
+        i++
+    ) {
+
+        hash =
+            (
+                (
+                    hash << 5
+                )
+                -
+                hash
+                +
+                path.charCodeAt(i)
+            ) | 0;
+
+    }
+
+
+    return Math.abs(hash);
+
+}
+
+
+/* =========================================================
+   INICIAR EMULADOR
+========================================================= */
+
+async function startGame() {
+
+    if (
+        !normalizedGamePath ||
+        !system
+    ) {
+
         return;
 
     }
 
 
-    const rom =
-        getRomURL(gamePath);
+    /*
+       O fullscreen precisa ser chamado
+       durante o toque do usuário.
+    */
+
+    await enterFullscreen();
 
 
-    const gameName =
-        niceName(gamePath);
+    /*
+       Tenta travar em horizontal.
+    */
+
+    await forceLandscape();
 
 
-    /* FULLSCREEN */
+    /*
+       Atualiza interface.
+    */
 
-    requestFullscreen();
+    startButton.disabled =
+        true;
 
-
-    /* ESCONDER TELA */
-
-    startScreen.style.display =
-        "none";
-
+    startButton.textContent =
+        "⏳ CARREGANDO...";
 
     loading.style.display =
         "block";
 
 
-    /* ======================================
-       CONFIGURAÇÃO EMULATORJS
-    ====================================== */
+    /*
+       Configuração principal
+       do EmulatorJS.
+    */
 
     window.EJS_player =
         "#game";
@@ -607,44 +1178,45 @@ function startGame(){
 
 
     window.EJS_gameUrl =
-        rom;
+        getRomURL(
+            normalizedGamePath
+        );
 
 
     window.EJS_gameName =
         gameName;
 
 
-    window.EJS_pathtodata =
-        EMULATOR_DATA;
+    window.EJS_gameID =
+        createGameID(
+            normalizedGamePath
+        );
 
+
+    window.EJS_pathtodata =
+        EJS_DATA;
+
+
+    /*
+       Inicia automaticamente
+       depois que o loader carregar.
+    */
 
     window.EJS_startOnLoaded =
         true;
 
 
+    /*
+       O fullscreen já foi solicitado
+       pelo botão do usuário.
+    */
+
     window.EJS_fullscreenOnLoaded =
         false;
 
 
-    window.EJS_language =
-        "pt-BR";
-
-
-    window.EJS_disableAutoLang =
-        false;
-
-
-    window.EJS_volume =
-        0.8;
-
-
-    window.EJS_biosUrl =
-        "";
-
-
     /*
-       Controle virtual específico
-       para o sistema.
+       Esquema dos controles virtuais.
     */
 
     window.EJS_controlScheme =
@@ -652,37 +1224,76 @@ function startGame(){
 
 
     /*
-       Salva jogo automaticamente
-       quando possível.
+       Idioma.
     */
 
-    window.EJS_gameID =
-        createGameID(gamePath);
+    window.EJS_language =
+        "pt-BR";
 
 
     /*
-       NÃO usar threads porque
-       GitHub Pages não permite
-       configurar COOP/COEP.
+       Sem BIOS.
+    */
+
+    window.EJS_biosUrl =
+        "";
+
+
+    /*
+       Sem threads.
+       GitHub Pages não permite configurar
+       COOP/COEP para SharedArrayBuffer.
     */
 
     window.EJS_threads =
         false;
 
 
-    /* ======================================
-       CARREGAR EMULATORJS
-    ====================================== */
+    /*
+       Volume inicial.
+    */
 
-    const oldScript =
+    window.EJS_volume =
+        0.8;
+
+
+    /*
+       Não usar mouse.
+    */
+
+    window.EJS_mouse =
+        false;
+
+
+    /*
+       Multitap desligado.
+    */
+
+    window.EJS_multitap =
+        false;
+
+
+    /*
+       Cor da interface.
+    */
+
+    window.EJS_color =
+        "#ffffff";
+
+
+    /*
+       Carregar o EmulatorJS.
+    */
+
+    const existing =
         document.getElementById(
-            "emulatorLoader"
+            "emulatorjs-loader"
         );
 
 
-    if(oldScript){
+    if (existing) {
 
-        oldScript.remove();
+        existing.remove();
 
     }
 
@@ -694,16 +1305,45 @@ function startGame(){
 
 
     script.id =
-        "emulatorLoader";
+        "emulatorjs-loader";
 
 
     script.src =
-        EMULATOR_DATA +
+        EJS_DATA +
         "loader.js";
 
 
     script.async =
         true;
+
+
+    script.onload =
+        function () {
+
+            console.log(
+                "EmulatorJS carregado."
+            );
+
+        };
+
+
+    script.onerror =
+        function () {
+
+            startButton.disabled =
+                false;
+
+            startButton.textContent =
+                "▶ TENTAR NOVAMENTE";
+
+            loading.style.display =
+                "none";
+
+            alert(
+                "Não foi possível carregar o EmulatorJS."
+            );
+
+        };
 
 
     document.body.appendChild(
@@ -713,68 +1353,108 @@ function startGame(){
 }
 
 
-/* ==========================================
-   ID DO JOGO
-========================================== */
-
-function createGameID(path){
-
-    let hash = 0;
-
-
-    for(
-        let i = 0;
-        i < path.length;
-        i++
-    ){
-
-        hash =
-            (
-                (
-                    hash << 5
-                ) -
-                hash +
-                path.charCodeAt(i)
-            ) |
-            0;
-
-    }
-
-
-    return Math.abs(hash);
-
-}
-
-
-/* ==========================================
+/* =========================================================
    VOLTAR
-========================================== */
+========================================================= */
 
-function goBack(){
+function goBack() {
 
-    if(
-        document.fullscreenElement
-    ){
+    /*
+       Sai do fullscreen antes de voltar.
+    */
 
-        if(
-            document.exitFullscreen
-        ){
+    if (
+        document.fullscreenElement &&
+        document.exitFullscreen
+    ) {
 
-            document
-                .exitFullscreen()
-                .catch(
-                    () => {}
-                );
-
-        }
+        document
+            .exitFullscreen()
+            .catch(
+                () => {}
+            );
 
     }
 
+
+    /*
+       Volta para o index.
+    */
 
     window.location.href =
         "index.html";
 
 }
+
+
+/* =========================================================
+   QUANDO SAI DO FULLSCREEN
+========================================================= */
+
+document.addEventListener(
+    "fullscreenchange",
+    function () {
+
+        console.log(
+            "Fullscreen:",
+            !!document.fullscreenElement
+        );
+
+    }
+);
+
+
+/* =========================================================
+   QUANDO MUDA A ORIENTAÇÃO
+========================================================= */
+
+if (screen.orientation) {
+
+    screen.orientation.addEventListener(
+        "change",
+        function () {
+
+            console.log(
+                "Orientação:",
+                screen.orientation.type
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   TENTAR HORIZONTAL QUANDO A PÁGINA
+   FOR ABERTA JÁ EM LANDSCAPE
+========================================================= */
+
+window.addEventListener(
+    "load",
+    function () {
+
+        /*
+           Não chamamos fullscreen aqui porque
+           o navegador pode bloquear sem toque.
+        */
+
+        console.log(
+            "Retro Player pronto."
+        );
+
+        console.log(
+            "Jogo:",
+            normalizedGamePath
+        );
+
+        console.log(
+            "Sistema:",
+            system
+        );
+
+    }
+);
 
 </script>
 
