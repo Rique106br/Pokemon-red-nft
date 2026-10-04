@@ -2,14 +2,10 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport"
-      content="width=device-width,
-               initial-scale=1,
-               maximum-scale=1,
-               user-scalable=no">
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>Retro Player</title>
+<title>Retro Games</title>
 
 <style>
 * {
@@ -19,954 +15,344 @@
 
 html,
 body {
+    margin: 0;
+    padding: 0;
     width: 100%;
     height: 100%;
-    margin: 0;
-    overflow: hidden;
-    background: #050505;
+    background: #080808;
     color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
 }
 
 body {
-    background:
-        radial-gradient(
-            circle at center,
-            #252525 0%,
-            #0b0b0b 55%,
-            #000 100%
-        );
+    display: flex;
+    flex-direction: column;
 }
 
+/* =========================
+   MENU
+========================= */
 
-/* ================================
-   APP
-================================ */
-
-#app {
-    width: 100%;
-    height: 100%;
-}
-
-
-/* ================================
-   TOPO
-================================ */
-
-#topbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-
-    height: 52px;
-
+#menu {
+    height: 58px;
+    min-height: 58px;
+    background: #111;
+    border-bottom: 1px solid #333;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 0 14px;
-
-    background: rgba(0,0,0,.9);
-
-    border-bottom: 1px solid #333;
-
-    z-index: 100;
+    z-index: 1000;
 }
 
-#logo {
-    font-size: 15px;
-    font-weight: bold;
+.logo {
+    font-weight: 900;
     letter-spacing: 2px;
+    font-size: 20px;
 }
 
-#game-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-
-    font-size: 13px;
-    color: #aaa;
-
-    max-width: 45vw;
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.buttons {
+.games {
     display: flex;
-    gap: 6px;
+    gap: 8px;
 }
 
-button {
-    border: 1px solid #444;
-
+.games button {
+    border: 1px solid #555;
     background: #222;
-
     color: white;
-
-    padding: 8px 11px;
-
+    padding: 9px 12px;
     border-radius: 7px;
-
+    font-weight: bold;
     cursor: pointer;
-
-    font-size: 12px;
 }
 
-button:active {
-    transform: scale(.94);
+.games button:hover {
+    background: #333;
 }
 
+.games button.active {
+    background: #fff;
+    color: #000;
+}
 
-/* ================================
-   ÁREA DO JOGO
-================================ */
+/* =========================
+   EMULATOR
+========================= */
 
-#game-container {
-    position: fixed;
-
-    top: 52px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
+#game {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 58px);
     background: #000;
-
     overflow: hidden;
 }
 
+/*
+   O EmulatorJS vai criar o canvas,
+   controles touch e menu dentro deste elemento.
+*/
 
-/* ================================
-   EMULADOR
-================================ */
-
-#emulator {
-    width: 100%;
-    height: 100%;
-
-    border: 0;
-
-    background: #000;
+#game canvas {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
 }
 
-
-/* ================================
+/* =========================
    CRT
-================================ */
+========================= */
 
 #crt {
-    position: absolute;
-
-    inset: 0;
-
     pointer-events: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 58px;
+    bottom: 0;
 
-    z-index: 20;
-
-    display: none;
+    z-index: 900;
 
     background:
         repeating-linear-gradient(
             to bottom,
-            rgba(255,255,255,.035) 0px,
-            rgba(255,255,255,.035) 1px,
-            rgba(0,0,0,.13) 2px,
-            rgba(0,0,0,.13) 4px
+            rgba(0,0,0,0.00) 0px,
+            rgba(0,0,0,0.00) 2px,
+            rgba(0,0,0,0.13) 3px
         );
-}
-
-
-/* brilho/vinheta */
-
-#crt::after {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        radial-gradient(
-            ellipse at center,
-            transparent 50%,
-            rgba(0,0,0,.18) 72%,
-            rgba(0,0,0,.6) 100%
-        );
-}
-
-
-/* ================================
-   MENU
-================================ */
-
-#menu {
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 200;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    background:
-        radial-gradient(
-            circle,
-            #1d1d1d,
-            #050505 70%
-        );
-}
-
-.menu-box {
-    width: min(92vw, 480px);
-
-    padding: 30px;
-
-    border-radius: 16px;
-
-    background: #131313;
-
-    border: 1px solid #333;
 
     box-shadow:
-        0 30px 80px rgba(0,0,0,.8);
-
-    text-align: center;
+        inset 0 0 80px rgba(0,0,0,0.55);
 }
 
-.menu-box h1 {
-    margin: 0 0 8px;
-
-    font-size: 28px;
-}
-
-.menu-box p {
-    margin: 0 0 25px;
-
-    color: #888;
-}
-
-.game-list {
-    display: grid;
-
-    gap: 10px;
-}
-
-.game {
-    width: 100%;
-
-    padding: 16px;
-
-    text-align: left;
-
-    background: #1e1e1e;
-
-    border: 1px solid #333;
-
-    border-radius: 10px;
-
-    font-size: 15px;
-}
-
-.game:hover {
-    background: #292929;
-}
-
-.game small {
-    display: block;
-
-    margin-top: 5px;
-
-    color: #777;
-}
-
-
-/* ================================
-   CARREGANDO
-================================ */
-
-#loading {
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 500;
-
-    display: none;
-
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(0,0,0,.9);
-}
-
-.loader {
-    text-align: center;
-}
-
-.spinner {
-    width: 45px;
-    height: 45px;
-
-    margin: 0 auto 15px;
-
-    border: 4px solid #333;
-
-    border-top-color: white;
-
-    border-radius: 50%;
-
-    animation:
-        spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-
-/* ================================
+/* =========================
    MOBILE
-================================ */
+========================= */
 
-@media(max-width:700px) {
+@media (max-width: 700px) {
 
-    #topbar {
-        height: 48px;
-        padding: 0 8px;
+    #menu {
+        height: 50px;
+        min-height: 50px;
+        padding: 0 9px;
     }
 
-    #logo {
-        font-size: 12px;
+    .logo {
+        font-size: 15px;
     }
 
-    #game-title {
-        display: none;
+    .games button {
+        font-size: 11px;
+        padding: 7px 8px;
     }
 
-    #game-container {
-        top: 48px;
+    #game {
+        height: calc(100vh - 50px);
     }
 
-    button {
-        padding: 7px 9px;
+    #crt {
+        top: 50px;
     }
 }
 </style>
 </head>
 
-
 <body>
 
+<header id="menu">
 
-<!-- =================================
-     APP
-================================= -->
+    <div class="logo">
+        RETRO
+    </div>
 
-<div id="app">
+    <div class="games">
 
+        <button
+            id="gbButton"
+            onclick="loadGame('gb')">
+            Pokémon Red
+        </button>
 
-    <!-- TOPO -->
-
-    <div id="topbar">
-
-        <div id="logo">
-            RETRO
-        </div>
-
-        <div id="game-title">
-            Nenhum jogo
-        </div>
-
-        <div class="buttons">
-
-            <button onclick="toggleCRT()">
-                CRT
-            </button>
-
-            <button onclick="fullscreen()">
-                ⛶
-            </button>
-
-            <button onclick="showMenu()">
-                ☰
-            </button>
-
-        </div>
+        <button
+            id="gbaButton"
+            onclick="loadGame('gba')">
+            Pokémon FireRed
+        </button>
 
     </div>
 
+</header>
 
-    <!-- JOGO -->
+<div id="game"></div>
 
-    <div id="game-container">
-
-        <iframe
-            id="emulator"
-            title="Retro Emulator"
-            allow="
-                autoplay;
-                fullscreen;
-                gamepad;
-                clipboard-read;
-                clipboard-write
-            "
-            allowfullscreen>
-        </iframe>
-
-        <div id="crt"></div>
-
-    </div>
-
-</div>
-
-
-
-<!-- =================================
-     MENU
-================================= -->
-
-<div id="menu">
-
-    <div class="menu-box">
-
-        <h1>
-            🎮 RETRO PLAYER
-        </h1>
-
-        <p>
-            Game Boy • Game Boy Color • Game Boy Advance
-        </p>
-
-
-        <div class="game-list">
-
-
-            <!-- ========================
-                 POKÉMON RED
-            ========================= -->
-
-            <button
-                class="game"
-                onclick="startGame('pokemon-red')">
-
-                🔴 Pokémon Red
-
-                <small>
-                    Game Boy • visual GBC
-                </small>
-
-            </button>
-
-
-            <!-- ========================
-                 POKÉMON FIRE RED
-            ========================= -->
-
-            <button
-                class="game"
-                onclick="startGame('pokemon-firered')">
-
-                🔥 Pokémon FireRed
-
-                <small>
-                    Game Boy Advance • CRT
-                </small>
-
-            </button>
-
-
-        </div>
-
-    </div>
-
-</div>
-
-
-
-<!-- =================================
-     LOADING
-================================= -->
-
-<div id="loading">
-
-    <div class="loader">
-
-        <div class="spinner"></div>
-
-        <div>
-            Carregando jogo...
-        </div>
-
-    </div>
-
-</div>
-
+<div id="crt"></div>
 
 
 <script>
 
-/*
-==========================================================
- JOGOS
-==========================================================
-*/
+/* =========================================================
+   CONFIGURAÇÃO DOS JOGOS
+========================================================= */
 
 const games = {
 
-    "pokemon-red": {
-
-        title: "Pokémon Red",
-
-        /*
-         * Caminho da ROM dentro do seu GitHub Pages.
-         */
-
-        rom: "gb/pokemon_red.gb",
-
-        /*
-         * mGBA é o core que o WebRetro usa
-         * para GB/GBC/GBA.
-         */
-
-        core: "mgba",
-
-        crt: false
-
+    gb: {
+        name: "Pokemon Red",
+        core: "gb",
+        rom: "gb/pokemon_red.gb"
     },
 
-
-    "pokemon-firered": {
-
-        title: "Pokémon FireRed",
-
-        rom: "gba/pokemon_firered.gba",
-
-        core: "mgba",
-
-        crt: true
-
+    gba: {
+        name: "Pokemon FireRed",
+        core: "gba",
+        rom: "gba/pokemon_firered.gba"
     }
 
 };
 
 
-/*
-==========================================================
- WEBRETRO
-==========================================================
-*/
+/* =========================================================
+   LÊ O JOGO PELA URL
+========================================================= */
 
-const WEBRETRO =
-    "https://binbashbanana.github.io/webretro/";
+const params = new URLSearchParams(window.location.search);
 
+let selectedGame = params.get("game") || "gb";
 
-/*
-==========================================================
- ELEMENTOS
-==========================================================
-*/
-
-const emulator =
-    document.getElementById("emulator");
-
-const menu =
-    document.getElementById("menu");
-
-const loading =
-    document.getElementById("loading");
-
-const title =
-    document.getElementById("game-title");
-
-const crt =
-    document.getElementById("crt");
-
-
-/*
-==========================================================
- TRANSFORMA CAMINHO LOCAL EM URL ABSOLUTA
-==========================================================
-*/
-
-function getRomURL(path) {
-
-    /*
-     * Se o site estiver em:
-     *
-     * https://usuario.github.io/retro/
-     *
-     * isto vai gerar:
-     *
-     * https://usuario.github.io/retro/gb/pokemon_red.gb
-     *
-     */
-
-    return new URL(
-        path,
-        window.location.href
-    ).href;
-
+if (!games[selectedGame]) {
+    selectedGame = "gb";
 }
 
 
-/*
-==========================================================
- INICIAR JOGO
-==========================================================
-*/
+/* =========================================================
+   CARREGA EMULATORJS
+========================================================= */
 
-function startGame(id) {
+function loadGame(gameId) {
 
-    const game = games[id];
+    const game = games[gameId];
 
     if (!game) {
-
-        alert("Jogo não encontrado.");
-
         return;
     }
 
+    selectedGame = gameId;
 
     /*
-     * Mostra carregamento.
+     * Atualiza URL sem recarregar a página
      */
-
-    loading.style.display =
-        "flex";
-
-
-    /*
-     * Nome do jogo.
-     */
-
-    title.textContent =
-        game.title;
-
-
-    /*
-     * URL absoluta da ROM.
-     */
-
-    const romURL =
-        getRomURL(game.rom);
-
-
-    /*
-     * Parâmetros do WebRetro.
-     */
-
-    const params =
-        new URLSearchParams();
-
-
-    params.set(
-        "core",
-        game.core
-    );
-
-
-    params.set(
-        "rom",
-        romURL
-    );
-
-
-    /*
-     * Importante:
-     *
-     * O WebRetro precisa buscar a ROM
-     * no endereço absoluto.
-     */
-
-    const emulatorURL =
-        WEBRETRO +
-        "?" +
-        params.toString();
-
-
-    /*
-     * Carrega o emulador.
-     */
-
-    emulator.src =
-        emulatorURL;
-
-
-    /*
-     * CRT:
-     *
-     * FireRed = ON
-     * Pokémon Red = OFF
-     */
-
-    if (game.crt) {
-
-        crt.style.display =
-            "block";
-
-    } else {
-
-        crt.style.display =
-            "none";
-
-    }
-
-
-    /*
-     * Esconde menu.
-     */
-
-    menu.style.display =
-        "none";
-
-
-    /*
-     * Salva o jogo atual.
-     */
-
-    localStorage.setItem(
-        "retro-game",
-        id
-    );
-
-
-    /*
-     * Cria link individual.
-     *
-     * Exemplo:
-     *
-     * ?game=pokemon-red
-     */
-
-    const url =
+    const newUrl =
         window.location.pathname +
         "?game=" +
-        encodeURIComponent(id);
+        encodeURIComponent(gameId);
 
+    window.history.replaceState({}, "", newUrl);
 
-    history.replaceState(
-        null,
-        "",
-        url
-    );
 
-}
+    /*
+     * Botões
+     */
 
+    document
+        .getElementById("gbButton")
+        .classList.toggle("active", gameId === "gb");
 
-/*
-==========================================================
- QUANDO O IFRAME TERMINAR DE CARREGAR
-==========================================================
-*/
+    document
+        .getElementById("gbaButton")
+        .classList.toggle("active", gameId === "gba");
 
-emulator.addEventListener(
-    "load",
-    function() {
 
-        loading.style.display =
-            "none";
+    /*
+     * Limpa emulador anterior
+     */
 
-    }
-);
+    document.getElementById("game").innerHTML = "";
 
 
-/*
-==========================================================
- CRT
-==========================================================
-*/
+    /*
+     * Variáveis oficiais do EmulatorJS
+     */
 
-let crtOn = true;
+    window.EJS_player = "#game";
 
+    window.EJS_core = game.core;
 
-function toggleCRT() {
+    window.EJS_gameUrl = game.rom;
 
-    crtOn = !crtOn;
+    /*
+     * Data do EmulatorJS
+     */
+    window.EJS_pathtodata =
+        "https://cdn.emulatorjs.org/stable/data/";
 
+    /*
+     * Nome do jogo
+     */
+    window.EJS_gameName = game.name;
 
-    if (crtOn) {
+    /*
+     * Começa automaticamente
+     */
+    window.EJS_startOnLoaded = true;
 
-        /*
-         * Só mostra se o jogo atual
-         * estiver configurado com CRT.
-         */
+    /*
+     * Controle virtual para celular
+     */
+    window.EJS_VirtualGamepadSettings = [];
 
-        const id =
-            getCurrentGame();
+    /*
+     * Usa o esquema de controles correto.
+     */
+    window.EJS_controlScheme = game.core;
 
-        if (
-            id &&
-            games[id] &&
-            games[id].crt
-        ) {
+    /*
+     * Cor da interface
+     */
+    window.EJS_color = "#e0e0e0";
 
-            crt.style.display =
-                "block";
+    /*
+     * Idioma
+     */
+    window.EJS_language = 7;
 
-        }
 
-    } else {
+    /*
+     * Garante que o loader antigo seja removido.
+     */
 
-        crt.style.display =
-            "none";
+    const oldLoader =
+        document.getElementById("emulatorjs-loader");
 
-    }
-
-}
-
-
-/*
-==========================================================
- DESCOBRIR JOGO ATUAL
-==========================================================
-*/
-
-function getCurrentGame() {
-
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
-
-    return params.get("game");
-
-}
-
-
-/*
-==========================================================
- MENU
-==========================================================
-*/
-
-function showMenu() {
-
-    emulator.src =
-        "about:blank";
-
-
-    menu.style.display =
-        "flex";
-
-
-    title.textContent =
-        "Nenhum jogo";
-
-
-    crt.style.display =
-        "none";
-
-
-    history.replaceState(
-        null,
-        "",
-        window.location.pathname
-    );
-
-}
-
-
-/*
-==========================================================
- FULLSCREEN
-==========================================================
-*/
-
-function fullscreen() {
-
-    const target =
-        document.documentElement;
-
-
-    if (
-        !document.fullscreenElement
-    ) {
-
-        if (
-            target.requestFullscreen
-        ) {
-
-            target.requestFullscreen();
-
-        }
-
-    } else {
-
-        if (
-            document.exitFullscreen
-        ) {
-
-            document.exitFullscreen();
-
-        }
-
-    }
-
-}
-
-
-/*
-==========================================================
- ABRIR JOGO PELO LINK
-==========================================================
-*/
-
-function loadFromLink() {
-
-    const id =
-        getCurrentGame();
-
-
-    if (!id) {
-
-        return;
-
+    if (oldLoader) {
+        oldLoader.remove();
     }
 
 
-    if (!games[id]) {
+    /*
+     * Carrega EmulatorJS
+     */
 
-        alert(
-            "Esse jogo não existe no catálogo."
-        );
+    const script = document.createElement("script");
 
-        return;
+    script.id = "emulatorjs-loader";
 
-    }
+    script.src =
+        "https://cdn.emulatorjs.org/stable/data/loader.js";
 
+    script.async = true;
 
-    startGame(id);
-
+    document.body.appendChild(script);
 }
 
 
-/*
-==========================================================
- INICIALIZAÇÃO
-==========================================================
-*/
+/* =========================================================
+   INICIA
+========================================================= */
 
-window.addEventListener(
-    "DOMContentLoaded",
-    function() {
+document.addEventListener("DOMContentLoaded", function () {
 
-        loadFromLink();
+    loadGame(selectedGame);
 
-    }
-);
+});
 
 </script>
 
