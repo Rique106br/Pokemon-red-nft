@@ -17,10 +17,6 @@
 
 <style>
 
-/* =====================================================
-   RESET
-===================================================== */
-
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -32,34 +28,27 @@ body {
     padding: 0;
 
     width: 100%;
-    height: 100%;
+    min-height: 100%;
 
-    background: #000;
-
+    background: #080808;
     color: white;
 
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    overflow: hidden;
+    font-family: Arial, sans-serif;
 }
 
-
-/* =====================================================
+/* =========================
    MENU
-===================================================== */
+========================= */
 
 #topbar {
 
-    position: fixed;
+    position: sticky;
 
     top: 0;
-    left: 0;
 
     width: 100%;
-    height: 58px;
+
+    min-height: 58px;
 
     display: flex;
 
@@ -67,15 +56,13 @@ body {
 
     justify-content: space-between;
 
-    padding: 0 14px;
+    padding: 8px 14px;
 
     background: #111;
 
-    border-bottom:
-        1px solid #333;
+    border-bottom: 1px solid #333;
 
-    z-index: 100000;
-
+    z-index: 10000;
 }
 
 .logo {
@@ -85,182 +72,288 @@ body {
     font-weight: 900;
 
     letter-spacing: 3px;
-
 }
 
-.games {
+.menu {
 
     display: flex;
 
-    gap: 8px;
+    gap: 7px;
 
+    flex-wrap: wrap;
+
+    justify-content: flex-end;
 }
 
-.games a {
+.menu a {
 
     color: white;
 
     background: #222;
 
-    border:
-        1px solid #555;
+    border: 1px solid #555;
 
     border-radius: 8px;
 
-    padding:
-        9px 12px;
+    padding: 9px 12px;
 
     text-decoration: none;
 
-    font-size: 14px;
+    font-size: 13px;
 
     font-weight: bold;
-
 }
 
-.games a.active {
+.menu a.active {
 
     background: white;
 
     color: black;
-
 }
 
 
-/* =====================================================
-   EMULATOR
-===================================================== */
+/* =========================
+   LISTA
+========================= */
+
+#library {
+
+    padding: 18px;
+
+    max-width: 900px;
+
+    margin: auto;
+}
+
+.title {
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    margin-bottom: 14px;
+}
+
+#search {
+
+    width: 100%;
+
+    padding: 14px;
+
+    margin-bottom: 18px;
+
+    background: #191919;
+
+    color: white;
+
+    border: 1px solid #444;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    font-size: 16px;
+}
+
+#search:focus {
+
+    border-color: white;
+}
+
+
+/* =========================
+   JOGOS
+========================= */
+
+.system {
+
+    margin-bottom: 28px;
+}
+
+.system-title {
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    margin-bottom: 10px;
+
+    padding-bottom: 7px;
+
+    border-bottom: 1px solid #333;
+}
+
+.games {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(180px, 1fr));
+
+    gap: 10px;
+}
+
+.game {
+
+    display: block;
+
+    padding: 15px;
+
+    background: #1b1b1b;
+
+    border: 1px solid #333;
+
+    border-radius: 10px;
+
+    color: white;
+
+    text-decoration: none;
+
+    transition: .15s;
+}
+
+.game:hover {
+
+    background: #292929;
+
+    transform: translateY(-1px);
+}
+
+.game-name {
+
+    font-weight: bold;
+
+    word-break: break-word;
+}
+
+.game-file {
+
+    margin-top: 6px;
+
+    color: #888;
+
+    font-size: 11px;
+}
+
+
+/* =========================
+   CARREGANDO
+========================= */
+
+#loading {
+
+    text-align: center;
+
+    padding: 40px 15px;
+
+    color: #aaa;
+}
+
+#error {
+
+    display: none;
+
+    margin: 20px 0;
+
+    padding: 15px;
+
+    border-radius: 9px;
+
+    background: #241111;
+
+    border: 1px solid #6b2929;
+
+    color: #ff7777;
+}
+
+
+/* =========================
+   EMULADOR
+========================= */
+
+#emulator {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: black;
+
+    z-index: 50000;
+
+    display: none;
+}
 
 #game {
 
-    position: fixed;
-
-    top: 58px;
-    left: 0;
-
     width: 100%;
 
-    height:
-        calc(100% - 58px);
-
-    background: #000;
-
-    overflow: hidden;
-
+    height: 100%;
 }
 
 
-/*
-   O EmulatorJS coloca o canvas aqui.
-*/
+/* botão voltar */
 
-#game canvas {
-
-    image-rendering:
-        pixelated;
-
-}
-
-
-/* =====================================================
-   CRT
-===================================================== */
-
-#crt {
+#back {
 
     position: fixed;
 
-    top: 58px;
-    left: 0;
+    top: 10px;
 
-    width: 100%;
+    left: 10px;
 
-    height:
-        calc(100% - 58px);
+    z-index: 100000;
 
-    pointer-events: none;
+    padding: 10px 14px;
 
-    z-index: 90000;
+    border: 0;
 
-    background:
+    border-radius: 8px;
 
-        repeating-linear-gradient(
+    background: rgba(0,0,0,.75);
 
-            to bottom,
+    color: white;
 
-            rgba(0,0,0,0)
-            0px,
+    font-weight: bold;
 
-            rgba(0,0,0,0)
-            2px,
-
-            rgba(0,0,0,0.10)
-            3px
-
-        );
-
-    box-shadow:
-
-        inset 0 0 90px
-        rgba(0,0,0,0.45);
-
+    display: none;
 }
 
 
-/* =====================================================
+/* =========================
    MOBILE
-===================================================== */
+========================= */
 
-@media (max-width: 700px) {
+@media(max-width:700px) {
 
     #topbar {
 
-        height: 50px;
+        min-height: 50px;
 
-        padding:
-            0 8px;
-
+        padding: 7px 9px;
     }
 
     .logo {
 
         font-size: 16px;
+    }
 
-        letter-spacing: 2px;
+    .menu a {
 
+        font-size: 11px;
+
+        padding: 7px 8px;
+    }
+
+    #library {
+
+        padding: 14px;
     }
 
     .games {
 
-        gap: 5px;
-
-    }
-
-    .games a {
-
-        font-size: 11px;
-
-        padding:
-            8px 8px;
-
-    }
-
-    #game {
-
-        top: 50px;
-
-        height:
-            calc(100% - 50px);
-
-    }
-
-    #crt {
-
-        top: 50px;
-
-        height:
-            calc(100% - 50px);
-
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
 }
@@ -269,13 +362,12 @@ body {
 
 </head>
 
-
 <body>
 
 
-<!-- =====================================================
+<!-- =========================
      MENU
-===================================================== -->
+========================= -->
 
 <header id="topbar">
 
@@ -283,22 +375,14 @@ body {
         RETRO
     </div>
 
-    <nav class="games">
+    <nav class="menu">
 
-        <a
-            id="redButton"
-            href="?game=red">
-
-            Pokémon Red
-
+        <a href="#gb">
+            GAME BOY
         </a>
 
-        <a
-            id="fireButton"
-            href="?game=firered">
-
-            Pokémon FireRed
-
+        <a href="#snes">
+            SNES
         </a>
 
     </nav>
@@ -306,222 +390,623 @@ body {
 </header>
 
 
-<!-- =====================================================
-     EMULATORJS
-===================================================== -->
+<!-- =========================
+     BIBLIOTECA
+========================= -->
 
-<div id="game"></div>
+<main id="library">
+
+    <div class="title">
+        Biblioteca
+    </div>
+
+    <input
+        id="search"
+        type="search"
+        placeholder="🔎 Procurar jogo..."
+        autocomplete="off"
+    >
+
+    <div id="loading">
+        Procurando jogos...
+    </div>
+
+    <div id="error"></div>
+
+    <section
+        id="gb"
+        class="system"
+        style="display:none">
+
+        <div class="system-title">
+            🎮 Game Boy
+        </div>
+
+        <div
+            id="gbGames"
+            class="games">
+        </div>
+
+    </section>
 
 
-<!-- =====================================================
-     CRT
-===================================================== -->
+    <section
+        id="snes"
+        class="system"
+        style="display:none">
 
-<div id="crt"></div>
+        <div class="system-title">
+            🕹️ Super Nintendo
+        </div>
+
+        <div
+            id="snesGames"
+            class="games">
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================
+     EMULADOR
+========================= -->
+
+<div id="emulator">
+
+    <button id="back"
+            onclick="closeGame()">
+        ← Voltar
+    </button>
+
+    <div id="game"></div>
+
+</div>
 
 
 <script>
 
 /* =====================================================
-   ESCOLHER JOGO
+   CONFIGURAÇÃO DO REPOSITÓRIO
 ===================================================== */
 
-const params =
-    new URLSearchParams(
-        window.location.search
-    );
+/*
+   Seu site é:
 
-const selected =
-    params.get("game") || "red";
+   rique106br.github.io/Pokemon
+
+   Então:
+
+   usuário = rique106br
+   repositório = Pokemon
+*/
+
+const GITHUB_USER =
+    "rique106br";
+
+const GITHUB_REPO =
+    "Pokemon";
 
 
 /* =====================================================
-   CONFIGURAÇÃO DOS JOGOS
+   EXTENSÕES
 ===================================================== */
 
-const games = {
+const extensions = {
 
-    red: {
+    gb: [
+        ".gb",
+        ".gbc"
+    ],
 
-        name:
-            "Pokémon Red",
-
-        rom:
-            "gb/pokemon_red.gb",
-
-        core:
-            "gb"
-
-    },
-
-    firered: {
-
-        name:
-            "Pokémon FireRed",
-
-        rom:
-            "gba/pokemon_firered.gba",
-
-        core:
-            "mgba"
-
-    }
+    snes: [
+        ".sfc",
+        ".smc",
+        ".fig",
+        ".swc",
+        ".bsx"
+    ]
 
 };
 
 
 /* =====================================================
-   JOGO ATUAL
+   DADOS
 ===================================================== */
 
-const current =
-    games[selected] || games.red;
+let allGames = [];
 
 
 /* =====================================================
-   BOTÃO ATIVO
+   PEGAR ARQUIVOS DO GITHUB
 ===================================================== */
 
-if (selected === "firered") {
+async function getFolder(folder) {
 
-    document
-        .getElementById(
-            "fireButton"
-        )
-        .classList
-        .add("active");
+    const url =
+        "https://api.github.com/repos/" +
+        GITHUB_USER +
+        "/" +
+        GITHUB_REPO +
+        "/contents/" +
+        folder;
 
-} else {
+    const response =
+        await fetch(url);
 
-    document
-        .getElementById(
-            "redButton"
-        )
-        .classList
-        .add("active");
+    if (!response.ok) {
+
+        throw new Error(
+            "Não foi possível acessar a pasta " +
+            folder +
+            " (" +
+            response.status +
+            ")"
+        );
+
+    }
+
+    const files =
+        await response.json();
+
+    return files.filter(file =>
+        file.type === "file"
+    );
 
 }
 
 
 /* =====================================================
-   CONFIGURAÇÃO OFICIAL EMULATORJS
+   VER EXTENSÃO
 ===================================================== */
 
+function isValid(file, system) {
 
-/*
-   Elemento onde o emulator será criado.
-*/
+    const name =
+        file.name.toLowerCase();
 
-window.EJS_player =
-    "#game";
-
-
-/*
-   Sistema.
-
-   gb  = Game Boy / Game Boy Color
-   gba = Game Boy Advance
-*/
-
-window.EJS_core =
-    current.core;
-
-
-/*
-   Seu ROM.
-
-   O arquivo está no próprio GitHub Pages.
-*/
-
-window.EJS_gameUrl =
-    current.rom;
-
-
-/*
-   Nome utilizado pelo EmulatorJS
-   para saves e interface.
-*/
-
-window.EJS_gameName =
-    current.name;
-
-
-/*
-   BIOS não é necessária
-   para esses jogos.
-*/
-
-window.EJS_biosUrl =
-    "";
-
-
-/*
-   Diretório oficial de dados.
-*/
-
-window.EJS_pathtodata =
-    "https://cdn.emulatorjs.org/stable/data/";
-
-
-/*
-   Inicia automaticamente.
-*/
-
-window.EJS_startOnLoaded =
-    true;
-
-
-/*
-   Cor da interface.
-*/
-
-window.EJS_color =
-    "#ffffff";
-
-
-/*
-   Idioma.
-
-   Português.
-*/
-
-window.EJS_language =
-    7;
-
-
-/*
-   IMPORTANTE:
-
-   NÃO colocar:
-
-   EJS_VirtualGamepadSettings = [];
-
-   Assim o EmulatorJS pode usar
-   o Virtual Gamepad padrão.
-*/
+    return extensions[system]
+        .some(ext =>
+            name.endsWith(ext)
+        );
+}
 
 
 /* =====================================================
-   CARREGAR EMULATORJS
+   NOME BONITO
 ===================================================== */
 
-const script =
-    document.createElement("script");
+function cleanName(filename) {
+
+    return filename
+        .replace(/\.(gb|gbc|sfc|smc|fig|swc|bsx)$/i, "")
+        .replace(/[_-]+/g, " ")
+        .replace(/\b\w/g, c =>
+            c.toUpperCase()
+        );
+
+}
 
 
-script.src =
-    "https://cdn.emulatorjs.org/stable/data/loader.js";
+/* =====================================================
+   CRIAR CARD
+===================================================== */
+
+function createGame(file, system) {
+
+    const card =
+        document.createElement("a");
+
+    card.className =
+        "game";
+
+    card.href =
+        "?play=" +
+        encodeURIComponent(
+            file.download_url
+        ) +
+        "&core=" +
+        system +
+        "&name=" +
+        encodeURIComponent(
+            cleanName(file.name)
+        );
+
+    card.innerHTML =
+
+        '<div class="game-name">' +
+
+        cleanName(file.name) +
+
+        '</div>' +
+
+        '<div class="game-file">' +
+
+        file.name +
+
+        '</div>';
+
+    return card;
+}
 
 
-script.async =
-    true;
+/* =====================================================
+   MOSTRAR JOGOS
+===================================================== */
+
+function renderGames() {
+
+    const gbBox =
+        document.getElementById(
+            "gbGames"
+        );
+
+    const snesBox =
+        document.getElementById(
+            "snesGames"
+        );
+
+    gbBox.innerHTML = "";
+    snesBox.innerHTML = "";
+
+    let gbCount = 0;
+    let snesCount = 0;
+
+    allGames.forEach(game => {
+
+        const card =
+            createGame(
+                game.file,
+                game.system
+            );
+
+        if (game.system === "gb") {
+
+            gbBox.appendChild(card);
+
+            gbCount++;
+
+        }
+
+        if (game.system === "snes") {
+
+            snesBox.appendChild(card);
+
+            snesCount++;
+
+        }
+
+    });
 
 
-document.body
-    .appendChild(script);
+    document.getElementById("gb")
+        .style.display =
+        gbCount ? "block" : "none";
+
+
+    document.getElementById("snes")
+        .style.display =
+        snesCount ? "block" : "none";
+
+}
+
+
+/* =====================================================
+   PESQUISA
+===================================================== */
+
+document
+    .getElementById("search")
+    .addEventListener(
+        "input",
+        function() {
+
+            const query =
+                this.value
+                    .toLowerCase()
+                    .trim();
+
+            document
+                .querySelectorAll(".game")
+                .forEach(card => {
+
+                    const text =
+                        card.innerText
+                            .toLowerCase();
+
+                    card.style.display =
+                        text.includes(query)
+                            ? "block"
+                            : "none";
+
+                });
+
+        }
+    );
+
+
+/* =====================================================
+   PROCURAR AUTOMATICAMENTE
+===================================================== */
+
+async function scanGames() {
+
+    try {
+
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "block";
+
+
+        /*
+         * Procura GB e SNES
+         * ao mesmo tempo.
+         */
+
+        const [gb, snes] =
+            await Promise.all([
+
+                getFolder("gb"),
+
+                getFolder("snes")
+
+            ]);
+
+
+        /*
+         * GB
+         */
+
+        gb
+            .filter(file =>
+                isValid(file, "gb")
+            )
+            .forEach(file => {
+
+                allGames.push({
+
+                    system: "gb",
+
+                    file: file
+
+                });
+
+            });
+
+
+        /*
+         * SNES
+         */
+
+        snes
+            .filter(file =>
+                isValid(file, "snes")
+            )
+            .forEach(file => {
+
+                allGames.push({
+
+                    system: "snes",
+
+                    file: file
+
+                });
+
+            });
+
+
+        renderGames();
+
+
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "none";
+
+
+        if (allGames.length === 0) {
+
+            showError(
+                "Nenhum ROM encontrado nas pastas gb/ e snes/."
+            );
+
+        }
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "none";
+
+        showError(
+            "Não consegui procurar os ROMs.<br><br>" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ERRO
+===================================================== */
+
+function showError(message) {
+
+    const box =
+        document.getElementById(
+            "error"
+        );
+
+    box.innerHTML =
+        message;
+
+    box.style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   INICIAR EMULADOR
+===================================================== */
+
+function startEmulator() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const rom =
+        params.get("play");
+
+    const core =
+        params.get("core");
+
+    const name =
+        params.get("name") ||
+        "Retro Game";
+
+
+    /*
+     * Não está jogando.
+     */
+
+    if (!rom) {
+
+        scanGames();
+
+        return;
+
+    }
+
+
+    /*
+     * Esconde biblioteca.
+     */
+
+    document.getElementById(
+        "library"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "topbar"
+    ).style.display =
+        "none";
+
+
+    /*
+     * Mostra emulador.
+     */
+
+    document.getElementById(
+        "emulator"
+    ).style.display =
+        "block";
+
+    document.getElementById(
+        "back"
+    ).style.display =
+        "block";
+
+
+    /*
+     * EmulatorJS
+     */
+
+    window.EJS_player =
+        "#game";
+
+    window.EJS_core =
+        core;
+
+    window.EJS_gameUrl =
+        rom;
+
+    window.EJS_gameName =
+        name;
+
+    window.EJS_pathtodata =
+        "https://cdn.emulatorjs.org/stable/data/";
+
+    window.EJS_startOnLoaded =
+        true;
+
+    window.EJS_biosUrl =
+        "";
+
+    window.EJS_language =
+        7;
+
+    window.EJS_color =
+        "#ffffff";
+
+
+    /*
+     * SNES sem mouse
+     */
+
+    if (core === "snes") {
+
+        window.EJS_mouse =
+            false;
+
+        window.EJS_multitap =
+            false;
+
+    }
+
+
+    /*
+     * Carrega EmulatorJS.
+     */
+
+    const script =
+        document.createElement(
+            "script"
+        );
+
+    script.src =
+        "https://cdn.emulatorjs.org/stable/data/loader.js";
+
+    script.async =
+        true;
+
+    document.body
+        .appendChild(script);
+
+}
+
+
+/* =====================================================
+   VOLTAR
+===================================================== */
+
+function closeGame() {
+
+    window.location.href =
+        window.location.pathname;
+
+}
+
+
+/* =====================================================
+   INICIAR
+===================================================== */
+
+startEmulator();
 
 </script>
-
 
 </body>
 
