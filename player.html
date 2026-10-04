@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,
+             initial-scale=1.0,
+             maximum-scale=1.0,
+             user-scalable=no">
+
+<title>Retro Player</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+
+    margin:0;
+    padding:0;
+
+    width:100%;
+    height:100%;
+
+    overflow:hidden;
+
+    background:#000;
+
+    color:white;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+}
+
+body{
+    display:flex;
+    flex-direction:column;
+}
+
+
+/* ==========================================
+   TOPO
+========================================== */
+
+#topbar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    height:55px;
+
+    z-index:99999;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:8px 10px;
+
+    background:
+        rgba(0,0,0,.90);
+
+    border-bottom:
+        1px solid #333;
+
+}
+
+#back{
+
+    border:0;
+
+    background:#222;
+
+    color:white;
+
+    border-radius:8px;
+
+    padding:9px 12px;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+}
+
+#title{
+
+    flex:1;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    font-weight:bold;
+
+}
+
+
+/* ==========================================
+   ÁREA DO EMULADOR
+========================================== */
+
+#game{
+
+    position:absolute;
+
+    left:0;
+    right:0;
+    top:55px;
+    bottom:0;
+
+    width:100%;
+    height:calc(100% - 55px);
+
+    background:#000;
+
+}
+
+
+/* ==========================================
+   TELA DE INÍCIO
+========================================== */
+
+#startScreen{
+
+    position:fixed;
+
+    z-index:100000;
+
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #202020 0%,
+            #050505 70%
+        );
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    padding:25px;
+
+}
+
+#startTitle{
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+}
+
+#startInfo{
+
+    color:#aaa;
+
+    font-size:14px;
+
+    max-width:350px;
+
+    line-height:1.5;
+
+    margin-bottom:25px;
+
+}
+
+#startButton{
+
+    border:0;
+
+    border-radius:12px;
+
+    padding:15px 28px;
+
+    background:white;
+
+    color:black;
+
+    font-weight:bold;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+}
+
+#loading{
+
+    margin-top:18px;
+
+    color:#aaa;
+
+    font-size:13px;
+
+    display:none;
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:600px){
+
+    #topbar{
+
+        height:50px;
+
+    }
+
+    #game{
+
+        top:50px;
+
+        height:
+            calc(100% - 50px);
+
+    }
+
+    #startTitle{
+
+        font-size:24px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ========================================
+     BARRA
+========================================= -->
+
+<div id="topbar">
+
+    <button
+        id="back"
+        onclick="goBack()">
+
+        ← Voltar
+
+    </button>
+
+    <div id="title">
+        Retro Player
+    </div>
+
+</div>
+
+
+<!-- ========================================
+     EMULADOR
+========================================= -->
+
+<div id="game"></div>
+
+
+<!-- ========================================
+     TELA DE INÍCIO
+========================================= -->
+
+<div id="startScreen">
+
+    <div id="startTitle">
+        🎮 Retro Player
+    </div>
+
+    <div id="startInfo">
+        Carregando jogo...
+    </div>
+
+    <button
+        id="startButton"
+        onclick="startGame()">
+
+        ▶ INICIAR JOGO
+
+    </button>
+
+    <div id="loading">
+        Carregando EmulatorJS...
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==========================================
+   CONFIGURAÇÃO
+========================================== */
+
+const GITHUB_USER =
+    "Rique106br";
+
+const GITHUB_REPO =
+    "Pokemon-red-nft";
+
+const GITHUB_BRANCH =
+    "main";
+
+
+const EMULATOR_DATA =
+    "https://cdn.emulatorjs.org/stable/data/";
+
+
+/* ==========================================
+   ELEMENTOS
+========================================== */
+
+const startScreen =
+    document.getElementById(
+        "startScreen"
+    );
+
+const startButton =
+    document.getElementById(
+        "startButton"
+    );
+
+const startInfo =
+    document.getElementById(
+        "startInfo"
+    );
+
+const loading =
+    document.getElementById(
+        "loading"
+    );
+
+const title =
+    document.getElementById(
+        "title"
+    );
+
+
+/* ==========================================
+   PEGAR JOGO DA URL
+========================================== */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const gamePath =
+    params.get("game");
+
+
+/* ==========================================
+   FORMATAR NOME
+========================================== */
+
+function niceName(path){
+
+    const filename =
+        path.split("/").pop();
+
+    return filename
+        .replace(/\.[^/.]+$/, "")
+        .replace(/[_-]+/g," ")
+        .replace(/\s+/g," ")
+        .trim();
+
+}
+
+
+/* ==========================================
+   DESCOBRIR SISTEMA
+========================================== */
+
+function getSystem(path){
+
+    const lower =
+        path.toLowerCase();
+
+
+    if(
+        lower.startsWith("gb/") ||
+        lower.endsWith(".gb") ||
+        lower.endsWith(".gbc")
+    ){
+
+        return "gb";
+
+    }
+
+
+    if(
+        lower.startsWith("snes/") ||
+        lower.endsWith(".sfc") ||
+        lower.endsWith(".smc") ||
+        lower.endsWith(".fig") ||
+        lower.endsWith(".swc") ||
+        lower.endsWith(".bsx")
+    ){
+
+        return "snes";
+
+    }
+
+
+    return null;
+
+}
+
+
+/* ==========================================
+   VALIDAR
+========================================== */
+
+if(!gamePath){
+
+    startInfo.innerHTML =
+        "❌ Nenhum jogo foi informado.";
+
+    startButton.style.display =
+        "none";
+
+}else{
+
+    const gameName =
+        niceName(gamePath);
+
+    const system =
+        getSystem(gamePath);
+
+
+    title.textContent =
+        gameName;
+
+
+    startInfo.innerHTML =
+        "🎮 " +
+        gameName +
+        "<br>" +
+        (
+            system === "gb"
+                ? "Game Boy"
+                : system === "snes"
+                    ? "Super Nintendo"
+                    : "Sistema desconhecido"
+        );
+
+}
+
+
+/* ==========================================
+   URL DA ROM
+========================================== */
+
+function getRomURL(path){
+
+    return (
+        "https://raw.githubusercontent.com/" +
+        GITHUB_USER +
+        "/" +
+        GITHUB_REPO +
+        "/" +
+        GITHUB_BRANCH +
+        "/" +
+        path
+    );
+
+}
+
+
+/* ==========================================
+   FULLSCREEN
+========================================== */
+
+async function requestFullscreen(){
+
+    try{
+
+        const element =
+            document.documentElement;
+
+
+        if(
+            document.fullscreenElement
+        ){
+
+            return;
+
+        }
+
+
+        if(
+            element.requestFullscreen
+        ){
+
+            await element.requestFullscreen();
+
+        }
+
+    }catch(error){
+
+        console.log(
+            "Fullscreen não disponível:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   INICIAR
+========================================== */
+
+function startGame(){
+
+    if(!gamePath){
+
+        return;
+
+    }
+
+
+    const system =
+        getSystem(gamePath);
+
+
+    if(!system){
+
+        alert(
+            "Formato de ROM não reconhecido."
+        );
+
+        return;
+
+    }
+
+
+    const rom =
+        getRomURL(gamePath);
+
+
+    const gameName =
+        niceName(gamePath);
+
+
+    /* FULLSCREEN */
+
+    requestFullscreen();
+
+
+    /* ESCONDER TELA */
+
+    startScreen.style.display =
+        "none";
+
+
+    loading.style.display =
+        "block";
+
+
+    /* ======================================
+       CONFIGURAÇÃO EMULATORJS
+    ====================================== */
+
+    window.EJS_player =
+        "#game";
+
+
+    window.EJS_core =
+        system;
+
+
+    window.EJS_gameUrl =
+        rom;
+
+
+    window.EJS_gameName =
+        gameName;
+
+
+    window.EJS_pathtodata =
+        EMULATOR_DATA;
+
+
+    window.EJS_startOnLoaded =
+        true;
+
+
+    window.EJS_fullscreenOnLoaded =
+        false;
+
+
+    window.EJS_language =
+        "pt-BR";
+
+
+    window.EJS_disableAutoLang =
+        false;
+
+
+    window.EJS_volume =
+        0.8;
+
+
+    window.EJS_biosUrl =
+        "";
+
+
+    /*
+       Controle virtual específico
+       para o sistema.
+    */
+
+    window.EJS_controlScheme =
+        system;
+
+
+    /*
+       Salva jogo automaticamente
+       quando possível.
+    */
+
+    window.EJS_gameID =
+        createGameID(gamePath);
+
+
+    /*
+       NÃO usar threads porque
+       GitHub Pages não permite
+       configurar COOP/COEP.
+    */
+
+    window.EJS_threads =
+        false;
+
+
+    /* ======================================
+       CARREGAR EMULATORJS
+    ====================================== */
+
+    const oldScript =
+        document.getElementById(
+            "emulatorLoader"
+        );
+
+
+    if(oldScript){
+
+        oldScript.remove();
+
+    }
+
+
+    const script =
+        document.createElement(
+            "script"
+        );
+
+
+    script.id =
+        "emulatorLoader";
+
+
+    script.src =
+        EMULATOR_DATA +
+        "loader.js";
+
+
+    script.async =
+        true;
+
+
+    document.body.appendChild(
+        script
+    );
+
+}
+
+
+/* ==========================================
+   ID DO JOGO
+========================================== */
+
+function createGameID(path){
+
+    let hash = 0;
+
+
+    for(
+        let i = 0;
+        i < path.length;
+        i++
+    ){
+
+        hash =
+            (
+                (
+                    hash << 5
+                ) -
+                hash +
+                path.charCodeAt(i)
+            ) |
+            0;
+
+    }
+
+
+    return Math.abs(hash);
+
+}
+
+
+/* ==========================================
+   VOLTAR
+========================================== */
+
+function goBack(){
+
+    if(
+        document.fullscreenElement
+    ){
+
+        if(
+            document.exitFullscreen
+        ){
+
+            document
+                .exitFullscreen()
+                .catch(
+                    () => {}
+                );
+
+        }
+
+    }
+
+
+    window.location.href =
+        "index.html";
+
+}
+
+</script>
+
+</body>
+
+</html>
