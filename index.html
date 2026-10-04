@@ -11,31 +11,67 @@
             width: 100%;
             height: 100%;
             background-color: #000;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
             overflow: hidden;
         }
         #game {
             width: 100%;
             height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #status {
+            z-index: 10;
+            font-size: 18px;
+            color: #ffca28;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
+    <div id="status">Carregando Pokémon Red do Archive.org...</div>
     <div id="game"></div>
 
     <script type="text/javascript">
-        EJS_player = "#game";
-        EJS_core = "gb";
-        EJS_gameName = "Pokémon Red";
-        EJS_color = "#e52521";
-        EJS_startOnLoaded = true;
-        EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
-        
-        // Link exato do Archive.org passado por você:
-        EJS_gameUrl = "https://archive.org/download/Pokemon-red-and-blue/Pok%C3%A9mon%20-%20Red%20Version%20%28USA%2C%20Europe%29.gb";
-    </script>
+        const romUrl = "https://archive.org/download/Pokemon-red-and-blue/Pok%C3%A9mon%20-%20Red%20Version%20%28USA%2C%20Europe%29.gb";
 
-    <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+        // Baixa a ROM via JavaScript nativo para escapar do bloqueio de CORS do navegador
+        fetch(romUrl)
+            .then(response => {
+                if (!response.ok) throw new Error("Erro ao baixar do Archive.org");
+                return response.blob();
+            })
+            .then(blob => {
+                // Cria um link interno virtual em memória local (blob:)
+                const blobUrl = URL.createObjectURL(blob);
+                
+                document.getElementById('status').style.display = 'none';
+
+                // Configura o EmulatorJS apontando para o arquivo local em memória
+                window.EJS_player = "#game";
+                window.EJS_core = "gb";
+                window.EJS_gameName = "Pokémon Red";
+                window.EJS_color = "#e52521";
+                window.EJS_startOnLoaded = true;
+                window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
+                window.EJS_gameUrl = blobUrl;
+
+                // Carrega o motor do emulador somente após a ROM estar 100% baixada na memória
+                const script = document.createElement('script');
+                script.src = "https://cdn.emulatorjs.org/stable/data/loader.js";
+                document.body.appendChild(script);
+            })
+            .catch(err => {
+                document.getElementById('status').innerText = "Erro ao carregar o jogo: " + err.message;
+                document.getElementById('status').style.color = "#ff5252";
+            });
+    </script>
 
 </body>
 </html>
