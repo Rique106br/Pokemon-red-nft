@@ -24,17 +24,17 @@
     <div id="game"></div>
 
     <script type="text/javascript">
-        // Pega a ROM passada via parâmetro da URL (?rom=...) ou usa uma padrão
+        // Pega o nome da ROM passado na URL (?rom=pokemon_red.gb) ou usa pokemon_red.gb por padrão
         const urlParams = new URLSearchParams(window.location.search);
-        const romUrl = urlParams.get('rom') || 'https://archive.org/download/Pokemon-red-and-blue/Pok%C3%A9mon%20-%20Red%20Version%20%28USA%2C%20Europe%29.gb';
+        const romName = urlParams.get('rom') || 'pokemon_red.gb';
 
         EJS_player = "#game";
-        EJS_core = "gb"; // Núcleo de Game Boy / Game Boy Color
+        EJS_core = "gb";
         EJS_gameName = "Pokémon Red";
         EJS_color = "#e52521";
-        EJS_startOnLoaded = true; // Inicia automaticamente assim que carregar
-        EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/"; // Usa a CDN oficial do EmulatorJS
-        EJS_gameUrl = romUrl;
+        EJS_startOnLoaded = true;
+        EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
+        EJS_gameUrl = romName; // Pega o arquivo direto da raiz do seu GitHub Pages
     </script>
 
     <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
