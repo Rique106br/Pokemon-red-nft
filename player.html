@@ -100,6 +100,9 @@ body {
             rgba(0,0,0,.30)
         );
 
+    transition:
+        opacity .25s ease;
+
 }
 
 #backButton {
@@ -605,7 +608,7 @@ const rawGamePath =
 
 
 /* =====================================================
-   NORMALIZAR
+   NORMALIZAR CAMINHO
 ===================================================== */
 
 function normalizePath(path) {
@@ -642,7 +645,7 @@ const gamePath =
 
 
 /* =====================================================
-   NOME
+   NOME DO JOGO
 ===================================================== */
 
 function getGameName(path) {
@@ -657,7 +660,10 @@ function getGameName(path) {
         path.split("/");
 
     let filename =
-        parts[parts.length - 1];
+        parts[
+            parts.length - 1
+        ];
+
 
     filename =
         filename.replace(
@@ -665,12 +671,25 @@ function getGameName(path) {
             ""
         );
 
+
     return filename
-        .replace(/[_-]+/g, " ")
-        .replace(/\s+/g, " ")
+        .replace(
+            /[_-]+/g,
+            " "
+        )
+        .replace(
+            /\s+/g,
+            " "
+        )
         .trim();
 
 }
+
+
+const gameName =
+    getGameName(
+        gamePath
+    );
 
 
 /* =====================================================
@@ -713,11 +732,10 @@ function getSystem(path) {
 }
 
 
-const gameName =
-    getGameName(gamePath);
-
 const system =
-    getSystem(gamePath);
+    getSystem(
+        gamePath
+    );
 
 
 /* =====================================================
@@ -851,7 +869,7 @@ async function enterFullscreen() {
     catch (error) {
 
         console.log(
-            "Landscape automático não permitido:",
+            "Landscape não permitido:",
             error
         );
 
@@ -861,7 +879,7 @@ async function enterFullscreen() {
 
 
 /* =====================================================
-   ID DO JOGO
+   ID ÚNICO DO JOGO
 ===================================================== */
 
 function createGameID(path) {
@@ -889,7 +907,77 @@ function createGameID(path) {
     }
 
 
-    return Math.abs(hash);
+    /*
+       Nunca usar 0.
+
+       O ID precisa ser estável:
+       mesma ROM = mesmo ID.
+    */
+
+    hash =
+        Math.abs(hash);
+
+
+    if (hash === 0) {
+
+        hash = 1;
+
+    }
+
+
+    return hash;
+
+}
+
+
+const gameID =
+    createGameID(
+        gamePath
+    );
+
+
+/* =====================================================
+   SALVAR AGORA
+===================================================== */
+
+function saveGameNow() {
+
+    try {
+
+        const emulator =
+            window.EJS_emulator;
+
+
+        if (
+            emulator &&
+            emulator.gameManager &&
+            typeof emulator.gameManager.saveSaveFiles ===
+                "function"
+        ) {
+
+            emulator.gameManager
+                .saveSaveFiles();
+
+            console.log(
+                "SAVE SRAM gravado."
+            );
+
+            return true;
+
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Erro ao gravar SRAM:",
+            error
+        );
+
+    }
+
+
+    return false;
 
 }
 
@@ -926,7 +1014,8 @@ window.EJS_onGameStart =
 
         document
             .getElementById("topbar")
-            .style.opacity = "0";
+            .style.opacity =
+                "0";
 
 
         setTimeout(
@@ -934,10 +1023,54 @@ window.EJS_onGameStart =
 
                 document
                     .getElementById("topbar")
-                    .style.opacity = "1";
+                    .style.opacity =
+                        "1";
 
             },
             1000
+        );
+
+    };
+
+
+/* =====================================================
+   QUANDO O SAVE DO JOGO MUDAR
+===================================================== */
+
+window.EJS_onSaveUpdate =
+    function (event) {
+
+        console.log(
+            "Pokémon alterou o save."
+        );
+
+
+        /*
+           O EmulatorJS já detectou a alteração.
+           Forçamos a persistência.
+        */
+
+        setTimeout(
+            function () {
+
+                saveGameNow();
+
+            },
+            100
+        );
+
+    };
+
+
+/* =====================================================
+   QUANDO O EMULATORJS SALVAR
+===================================================== */
+
+window.EJS_onSaveSave =
+    function (event) {
+
+        console.log(
+            "Arquivo SAV solicitado."
         );
 
     };
@@ -959,104 +1092,149 @@ async function startGame() {
     }
 
 
-    /*
-       Fullscreen.
-    */
+    /* -----------------------------------------------
+       FULLSCREEN
+    ----------------------------------------------- */
 
     await enterFullscreen();
 
 
-    /* =================================================
-       CONFIGURAÇÃO EMULATORJS
-    ================================================= */
+    /* -----------------------------------------------
+       CONFIGURAÇÃO BÁSICA
+    ----------------------------------------------- */
 
     window.EJS_player =
         "#game";
 
-    window.EJS_core =
-        system;
 
     window.EJS_gameUrl =
         getRomURL(
             gamePath
         );
 
+
     /*
-       MUITO IMPORTANTE:
+       IMPORTANTE:
 
-       O nome do jogo é usado pelo
-       EmulatorJS para identificar
-       os arquivos de save.
-
-       Por isso não usamos um nome
-       aleatório a cada carregamento.
+       O nome e o ID ficam fixos para
+       o save ser encontrado novamente.
     */
 
     window.EJS_gameName =
         gameName;
 
+
     window.EJS_gameID =
-        createGameID(
-            gamePath
-        );
+        gameID;
+
 
     window.EJS_pathtodata =
         EJS_DATA;
 
+
+    /* -----------------------------------------------
+       CORE
+    ----------------------------------------------- */
+
+    window.EJS_core =
+        system;
+
+
+    /* -----------------------------------------------
+       INÍCIO
+    ----------------------------------------------- */
+
     window.EJS_startOnLoaded =
         true;
+
 
     window.EJS_fullscreenOnLoaded =
         false;
 
+
+    /* -----------------------------------------------
+       IDIOMA
+    ----------------------------------------------- */
+
     window.EJS_language =
         "pt-BR";
+
 
     window.EJS_disableAutoLang =
         false;
 
+
+    /* -----------------------------------------------
+       PERFORMANCE
+    ----------------------------------------------- */
+
     window.EJS_threads =
         false;
+
+
+    /* -----------------------------------------------
+       ÁUDIO
+    ----------------------------------------------- */
 
     window.EJS_volume =
         0.8;
 
+
+    /* -----------------------------------------------
+       BIOS
+    ----------------------------------------------- */
+
     window.EJS_biosUrl =
         "";
+
+
+    /* -----------------------------------------------
+       CONTROLES MOBILE
+    ----------------------------------------------- */
 
     window.EJS_controlScheme =
         system;
 
+
     window.EJS_browserMode =
         "mobile";
+
+
+    /* -----------------------------------------------
+       VISUAL
+    ----------------------------------------------- */
 
     window.EJS_color =
         "#ffffff";
 
+
     window.EJS_backgroundColor =
         "#000000";
+
+
+    /* -----------------------------------------------
+       SEM ANÚNCIO
+    ----------------------------------------------- */
 
     window.EJS_AdUrl =
         "";
 
 
+    /* =================================================
+       CONFIGURAÇÃO REAL DE SAVE
+    ================================================= */
+
     /*
-       =================================================
-       CORREÇÃO DO SAVE
-       =================================================
-
-       Não desabilita o armazenamento local.
-
-       O EmulatorJS usa armazenamento do
-       navegador para os saves internos
-       (SRAM) quando o core suporta isso.
-
-       Também definimos o save state no
-       navegador.
+       Mantém armazenamento local habilitado.
     */
 
     window.EJS_disableLocalStorage =
         false;
+
+
+    /*
+       Salva os SAVE FILES no navegador.
+    */
 
     window.EJS_defaultOptions = {
 
@@ -1067,37 +1245,34 @@ async function startGame() {
 
 
     /*
-       Intervalo para sincronizar saves.
+       FORÇA o núcleo a gravar o SRAM
+       a cada 7 segundos.
 
-       300 segundos = 5 minutos.
-
-       O próprio jogo também salva quando
-       Pokémon grava normalmente.
+       Isso é especialmente importante
+       para Pokémon Red.
     */
 
-    window.EJS_saveSaveInterval =
-        300;
+    window.EJS_fixedSaveInterval =
+        7000;
 
 
     /*
-       Não apagar saves anteriores.
+       A tela de configurações não precisa
+       ser alterada.
     */
 
-    window.EJS_keepSaves =
-        true;
 
-
-    /*
-       Remove tela inicial.
-    */
+    /* -----------------------------------------------
+       REMOVE NOSSA TELA
+    ----------------------------------------------- */
 
     startScreen.style.display =
         "none";
 
 
-    /* =================================================
-       CARREGAR EMULATORJS
-    ================================================= */
+    /* -----------------------------------------------
+       EVITA DOIS LOADERS
+    ----------------------------------------------- */
 
     const old =
         document.getElementById(
@@ -1111,6 +1286,10 @@ async function startGame() {
 
     }
 
+
+    /* -----------------------------------------------
+       CARREGAR EMULATORJS
+    ----------------------------------------------- */
 
     const script =
         document.createElement(
@@ -1137,6 +1316,7 @@ async function startGame() {
             errorScreen.style.display =
                 "flex";
 
+
             errorText.textContent =
                 "Não foi possível carregar o EmulatorJS.";
 
@@ -1151,10 +1331,56 @@ async function startGame() {
 
 
 /* =====================================================
+   SALVAR ANTES DE SAIR
+===================================================== */
+
+window.addEventListener(
+    "pagehide",
+    function () {
+
+        saveGameNow();
+
+    }
+);
+
+
+/* =====================================================
+   SALVAR QUANDO A ABA FICA OCULTA
+===================================================== */
+
+document.addEventListener(
+    "visibilitychange",
+    function () {
+
+        if (
+            document.visibilityState ===
+            "hidden"
+        ) {
+
+            saveGameNow();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
    VOLTAR
 ===================================================== */
 
 function goBack() {
+
+    /*
+       Primeiro salva.
+    */
+
+    saveGameNow();
+
+
+    /*
+       Depois sai do fullscreen.
+    */
 
     try {
 
@@ -1172,6 +1398,10 @@ function goBack() {
     catch (e) {}
 
 
+    /*
+       Volta para a página inicial.
+    */
+
     window.location.href =
         "index.html";
 
@@ -1179,7 +1409,7 @@ function goBack() {
 
 
 /* =====================================================
-   BARRA
+   BARRA SUPERIOR
 ===================================================== */
 
 let barTimer =
@@ -1238,7 +1468,11 @@ document.addEventListener(
 ===================================================== */
 
 console.log(
-    "Retro Player iniciado"
+    "================================"
+);
+
+console.log(
+    "RETRO PLAYER"
 );
 
 console.log(
@@ -1247,13 +1481,22 @@ console.log(
 );
 
 console.log(
-    "Sistema:",
+    "CORE:",
     system
 );
 
 console.log(
-    "Save:",
-    "armazenamento do navegador ativado"
+    "GAME ID:",
+    gameID
+);
+
+console.log(
+    "SAVE:",
+    "SRAM automático a cada 7 segundos"
+);
+
+console.log(
+    "================================"
 );
 
 </script></body></html>
