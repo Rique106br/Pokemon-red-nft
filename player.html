@@ -1,24 +1,14 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta
+name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no,
+viewport-fit=cover"
 
-<head>
+«»
 
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width,
-             initial-scale=1.0,
-             maximum-scale=1.0,
-             user-scalable=no,
-             viewport-fit=cover"
->
-
-<meta name="theme-color" content="#000000">
-
-<title>Retro Player</title>
-
-<style>
+<meta name="theme-color" content="#000000"><title>Retro Player</title><style>
 
 * {
     box-sizing: border-box;
@@ -482,119 +472,78 @@ body {
 
 }
 
-</style>
-
-</head>
-
-
-<body>
-
-
-<!-- =====================================================
+</style></head><body><!-- =====================================================
      EMULATORJS
-===================================================== -->
-
-<div id="game"></div>
-
-
-<!-- =====================================================
+===================================================== --><div id="game"></div><!-- =====================================================
      BARRA
-===================================================== -->
+===================================================== --><div id="topbar"><button
+    id="backButton"
+    onclick="goBack()">
 
-<div id="topbar">
+    ← Voltar
 
-    <button
-        id="backButton"
-        onclick="goBack()">
+</button>
 
-        ← Voltar
-
-    </button>
-
-    <div id="gameTitle">
-        Retro Player
-    </div>
-
+<div id="gameTitle">
+    Retro Player
 </div>
 
-
-<!-- =====================================================
+</div><!-- =====================================================
      TELA INICIAL
-===================================================== -->
-
-<div id="startScreen">
-
-    <div id="startIcon">
-        🎮
-    </div>
-
-    <div id="startTitle">
-        Retro Player
-    </div>
-
-    <div id="startSystem">
-        Preparando jogo...
-    </div>
-
-    <button
-        id="startButton"
-        onclick="startGame()">
-
-        ▶ INICIAR JOGO
-
-    </button>
-
+===================================================== --><div id="startScreen"><div id="startIcon">
+    🎮
 </div>
 
+<div id="startTitle">
+    Retro Player
+</div>
 
-<!-- =====================================================
+<div id="startSystem">
+    Preparando jogo...
+</div>
+
+<button
+    id="startButton"
+    onclick="startGame()">
+
+    ▶ INICIAR JOGO
+
+</button>
+
+</div><!-- =====================================================
      ERRO
-===================================================== -->
+===================================================== --><div id="errorScreen"><h2>
+    ❌ Erro
+</h2>
 
-<div id="errorScreen">
+<p id="errorText">
+    Não foi possível abrir o jogo.
+</p>
 
-    <h2>
-        ❌ Erro
-    </h2>
+<button
+    id="errorBack"
+    onclick="goBack()">
 
-    <p id="errorText">
-        Não foi possível abrir o jogo.
-    </p>
+    ← Voltar
 
-    <button
-        id="errorBack"
-        onclick="goBack()">
+</button>
 
-        ← Voltar
-
-    </button>
-
-</div>
-
-
-<!-- =====================================================
+</div><!-- =====================================================
      AVISO VERTICAL
-===================================================== -->
-
-<div id="portraitWarning">
-
-    <div class="rotateIcon">
-        📱↻
-    </div>
-
-    <strong>
-        Vire o celular
-    </strong>
-
-    <span>
-        Coloque o celular na horizontal
-        para jogar.
-    </span>
-
+===================================================== --><div id="portraitWarning"><div class="rotateIcon">
+    📱↻
 </div>
 
+<strong>
+    Vire o celular
+</strong>
 
-<script>
+<span>
+    Coloque o celular na horizontal
+    para jogar.
+</span>
+
+</div><script>
 
 /* =====================================================
    CONFIGURAÇÃO
@@ -946,7 +895,7 @@ function createGameID(path) {
 
 
 /* =====================================================
-   QUANDO EMULATORJS ESTIVER PRONTO
+   EMULATORJS PRONTO
 ===================================================== */
 
 window.EJS_ready =
@@ -960,7 +909,7 @@ window.EJS_ready =
 
 
 /* =====================================================
-   QUANDO O JOGO REALMENTE COMEÇAR
+   JOGO INICIADO
 ===================================================== */
 
 window.EJS_onGameStart =
@@ -971,22 +920,9 @@ window.EJS_onGameStart =
         );
 
 
-        /*
-           AQUI está a correção:
-
-           A nossa tela própria desaparece
-           somente quando o jogo começou.
-        */
-
         startScreen.style.display =
             "none";
 
-
-        /*
-           Garante que a barra também não
-           fique por cima do jogo durante
-           a inicialização.
-        */
 
         document
             .getElementById("topbar")
@@ -1024,17 +960,15 @@ async function startGame() {
 
 
     /*
-       Primeiro fullscreen porque estamos
-       dentro do toque do usuário.
+       Fullscreen.
     */
 
     await enterFullscreen();
 
 
-    /*
-       Configura EmulatorJS ANTES de
-       carregar o loader.
-    */
+    /* =================================================
+       CONFIGURAÇÃO EMULATORJS
+    ================================================= */
 
     window.EJS_player =
         "#game";
@@ -1046,6 +980,17 @@ async function startGame() {
         getRomURL(
             gamePath
         );
+
+    /*
+       MUITO IMPORTANTE:
+
+       O nome do jogo é usado pelo
+       EmulatorJS para identificar
+       os arquivos de save.
+
+       Por isso não usamos um nome
+       aleatório a cada carregamento.
+    */
 
     window.EJS_gameName =
         gameName;
@@ -1079,58 +1024,86 @@ async function startGame() {
     window.EJS_biosUrl =
         "";
 
-    /*
-       CONTROLES MOBILE
-    */
-
     window.EJS_controlScheme =
         system;
-
-    /*
-       Força interface mobile.
-    */
 
     window.EJS_browserMode =
         "mobile";
 
-    /*
-       Tema.
-    */
-
     window.EJS_color =
         "#ffffff";
-
-    /*
-       Fundo preto.
-    */
 
     window.EJS_backgroundColor =
         "#000000";
 
-    /*
-       Sem anúncios.
-    */
-
     window.EJS_AdUrl =
         "";
 
+
     /*
-       Não mostrar nossa própria
-       tela de loading.
+       =================================================
+       CORREÇÃO DO SAVE
+       =================================================
+
+       Não desabilita o armazenamento local.
+
+       O EmulatorJS usa armazenamento do
+       navegador para os saves internos
+       (SRAM) quando o core suporta isso.
+
+       Também definimos o save state no
+       navegador.
+    */
+
+    window.EJS_disableLocalStorage =
+        false;
+
+    window.EJS_defaultOptions = {
+
+        "save-state-location":
+            "browser"
+
+    };
+
+
+    /*
+       Intervalo para sincronizar saves.
+
+       300 segundos = 5 minutos.
+
+       O próprio jogo também salva quando
+       Pokémon grava normalmente.
+    */
+
+    window.EJS_saveSaveInterval =
+        300;
+
+
+    /*
+       Não apagar saves anteriores.
+    */
+
+    window.EJS_keepSaves =
+        true;
+
+
+    /*
+       Remove tela inicial.
     */
 
     startScreen.style.display =
         "none";
 
 
-    /*
-       Cria o loader.
-    */
+    /* =================================================
+       CARREGAR EMULATORJS
+    ================================================= */
 
     const old =
         document.getElementById(
             "emulatorjs-loader"
         );
+
 
     if (old) {
 
@@ -1144,12 +1117,15 @@ async function startGame() {
             "script"
         );
 
+
     script.id =
         "emulatorjs-loader";
+
 
     script.src =
         EJS_DATA +
         "loader.js";
+
 
     script.async =
         true;
@@ -1203,10 +1179,11 @@ function goBack() {
 
 
 /* =====================================================
-   ESCONDER BARRA APÓS INICIAR
+   BARRA
 ===================================================== */
 
-let barTimer = null;
+let barTimer =
+    null;
 
 
 function showBarTemporarily() {
@@ -1215,6 +1192,7 @@ function showBarTemporarily() {
         document.getElementById(
             "topbar"
         );
+
 
     bar.style.opacity =
         "1";
@@ -1273,8 +1251,9 @@ console.log(
     system
 );
 
-</script>
+console.log(
+    "Save:",
+    "armazenamento do navegador ativado"
+);
 
-</body>
-
-</html>
+</script></body></html>
