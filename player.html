@@ -1,24 +1,14 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta
+name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no,
+viewport-fit=cover"
 
-<head>
+«»
 
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width,
-             initial-scale=1.0,
-             maximum-scale=1.0,
-             user-scalable=no,
-             viewport-fit=cover"
->
-
-<meta name="theme-color" content="#000000">
-
-<title>Retro Player</title>
-
-<style>
+<meta name="theme-color" content="#000000"><title>Retro Player</title><style>
 
 * {
     box-sizing: border-box;
@@ -81,7 +71,7 @@ body {
 
 
 /* =====================================================
-   BARRA
+   BARRA SUPERIOR
 ===================================================== */
 
 #topbar {
@@ -106,9 +96,12 @@ body {
     background:
         linear-gradient(
             to bottom,
-            rgba(0,0,0,.85),
+            rgba(0,0,0,.90),
             rgba(0,0,0,.30)
         );
+
+    transition:
+        opacity .3s ease;
 
 }
 
@@ -127,6 +120,8 @@ body {
     font-size: 13px;
 
     font-weight: bold;
+
+    cursor: pointer;
 
 }
 
@@ -182,7 +177,6 @@ body {
     padding: 20px;
 
     background:
-
         radial-gradient(
             circle at center,
             #222 0%,
@@ -239,6 +233,8 @@ body {
     font-size: 16px;
 
     font-weight: bold;
+
+    cursor: pointer;
 
 }
 
@@ -482,119 +478,78 @@ body {
 
 }
 
-</style>
+</style></head><body><!-- =====================================================
+     ÁREA DO EMULATORJS
+===================================================== --><div id="game"></div><!-- =====================================================
+     BARRA SUPERIOR
+===================================================== --><div id="topbar"><button
+    id="backButton"
+    onclick="goBack()">
 
-</head>
+    ← Voltar
 
+</button>
 
-<body>
-
-
-<!-- =====================================================
-     EMULATORJS
-===================================================== -->
-
-<div id="game"></div>
-
-
-<!-- =====================================================
-     BARRA
-===================================================== -->
-
-<div id="topbar">
-
-    <button
-        id="backButton"
-        onclick="goBack()">
-
-        ← Voltar
-
-    </button>
-
-    <div id="gameTitle">
-        Retro Player
-    </div>
-
+<div id="gameTitle">
+    Retro Player
 </div>
 
-
-<!-- =====================================================
+</div><!-- =====================================================
      TELA INICIAL
-===================================================== -->
-
-<div id="startScreen">
-
-    <div id="startIcon">
-        🎮
-    </div>
-
-    <div id="startTitle">
-        Retro Player
-    </div>
-
-    <div id="startSystem">
-        Preparando jogo...
-    </div>
-
-    <button
-        id="startButton"
-        onclick="startGame()">
-
-        ▶ INICIAR JOGO
-
-    </button>
-
+===================================================== --><div id="startScreen"><div id="startIcon">
+    🎮
 </div>
 
+<div id="startTitle">
+    Retro Player
+</div>
 
-<!-- =====================================================
+<div id="startSystem">
+    Preparando jogo...
+</div>
+
+<button
+    id="startButton"
+    onclick="startGame()">
+
+    ▶ INICIAR JOGO
+
+</button>
+
+</div><!-- =====================================================
      ERRO
-===================================================== -->
+===================================================== --><div id="errorScreen"><h2>
+    ❌ Erro
+</h2>
 
-<div id="errorScreen">
+<p id="errorText">
+    Não foi possível abrir o jogo.
+</p>
 
-    <h2>
-        ❌ Erro
-    </h2>
+<button
+    id="errorBack"
+    onclick="goBack()">
 
-    <p id="errorText">
-        Não foi possível abrir o jogo.
-    </p>
+    ← Voltar
 
-    <button
-        id="errorBack"
-        onclick="goBack()">
+</button>
 
-        ← Voltar
-
-    </button>
-
+</div><!-- =====================================================
+     AVISO PARA VIRAR O CELULAR
+===================================================== --><div id="portraitWarning"><div class="rotateIcon">
+    📱↻
 </div>
 
+<strong>
+    Vire o celular
+</strong>
 
-<!-- =====================================================
-     AVISO VERTICAL
-===================================================== -->
+<span>
+    Coloque o celular na horizontal
+    para jogar.
+</span>
 
-<div id="portraitWarning">
-
-    <div class="rotateIcon">
-        📱↻
-    </div>
-
-    <strong>
-        Vire o celular
-    </strong>
-
-    <span>
-        Coloque o celular na horizontal
-        para jogar.
-    </span>
-
-</div>
-
-
-<script>
+</div><script>
 
 /* =====================================================
    CONFIGURAÇÃO
@@ -617,33 +572,44 @@ const EJS_DATA =
    ELEMENTOS
 ===================================================== */
 
-const game =
-    document.getElementById("game");
-
 const startScreen =
-    document.getElementById("startScreen");
+    document.getElementById(
+        "startScreen"
+    );
 
 const startButton =
-    document.getElementById("startButton");
+    document.getElementById(
+        "startButton"
+    );
 
 const startTitle =
-    document.getElementById("startTitle");
+    document.getElementById(
+        "startTitle"
+    );
 
 const startSystem =
-    document.getElementById("startSystem");
+    document.getElementById(
+        "startSystem"
+    );
 
 const gameTitle =
-    document.getElementById("gameTitle");
+    document.getElementById(
+        "gameTitle"
+    );
 
 const errorScreen =
-    document.getElementById("errorScreen");
+    document.getElementById(
+        "errorScreen"
+    );
 
 const errorText =
-    document.getElementById("errorText");
+    document.getElementById(
+        "errorText"
+    );
 
 
 /* =====================================================
-   URL
+   LER URL
 ===================================================== */
 
 const params =
@@ -656,7 +622,7 @@ const rawGamePath =
 
 
 /* =====================================================
-   NORMALIZAR
+   NORMALIZAR CAMINHO
 ===================================================== */
 
 function normalizePath(path) {
@@ -673,9 +639,11 @@ function normalizePath(path) {
             decodeURIComponent(path);
 
     }
-    catch (e) {
+    catch (error) {
 
-        /* Já estava decodificado */
+        console.log(
+            "URL já estava decodificada."
+        );
 
     }
 
@@ -693,7 +661,7 @@ const gamePath =
 
 
 /* =====================================================
-   NOME
+   NOME DO JOGO
 ===================================================== */
 
 function getGameName(path) {
@@ -708,7 +676,9 @@ function getGameName(path) {
         path.split("/");
 
     let filename =
-        parts[parts.length - 1];
+        parts[
+            parts.length - 1
+        ];
 
     filename =
         filename.replace(
@@ -717,15 +687,50 @@ function getGameName(path) {
         );
 
     return filename
-        .replace(/[_-]+/g, " ")
-        .replace(/\s+/g, " ")
+        .replace(
+            /[_-]+/g,
+            " "
+        )
+        .replace(
+            /\s+/g,
+            " "
+        )
         .trim();
 
 }
 
 
+const gameName =
+    getGameName(
+        gamePath
+    );
+
+
 /* =====================================================
-   SISTEMA
+   DESCOBRIR EXTENSÃO
+===================================================== */
+
+function getExtension(path) {
+
+    const match =
+        path.match(
+            /\.([^.\/]+)$/
+        );
+
+    if (!match) {
+
+        return "";
+
+    }
+
+    return match[1]
+        .toLowerCase();
+
+}
+
+
+/* =====================================================
+   DESCOBRIR SISTEMA
 ===================================================== */
 
 function getSystem(path) {
@@ -733,6 +738,10 @@ function getSystem(path) {
     const lower =
         path.toLowerCase();
 
+
+    /* -----------------------------
+       GAME BOY / GAME BOY COLOR
+    ----------------------------- */
 
     if (
         lower.endsWith(".gb") ||
@@ -744,6 +753,10 @@ function getSystem(path) {
 
     }
 
+
+    /* -----------------------------
+       SNES
+    ----------------------------- */
 
     if (
         lower.endsWith(".sfc") ||
@@ -764,15 +777,27 @@ function getSystem(path) {
 }
 
 
-const gameName =
-    getGameName(gamePath);
-
 const system =
-    getSystem(gamePath);
+    getSystem(
+        gamePath
+    );
 
 
 /* =====================================================
-   INTERFACE
+   DESCOBRIR SE É GBC
+===================================================== */
+
+const extension =
+    getExtension(
+        gamePath
+    );
+
+const isGBC =
+    extension === "gbc";
+
+
+/* =====================================================
+   ATUALIZAR TÍTULO
 ===================================================== */
 
 startTitle.textContent =
@@ -782,10 +807,20 @@ gameTitle.textContent =
     gameName;
 
 
-if (system === "gb") {
+/* =====================================================
+   TEXTO DO SISTEMA
+===================================================== */
+
+if (isGBC) {
 
     startSystem.textContent =
-        "🎮 Game Boy";
+        "🎨 Game Boy Color";
+
+}
+else if (system === "gb") {
+
+    startSystem.textContent =
+        "🎮 Game Boy • Colorização";
 
 }
 else if (system === "snes") {
@@ -797,7 +832,7 @@ else if (system === "snes") {
 else {
 
     startSystem.textContent =
-        "Sistema não reconhecido";
+        "❓ Sistema não reconhecido";
 
 }
 
@@ -831,12 +866,14 @@ if (
 
 function getRomURL(path) {
 
-    const encoded =
+    const encodedPath =
         path
             .split("/")
             .map(
                 part =>
-                    encodeURIComponent(part)
+                    encodeURIComponent(
+                        part
+                    )
             )
             .join("/");
 
@@ -849,7 +886,7 @@ function getRomURL(path) {
         "/" +
         GITHUB_BRANCH +
         "/" +
-        encoded
+        encodedPath
     );
 
 }
@@ -878,7 +915,7 @@ async function enterFullscreen() {
     catch (error) {
 
         console.log(
-            "Fullscreen não permitido:",
+            "Fullscreen bloqueado:",
             error
         );
 
@@ -902,7 +939,7 @@ async function enterFullscreen() {
     catch (error) {
 
         console.log(
-            "Landscape automático não permitido:",
+            "Landscape bloqueado pelo navegador:",
             error
         );
 
@@ -946,6 +983,98 @@ function createGameID(path) {
 
 
 /* =====================================================
+   CONFIGURAÇÕES EXTRAS PARA GAME BOY
+===================================================== */
+
+/*
+   ROM .gb:
+
+   O núcleo Gambatte consegue executar GB.
+   A colorização é aplicada pelo próprio
+   sistema quando disponível.
+
+   ROM .gbc:
+
+   Continua usando o mesmo núcleo,
+   mas a ROM é identificada como GBC.
+*/
+
+
+function configureGameBoy() {
+
+    /*
+       Gambatte é o núcleo usado para GB/GBC.
+    */
+
+    window.EJS_core =
+        "gambatte";
+
+
+    /*
+       Controle Game Boy.
+    */
+
+    window.EJS_controlScheme =
+        "gb";
+
+
+    /*
+       Ativa o modo mobile.
+    */
+
+    window.EJS_browserMode =
+        "mobile";
+
+
+    /*
+       Para ROM .gb, pedimos uma apresentação
+       colorida quando o frontend/core suportar
+       essa opção.
+    */
+
+    if (!isGBC) {
+
+        window.EJS_gbColor =
+            true;
+
+    }
+
+}
+
+
+/* =====================================================
+   CONFIGURAR SNES
+===================================================== */
+
+function configureSNES() {
+
+    /*
+       Núcleo SNES.
+    */
+
+    window.EJS_core =
+        "snes9x";
+
+
+    /*
+       Controles SNES.
+    */
+
+    window.EJS_controlScheme =
+        "snes";
+
+
+    /*
+       Interface mobile.
+    */
+
+    window.EJS_browserMode =
+        "mobile";
+
+}
+
+
+/* =====================================================
    QUANDO EMULATORJS ESTIVER PRONTO
 ===================================================== */
 
@@ -960,7 +1089,7 @@ window.EJS_ready =
 
 
 /* =====================================================
-   QUANDO O JOGO REALMENTE COMEÇAR
+   QUANDO O JOGO COMEÇAR
 ===================================================== */
 
 window.EJS_onGameStart =
@@ -972,10 +1101,7 @@ window.EJS_onGameStart =
 
 
         /*
-           AQUI está a correção:
-
-           A nossa tela própria desaparece
-           somente quando o jogo começou.
+           Remove a tela inicial.
         */
 
         startScreen.style.display =
@@ -983,25 +1109,31 @@ window.EJS_onGameStart =
 
 
         /*
-           Garante que a barra também não
-           fique por cima do jogo durante
-           a inicialização.
+           A barra fica transparente
+           depois que o jogo inicia.
         */
 
-        document
-            .getElementById("topbar")
-            .style.opacity = "0";
+        const topbar =
+            document.getElementById(
+                "topbar"
+            );
 
+        topbar.style.opacity =
+            "0";
+
+
+        /*
+           Volta temporariamente ao tocar.
+        */
 
         setTimeout(
             function () {
 
-                document
-                    .getElementById("topbar")
-                    .style.opacity = "1";
+                topbar.style.opacity =
+                    "1";
 
             },
-            1000
+            1200
         );
 
     };
@@ -1024,132 +1156,177 @@ async function startGame() {
 
 
     /*
-       Primeiro fullscreen porque estamos
-       dentro do toque do usuário.
+       Fullscreen precisa ocorrer
+       durante o toque do usuário.
     */
 
     await enterFullscreen();
 
 
     /*
-       Configura EmulatorJS ANTES de
-       carregar o loader.
+       Configura ROM.
     */
-
-    window.EJS_player =
-        "#game";
-
-    window.EJS_core =
-        system;
 
     window.EJS_gameUrl =
         getRomURL(
             gamePath
         );
 
+
     window.EJS_gameName =
         gameName;
+
 
     window.EJS_gameID =
         createGameID(
             gamePath
         );
 
+
+    /*
+       Localização dos arquivos
+       do EmulatorJS.
+    */
+
     window.EJS_pathtodata =
         EJS_DATA;
+
+
+    /*
+       Iniciar automaticamente
+       quando o EmulatorJS estiver pronto.
+    */
 
     window.EJS_startOnLoaded =
         true;
 
+
+    /*
+       Já entramos em fullscreen
+       pelo botão.
+    */
+
     window.EJS_fullscreenOnLoaded =
         false;
+
+
+    /*
+       Idioma.
+    */
 
     window.EJS_language =
         "pt-BR";
 
-    window.EJS_disableAutoLang =
-        false;
 
-    window.EJS_threads =
-        false;
+    /*
+       Volume.
+    */
 
     window.EJS_volume =
         0.8;
 
+
+    /*
+       Sem BIOS.
+    */
+
     window.EJS_biosUrl =
         "";
 
+
     /*
-       CONTROLES MOBILE
+       Sem threads para manter
+       compatibilidade com GitHub Pages.
     */
 
-    window.EJS_controlScheme =
-        system;
+    window.EJS_threads =
+        false;
+
 
     /*
-       Força interface mobile.
-    */
-
-    window.EJS_browserMode =
-        "mobile";
-
-    /*
-       Tema.
+       Cor da interface.
     */
 
     window.EJS_color =
         "#ffffff";
 
+
     /*
-       Fundo preto.
+       Fundo.
     */
 
     window.EJS_backgroundColor =
         "#000000";
 
-    /*
-       Sem anúncios.
-    */
-
-    window.EJS_AdUrl =
-        "";
 
     /*
-       Não mostrar nossa própria
-       tela de loading.
+       Mouse desativado.
     */
 
-    startScreen.style.display =
-        "none";
+    window.EJS_mouse =
+        false;
 
 
     /*
-       Cria o loader.
+       Multitap desativado.
     */
 
-    const old =
+    window.EJS_multitap =
+        false;
+
+
+    /* =================================================
+       ESCOLHER CORE
+    ================================================= */
+
+
+    if (system === "gb") {
+
+        configureGameBoy();
+
+    }
+    else if (system === "snes") {
+
+        configureSNES();
+
+    }
+
+
+    /*
+       Remove loader anterior se existir.
+    */
+
+    const oldLoader =
         document.getElementById(
             "emulatorjs-loader"
         );
 
-    if (old) {
 
-        old.remove();
+    if (oldLoader) {
+
+        oldLoader.remove();
 
     }
 
+
+    /*
+       Carrega EmulatorJS.
+    */
 
     const script =
         document.createElement(
             "script"
         );
 
+
     script.id =
         "emulatorjs-loader";
+
 
     script.src =
         EJS_DATA +
         "loader.js";
+
 
     script.async =
         true;
@@ -1170,6 +1347,19 @@ async function startGame() {
     document.body.appendChild(
         script
     );
+
+
+    /*
+       Não existe uma tela de
+       "Carregando EmulatorJS"
+       por cima do jogo.
+
+       O próprio EmulatorJS controla
+       seu carregamento.
+    */
+
+    startScreen.style.display =
+        "none";
 
 }
 
@@ -1193,7 +1383,7 @@ function goBack() {
         }
 
     }
-    catch (e) {}
+    catch (error) {}
 
 
     window.location.href =
@@ -1203,51 +1393,47 @@ function goBack() {
 
 
 /* =====================================================
-   ESCONDER BARRA APÓS INICIAR
+   MOSTRAR BARRA AO TOCAR
 ===================================================== */
 
-let barTimer = null;
-
-
-function showBarTemporarily() {
-
-    const bar =
-        document.getElementById(
-            "topbar"
-        );
-
-    bar.style.opacity =
-        "1";
-
-
-    clearTimeout(
-        barTimer
-    );
-
-
-    barTimer =
-        setTimeout(
-            function () {
-
-                bar.style.opacity =
-                    "0";
-
-            },
-            2500
-        );
-
-}
+let hideTimer =
+    null;
 
 
 document.addEventListener(
     "click",
     function () {
 
+        const topbar =
+            document.getElementById(
+                "topbar"
+            );
+
+
         if (
-            window.EJS_emulator
+            startScreen.style.display ===
+            "none"
         ) {
 
-            showBarTemporarily();
+            topbar.style.opacity =
+                "1";
+
+
+            clearTimeout(
+                hideTimer
+            );
+
+
+            hideTimer =
+                setTimeout(
+                    function () {
+
+                        topbar.style.opacity =
+                            "0";
+
+                    },
+                    2500
+                );
 
         }
 
@@ -1260,11 +1446,15 @@ document.addEventListener(
 ===================================================== */
 
 console.log(
-    "Retro Player iniciado"
+    "=============================="
 );
 
 console.log(
-    "ROM:",
+    "RETRO PLAYER"
+);
+
+console.log(
+    "Jogo:",
     gamePath
 );
 
@@ -1273,8 +1463,18 @@ console.log(
     system
 );
 
-</script>
+console.log(
+    "Extensão:",
+    extension
+);
 
-</body>
+console.log(
+    "GBC:",
+    isGBC
+);
 
-</html>
+console.log(
+    "=============================="
+);
+
+</script></body></html>
