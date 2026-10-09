@@ -1,1502 +1,322 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta
-name="viewport"
-content="width=device-width,
-initial-scale=1.0,
-maximum-scale=1.0,
-user-scalable=no,
-viewport-fit=cover"
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Player</title>
 
-«»
-
-<meta name="theme-color" content="#000000"><title>Retro Player</title><style>
-
+<style>
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
-    user-select: none;
 }
-
-html,
-body {
-
+html, body {
     margin: 0;
     padding: 0;
-
     width: 100%;
     height: 100%;
-
     overflow: hidden;
-
     background: #000;
-
-    color: #fff;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+    font-family: Arial, sans-serif;
 }
-
-body {
-
-    position: fixed;
-
-    inset: 0;
-
-    width: 100vw;
-    height: 100vh;
-
-    background: #000;
-}
-
-
-/* =====================================================
-   EMULATORJS
-===================================================== */
-
 #game {
-
     position: fixed;
-
     inset: 0;
-
-    width: 100vw;
-    height: 100vh;
-
-    background: #000;
-
-    overflow: hidden;
-
-}
-
-
-/* =====================================================
-   BARRA
-===================================================== */
-
-#topbar {
-
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
     width: 100%;
-
-    height: 45px;
-
-    z-index: 900000;
-
-    display: flex;
-
-    align-items: center;
-
-    padding: 5px 9px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0,0,0,.85),
-            rgba(0,0,0,.30)
-        );
-
-    transition:
-        opacity .25s ease;
-
+    height: 100%;
+    background: #000;
 }
-
 #backButton {
-
-    border: 1px solid #444;
-
-    background: #181818;
-
-    color: #fff;
-
-    border-radius: 8px;
-
-    padding: 7px 11px;
-
-    font-size: 13px;
-
-    font-weight: bold;
-
-}
-
-#backButton:active {
-
-    transform: scale(.95);
-
-}
-
-#gameTitle {
-
-    flex: 1;
-
-    min-width: 0;
-
-    margin-left: 9px;
-
-    overflow: hidden;
-
-    white-space: nowrap;
-
-    text-overflow: ellipsis;
-
-    font-size: 13px;
-
-    font-weight: bold;
-
-}
-
-
-/* =====================================================
-   TELA INICIAL
-===================================================== */
-
-#startScreen {
-
     position: fixed;
-
-    inset: 0;
-
-    z-index: 1000000;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    align-items: center;
-
-    text-align: center;
-
-    padding: 20px;
-
-    background:
-
-        radial-gradient(
-            circle at center,
-            #222 0%,
-            #0b0b0b 50%,
-            #000 100%
-        );
-
-}
-
-#startIcon {
-
-    font-size: 55px;
-
-    margin-bottom: 10px;
-
-}
-
-#startTitle {
-
-    max-width: 90vw;
-
-    font-size: 26px;
-
-    font-weight: bold;
-
-    margin-bottom: 8px;
-
-    word-break: break-word;
-
-}
-
-#startSystem {
-
-    color: #aaa;
-
+    z-index: 999999;
+    left: 10px;
+    bottom: 10px;
+    border: 1px solid #555;
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: white;
+    background: rgba(20,20,20,.8);
     font-size: 14px;
-
-    margin-bottom: 22px;
-
-}
-
-#startButton {
-
-    border: 0;
-
-    border-radius: 12px;
-
-    padding: 14px 28px;
-
-    background: #fff;
-
-    color: #000;
-
-    font-size: 16px;
-
     font-weight: bold;
-
 }
-
-#startButton:active {
-
-    transform: scale(.96);
-
-}
-
-
-/* =====================================================
-   ERRO
-===================================================== */
-
-#errorScreen {
-
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 2000000;
-
+#backButton.hidden {
     display: none;
-
+}
+#startScreen, #errorScreen {
+    position: fixed;
+    z-index: 999998;
+    inset: 0;
+    display: flex;
     flex-direction: column;
-
-    justify-content: center;
-
     align-items: center;
-
+    justify-content: center;
+    padding: 20px;
+    color: white;
     text-align: center;
-
-    padding: 25px;
-
     background: #000;
-
 }
-
-#errorScreen h2 {
-
-    margin-bottom: 10px;
-
+#gameTitle {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 25px;
 }
-
-#errorScreen p {
-
-    color: #aaa;
-
-    max-width: 450px;
-
-    line-height: 1.5;
-
-}
-
-#errorBack {
-
+#startButton, #errorBack {
+    padding: 14px 25px;
     border: 0;
-
     border-radius: 9px;
-
-    padding: 12px 20px;
-
-    background: #fff;
-
-    color: #000;
-
+    background: white;
+    color: black;
+    font-size: 17px;
     font-weight: bold;
-
 }
-
-
-/* =====================================================
-   AVISO VERTICAL
-===================================================== */
-
-#portraitWarning {
-
+#loadingText {
     display: none;
-
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 1500000;
-
-    background: #000;
-
-    justify-content: center;
-
-    align-items: center;
-
-    flex-direction: column;
-
-    text-align: center;
-
-    padding: 25px;
-
-}
-
-.rotateIcon {
-
-    font-size: 55px;
-
-    margin-bottom: 15px;
-
-}
-
-#portraitWarning strong {
-
-    font-size: 20px;
-
-}
-
-#portraitWarning span {
-
-    margin-top: 8px;
-
+    margin-top: 18px;
     color: #aaa;
-
 }
-
-
-/* =====================================================
-   RETRATO
-===================================================== */
-
-@media screen
-       and (orientation: portrait)
-       and (max-width: 800px) {
-
-    #portraitWarning {
-
+#errorScreen {
+    display: none;
+    z-index: 1000000;
+}
+#errorMessage {
+    max-width: 600px;
+    margin-top: 10px;
+    color: #ccc;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+#errorBack {
+    margin-top: 20px;
+}
+#rotateScreen {
+    display: none;
+}
+@media (orientation: portrait) and (max-width: 900px) {
+    #rotateScreen {
         display: flex;
-
+        position: fixed;
+        z-index: 2000000;
+        inset: 0;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 25px;
+        color: white;
+        background: #000;
+        text-align: center;
+        font-weight: bold;
     }
-
-    #topbar {
-
-        display: none;
-
-    }
-
 }
-
-
-/* =====================================================
-   HORIZONTAL
-===================================================== */
-
-@media screen
-       and (orientation: landscape) {
-
-    #game {
-
-        width: 100vw;
-        height: 100vh;
-
+@media (orientation: landscape) {
+    #rotateScreen {
+        display: none !important;
     }
-
 }
+</style>
 
+<script>
+window.EJS_DATA = "https://cdn.emulatorjs.org/stable/data/";
 
-/* =====================================================
-   CELULAR HORIZONTAL
-===================================================== */
+/* O core grava o arquivo SRAM periodicamente. */
+window.EJS_fixedSaveInterval = 7000;
 
-@media screen
-       and (orientation: landscape)
-       and (max-height: 600px) {
+/* Não desative o armazenamento do EmulatorJS. */
+window.EJS_disableLocalStorage = false;
 
-    #topbar {
+/* Apenas observa atualizações do save; não substitui o sistema nativo. */
+window.EJS_onSaveUpdate = function(event) {
+    console.log("EmulatorJS detectou alteração no save:", event);
+};
 
-        height: 38px;
+window.EJS_onSaveSave = function(event) {
+    console.log("EmulatorJS acionou salvar arquivos SAV.", event);
+};
 
-        padding: 3px 8px;
+window.EJS_onGameStart = function() {
+    console.log("Jogo iniciado.");
+};
+</script>
+</head>
 
-    }
+<body>
+<div id="game"></div>
 
-    #backButton {
+<button id="backButton" type="button">← Voltar</button>
 
-        padding: 5px 9px;
-
-        font-size: 12px;
-
-    }
-
-    #gameTitle {
-
-        font-size: 12px;
-
-    }
-
-    #startIcon {
-
-        font-size: 40px;
-
-    }
-
-    #startTitle {
-
-        font-size: 21px;
-
-    }
-
-    #startSystem {
-
-        margin-bottom: 12px;
-
-    }
-
-    #startButton {
-
-        padding: 10px 22px;
-
-        font-size: 14px;
-
-    }
-
-}
-
-
-/* =====================================================
-   FULLSCREEN
-===================================================== */
-
-:fullscreen {
-
-    width: 100vw !important;
-    height: 100vh !important;
-
-    background: #000 !important;
-
-}
-
-:-webkit-full-screen {
-
-    width: 100vw !important;
-    height: 100vh !important;
-
-    background: #000 !important;
-
-}
-
-</style></head><body><!-- =====================================================
-     EMULATORJS
-===================================================== --><div id="game"></div><!-- =====================================================
-     BARRA
-===================================================== --><div id="topbar"><button
-    id="backButton"
-    onclick="goBack()">
-
-    ← Voltar
-
-</button>
-
-<div id="gameTitle">
-    Retro Player
+<div id="startScreen">
+    <div id="gameTitle">Carregando jogo...</div>
+    <button id="startButton" type="button">▶ INICIAR JOGO</button>
+    <div id="loadingText">Carregando EmulatorJS...</div>
 </div>
 
-</div><!-- =====================================================
-     TELA INICIAL
-===================================================== --><div id="startScreen"><div id="startIcon">
-    🎮
+<div id="errorScreen">
+    <strong>Erro ao carregar o jogo</strong>
+    <div id="errorMessage"></div>
+    <button id="errorBack" type="button">← Voltar</button>
 </div>
 
-<div id="startTitle">
-    Retro Player
+<div id="rotateScreen">
+    <div style="font-size:48px;margin-bottom:15px">📱↔️</div>
+    Gire o celular para a horizontal para jogar.
 </div>
 
-<div id="startSystem">
-    Preparando jogo...
-</div>
+<script>
+(function() {
+    "use strict";
 
-<button
-    id="startButton"
-    onclick="startGame()">
+    const startScreen = document.getElementById("startScreen");
+    const startButton = document.getElementById("startButton");
+    const loadingText = document.getElementById("loadingText");
+    const gameTitle = document.getElementById("gameTitle");
+    const errorScreen = document.getElementById("errorScreen");
+    const errorMessage = document.getElementById("errorMessage");
+    const backButton = document.getElementById("backButton");
 
-    ▶ INICIAR JOGO
-
-</button>
-
-</div><!-- =====================================================
-     ERRO
-===================================================== --><div id="errorScreen"><h2>
-    ❌ Erro
-</h2>
-
-<p id="errorText">
-    Não foi possível abrir o jogo.
-</p>
-
-<button
-    id="errorBack"
-    onclick="goBack()">
-
-    ← Voltar
-
-</button>
-
-</div><!-- =====================================================
-     AVISO VERTICAL
-===================================================== --><div id="portraitWarning"><div class="rotateIcon">
-    📱↻
-</div>
-
-<strong>
-    Vire o celular
-</strong>
-
-<span>
-    Coloque o celular na horizontal
-    para jogar.
-</span>
-
-</div><script>
-
-/* =====================================================
-   CONFIGURAÇÃO
-===================================================== */
-
-const GITHUB_USER =
-    "Rique106br";
-
-const GITHUB_REPO =
-    "Pokemon-red-nft";
-
-const GITHUB_BRANCH =
-    "main";
-
-const EJS_DATA =
-    "https://cdn.emulatorjs.org/stable/data/";
-
-
-/* =====================================================
-   ELEMENTOS
-===================================================== */
-
-const game =
-    document.getElementById("game");
-
-const startScreen =
-    document.getElementById("startScreen");
-
-const startButton =
-    document.getElementById("startButton");
-
-const startTitle =
-    document.getElementById("startTitle");
-
-const startSystem =
-    document.getElementById("startSystem");
-
-const gameTitle =
-    document.getElementById("gameTitle");
-
-const errorScreen =
-    document.getElementById("errorScreen");
-
-const errorText =
-    document.getElementById("errorText");
-
-
-/* =====================================================
-   URL
-===================================================== */
-
-const params =
-    new URLSearchParams(
-        window.location.search
-    );
-
-const rawGamePath =
-    params.get("game");
-
-
-/* =====================================================
-   NORMALIZAR CAMINHO
-===================================================== */
-
-function normalizePath(path) {
-
-    if (!path) {
-
-        return "";
-
+    function showError(message) {
+        startScreen.style.display = "none";
+        errorScreen.style.display = "flex";
+        errorMessage.textContent = message;
     }
 
-    try {
-
-        path =
-            decodeURIComponent(path);
-
-    }
-    catch (e) {
-
-        /* Já estava decodificado */
-
+    function goBack() {
+        window.location.href = "index.html";
     }
 
-    return path
-        .replace(/^\/+/, "")
-        .replace(/\\/g, "/");
+    backButton.addEventListener("click", goBack);
+    document.getElementById("errorBack").addEventListener("click", goBack);
 
-}
+    const params = new URLSearchParams(window.location.search);
+    let gamePath = params.get("game");
 
-
-const gamePath =
-    normalizePath(
-        rawGamePath
-    );
-
-
-/* =====================================================
-   NOME DO JOGO
-===================================================== */
-
-function getGameName(path) {
-
-    if (!path) {
-
-        return "Retro Player";
-
-    }
-
-    const parts =
-        path.split("/");
-
-    let filename =
-        parts[
-            parts.length - 1
-        ];
-
-
-    filename =
-        filename.replace(
-            /\.[^/.]+$/,
-            ""
-        );
-
-
-    return filename
-        .replace(
-            /[_-]+/g,
-            " "
-        )
-        .replace(
-            /\s+/g,
-            " "
-        )
-        .trim();
-
-}
-
-
-const gameName =
-    getGameName(
-        gamePath
-    );
-
-
-/* =====================================================
-   SISTEMA
-===================================================== */
-
-function getSystem(path) {
-
-    const lower =
-        path.toLowerCase();
-
-
-    if (
-        lower.endsWith(".gb") ||
-        lower.endsWith(".gbc") ||
-        lower.startsWith("gb/")
-    ) {
-
-        return "gb";
-
-    }
-
-
-    if (
-        lower.endsWith(".sfc") ||
-        lower.endsWith(".smc") ||
-        lower.endsWith(".fig") ||
-        lower.endsWith(".swc") ||
-        lower.endsWith(".bsx") ||
-        lower.startsWith("snes/")
-    ) {
-
-        return "snes";
-
-    }
-
-
-    return null;
-
-}
-
-
-const system =
-    getSystem(
-        gamePath
-    );
-
-
-/* =====================================================
-   INTERFACE
-===================================================== */
-
-startTitle.textContent =
-    gameName;
-
-gameTitle.textContent =
-    gameName;
-
-
-if (system === "gb") {
-
-    startSystem.textContent =
-        "🎮 Game Boy";
-
-}
-else if (system === "snes") {
-
-    startSystem.textContent =
-        "🕹️ Super Nintendo";
-
-}
-else {
-
-    startSystem.textContent =
-        "Sistema não reconhecido";
-
-}
-
-
-/* =====================================================
-   VALIDAR
-===================================================== */
-
-if (
-    !gamePath ||
-    !system
-) {
-
-    startScreen.style.display =
-        "none";
-
-    errorScreen.style.display =
-        "flex";
-
-    errorText.textContent =
-        "Jogo inválido. " +
-        "Use, por exemplo: " +
-        "player.html?game=gb/pokemon_red.gb";
-
-}
-
-
-/* =====================================================
-   URL DA ROM
-===================================================== */
-
-function getRomURL(path) {
-
-    const encoded =
-        path
-            .split("/")
-            .map(
-                part =>
-                    encodeURIComponent(part)
-            )
-            .join("/");
-
-
-    return (
-        "https://raw.githubusercontent.com/" +
-        GITHUB_USER +
-        "/" +
-        GITHUB_REPO +
-        "/" +
-        GITHUB_BRANCH +
-        "/" +
-        encoded
-    );
-
-}
-
-
-/* =====================================================
-   FULLSCREEN
-===================================================== */
-
-async function enterFullscreen() {
-
-    try {
-
-        if (
-            !document.fullscreenElement &&
-            document.documentElement.requestFullscreen
-        ) {
-
-            await document
-                .documentElement
-                .requestFullscreen();
-
-        }
-
-    }
-    catch (error) {
-
-        console.log(
-            "Fullscreen não permitido:",
-            error
-        );
-
-    }
-
-
-    try {
-
-        if (
-            screen.orientation &&
-            screen.orientation.lock
-        ) {
-
-            await screen.orientation.lock(
-                "landscape"
-            );
-
-        }
-
-    }
-    catch (error) {
-
-        console.log(
-            "Landscape não permitido:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   ID ÚNICO DO JOGO
-===================================================== */
-
-function createGameID(path) {
-
-    let hash = 0;
-
-
-    for (
-        let i = 0;
-        i < path.length;
-        i++
-    ) {
-
-        hash =
-            (
-                (
-                    hash << 5
-                )
-                -
-                hash
-                +
-                path.charCodeAt(i)
-            ) | 0;
-
-    }
-
-
-    /*
-       Nunca usar 0.
-
-       O ID precisa ser estável:
-       mesma ROM = mesmo ID.
-    */
-
-    hash =
-        Math.abs(hash);
-
-
-    if (hash === 0) {
-
-        hash = 1;
-
-    }
-
-
-    return hash;
-
-}
-
-
-const gameID =
-    createGameID(
-        gamePath
-    );
-
-
-/* =====================================================
-   SALVAR AGORA
-===================================================== */
-
-function saveGameNow() {
-
-    try {
-
-        const emulator =
-            window.EJS_emulator;
-
-
-        if (
-            emulator &&
-            emulator.gameManager &&
-            typeof emulator.gameManager.saveSaveFiles ===
-                "function"
-        ) {
-
-            emulator.gameManager
-                .saveSaveFiles();
-
-            console.log(
-                "SAVE SRAM gravado."
-            );
-
-            return true;
-
-        }
-
-    }
-    catch (error) {
-
-        console.error(
-            "Erro ao gravar SRAM:",
-            error
-        );
-
-    }
-
-
-    return false;
-
-}
-
-
-/* =====================================================
-   EMULATORJS PRONTO
-===================================================== */
-
-window.EJS_ready =
-    function () {
-
-        console.log(
-            "EmulatorJS pronto."
-        );
-
-    };
-
-
-/* =====================================================
-   JOGO INICIADO
-===================================================== */
-
-window.EJS_onGameStart =
-    function () {
-
-        console.log(
-            "Jogo iniciado."
-        );
-
-
-        startScreen.style.display =
-            "none";
-
-
-        document
-            .getElementById("topbar")
-            .style.opacity =
-                "0";
-
-
-        setTimeout(
-            function () {
-
-                document
-                    .getElementById("topbar")
-                    .style.opacity =
-                        "1";
-
-            },
-            1000
-        );
-
-    };
-
-
-/* =====================================================
-   QUANDO O SAVE DO JOGO MUDAR
-===================================================== */
-
-window.EJS_onSaveUpdate =
-    function (event) {
-
-        console.log(
-            "Pokémon alterou o save."
-        );
-
-
-        /*
-           O EmulatorJS já detectou a alteração.
-           Forçamos a persistência.
-        */
-
-        setTimeout(
-            function () {
-
-                saveGameNow();
-
-            },
-            100
-        );
-
-    };
-
-
-/* =====================================================
-   QUANDO O EMULATORJS SALVAR
-===================================================== */
-
-window.EJS_onSaveSave =
-    function (event) {
-
-        console.log(
-            "Arquivo SAV solicitado."
-        );
-
-    };
-
-
-/* =====================================================
-   INICIAR JOGO
-===================================================== */
-
-async function startGame() {
-
-    if (
-        !gamePath ||
-        !system
-    ) {
-
+    if (!gamePath) {
+        showError("Nenhum jogo foi informado. Abra o jogo pela página inicial.");
         return;
-
     }
 
-
-    /* -----------------------------------------------
-       FULLSCREEN
-    ----------------------------------------------- */
-
-    await enterFullscreen();
-
-
-    /* -----------------------------------------------
-       CONFIGURAÇÃO BÁSICA
-    ----------------------------------------------- */
-
-    window.EJS_player =
-        "#game";
-
-
-    window.EJS_gameUrl =
-        getRomURL(
-            gamePath
-        );
-
-
-    /*
-       IMPORTANTE:
-
-       O nome e o ID ficam fixos para
-       o save ser encontrado novamente.
-    */
-
-    window.EJS_gameName =
-        gameName;
-
-
-    window.EJS_gameID =
-        gameID;
-
-
-    window.EJS_pathtodata =
-        EJS_DATA;
-
-
-    /* -----------------------------------------------
-       CORE
-    ----------------------------------------------- */
-
-    window.EJS_core =
-        system;
-
-
-    /* -----------------------------------------------
-       INÍCIO
-    ----------------------------------------------- */
-
-    window.EJS_startOnLoaded =
-        true;
-
-
-    window.EJS_fullscreenOnLoaded =
-        false;
-
-
-    /* -----------------------------------------------
-       IDIOMA
-    ----------------------------------------------- */
-
-    window.EJS_language =
-        "pt-BR";
-
-
-    window.EJS_disableAutoLang =
-        false;
-
-
-    /* -----------------------------------------------
-       PERFORMANCE
-    ----------------------------------------------- */
-
-    window.EJS_threads =
-        false;
-
-
-    /* -----------------------------------------------
-       ÁUDIO
-    ----------------------------------------------- */
-
-    window.EJS_volume =
-        0.8;
-
-
-    /* -----------------------------------------------
-       BIOS
-    ----------------------------------------------- */
-
-    window.EJS_biosUrl =
-        "";
-
-
-    /* -----------------------------------------------
-       CONTROLES MOBILE
-    ----------------------------------------------- */
-
-    window.EJS_controlScheme =
-        system;
-
-
-    window.EJS_browserMode =
-        "mobile";
-
-
-    /* -----------------------------------------------
-       VISUAL
-    ----------------------------------------------- */
-
-    window.EJS_color =
-        "#ffffff";
-
-
-    window.EJS_backgroundColor =
-        "#000000";
-
-
-    /* -----------------------------------------------
-       SEM ANÚNCIO
-    ----------------------------------------------- */
-
-    window.EJS_AdUrl =
-        "";
-
-
-    /* =================================================
-       CONFIGURAÇÃO REAL DE SAVE
-    ================================================= */
-
-    /*
-       Mantém armazenamento local habilitado.
-    */
-
-    window.EJS_disableLocalStorage =
-        false;
-
-
-    /*
-       Salva os SAVE FILES no navegador.
-    */
-
-    window.EJS_defaultOptions = {
-
-        "save-state-location":
-            "browser"
-
-    };
-
-
-    /*
-       FORÇA o núcleo a gravar o SRAM
-       a cada 7 segundos.
-
-       Isso é especialmente importante
-       para Pokémon Red.
-    */
-
-    window.EJS_fixedSaveInterval =
-        7000;
-
-
-    /*
-       A tela de configurações não precisa
-       ser alterada.
-    */
-
-
-    /* -----------------------------------------------
-       REMOVE NOSSA TELA
-    ----------------------------------------------- */
-
-    startScreen.style.display =
-        "none";
-
-
-    /* -----------------------------------------------
-       EVITA DOIS LOADERS
-    ----------------------------------------------- */
-
-    const old =
-        document.getElementById(
-            "emulatorjs-loader"
-        );
-
-
-    if (old) {
-
-        old.remove();
-
+    gamePath = gamePath.replace(/^\/+/, "").replace(/\\/g, "/");
+
+    if (gamePath.split("/").includes("..")) {
+        showError("Caminho de jogo inválido.");
+        return;
     }
 
+    const lowerPath = gamePath.toLowerCase();
+    let system;
 
-    /* -----------------------------------------------
-       CARREGAR EMULATORJS
-    ----------------------------------------------- */
+    if (/\.(gb|gbc)$/.test(lowerPath)) {
+        system = "gb";
+    } else if (/\.(sfc|smc|fig|swc|bsx)$/.test(lowerPath)) {
+        system = "snes";
+    } else {
+        showError("Formato não reconhecido. Use uma ROM GB, GBC ou SNES.");
+        return;
+    }
 
-    const script =
-        document.createElement(
-            "script"
-        );
+    const fileName = gamePath.split("/").pop();
+    const gameName = fileName.replace(/\.[^/.]+$/, "");
+    gameTitle.textContent = gameName.replace(/[_-]/g, " ");
+    document.title = gameName + " - Player";
 
+    const romURL =
+        "https://raw.githubusercontent.com/Rique106br/Pokemon-red-nft/main/" +
+        gamePath.split("/").map(encodeURIComponent).join("/");
 
-    script.id =
-        "emulatorjs-loader";
+    /*
+     * ID estável para cada caminho de ROM.
+     */
+    function createGameID(text) {
+        let hash = 2166136261;
+        for (let i = 0; i < text.length; i++) {
+            hash ^= text.charCodeAt(i);
+            hash = Math.imul(hash, 16777619);
+        }
+        return (hash >>> 0) % 2147483647 || 1;
+    }
 
+    window.EJS_player = "#game";
+    window.EJS_core = system;
+    window.EJS_gameUrl = romURL;
 
-    script.src =
-        EJS_DATA +
-        "loader.js";
+    /*
+     * O nome também inclui o caminho para distinguir jogos
+     * com o mesmo nome em pastas diferentes.
+     */
+    window.EJS_gameName = gamePath.replace(/\.[^/.]+$/, "");
+    window.EJS_gameID = createGameID(gamePath);
 
+    window.EJS_pathtodata = window.EJS_DATA;
+    window.EJS_startOnLoaded = false;
+    window.EJS_fullscreenOnLoaded = false;
+    window.EJS_language = "pt-BR";
+    window.EJS_threads = false;
+    window.EJS_volume = 0.8;
+    window.EJS_biosUrl = "";
+    window.EJS_controlScheme = system;
+    window.EJS_browserMode = "mobile";
+    window.EJS_color = "#ffffff";
+    window.EJS_backgroundColor = "#000000";
+    window.EJS_AdUrl = "";
 
-    script.async =
-        true;
+    let started = false;
 
+    startButton.addEventListener("click", async function() {
+        if (started) return;
+        started = true;
 
-    script.onerror =
-        function () {
+        startButton.disabled = true;
+        startButton.style.display = "none";
+        loadingText.style.display = "block";
+        startScreen.style.display = "none";
 
-            errorScreen.style.display =
-                "flex";
+        try {
+            if (document.documentElement.requestFullscreen) {
+                await document.documentElement.requestFullscreen();
+            }
+        } catch (_) {}
 
+        try {
+            if (screen.orientation && screen.orientation.lock) {
+                await screen.orientation.lock("landscape");
+            }
+        } catch (_) {}
 
-            errorText.textContent =
-                "Não foi possível carregar o EmulatorJS.";
+        const loader = document.createElement("script");
+        loader.src = window.EJS_DATA + "loader.js";
+        loader.async = true;
 
+        loader.onload = function() {
+            loadingText.style.display = "none";
         };
 
+        loader.onerror = function() {
+            showError("Não foi possível carregar o EmulatorJS. Confira a conexão.");
+        };
 
-    document.body.appendChild(
-        script
-    );
-
-}
-
-
-/* =====================================================
-   SALVAR ANTES DE SAIR
-===================================================== */
-
-window.addEventListener(
-    "pagehide",
-    function () {
-
-        saveGameNow();
-
-    }
-);
-
-
-/* =====================================================
-   SALVAR QUANDO A ABA FICA OCULTA
-===================================================== */
-
-document.addEventListener(
-    "visibilitychange",
-    function () {
-
-        if (
-            document.visibilityState ===
-            "hidden"
-        ) {
-
-            saveGameNow();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   VOLTAR
-===================================================== */
-
-function goBack() {
+        document.body.appendChild(loader);
+    });
 
     /*
-       Primeiro salva.
-    */
+     * Esconde o botão Voltar durante o jogo para não cobrir
+     * os controles. Toque no canto inferior esquerdo para
+     * fazê-lo reaparecer.
+     */
+    let hideTimer;
 
-    saveGameNow();
-
-
-    /*
-       Depois sai do fullscreen.
-    */
-
-    try {
-
-        if (
-            document.fullscreenElement &&
-            document.exitFullscreen
-        ) {
-
-            document
-                .exitFullscreen();
-
-        }
-
+    function showBackButton() {
+        backButton.classList.remove("hidden");
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(function() {
+            backButton.classList.add("hidden");
+        }, 3500);
     }
-    catch (e) {}
 
+    document.addEventListener("pointerdown", showBackButton, { passive: true });
 
-    /*
-       Volta para a página inicial.
-    */
-
-    window.location.href =
-        "index.html";
-
-}
-
-
-/* =====================================================
-   BARRA SUPERIOR
-===================================================== */
-
-let barTimer =
-    null;
-
-
-function showBarTemporarily() {
-
-    const bar =
-        document.getElementById(
-            "topbar"
-        );
-
-
-    bar.style.opacity =
-        "1";
-
-
-    clearTimeout(
-        barTimer
-    );
-
-
-    barTimer =
-        setTimeout(
-            function () {
-
-                bar.style.opacity =
-                    "0";
-
-            },
-            2500
-        );
-
-}
-
-
-document.addEventListener(
-    "click",
-    function () {
-
-        if (
-            window.EJS_emulator
-        ) {
-
-            showBarTemporarily();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   LOG
-===================================================== */
-
-console.log(
-    "================================"
-);
-
-console.log(
-    "RETRO PLAYER"
-);
-
-console.log(
-    "ROM:",
-    gamePath
-);
-
-console.log(
-    "CORE:",
-    system
-);
-
-console.log(
-    "GAME ID:",
-    gameID
-);
-
-console.log(
-    "SAVE:",
-    "SRAM automático a cada 7 segundos"
-);
-
-console.log(
-    "================================"
-);
-
-</script></body></html>
+    console.log("ROM:", gamePath);
+    console.log("Sistema:", system);
+    console.log("URL:", romURL);
+    console.log("Game ID:", window.EJS_gameID);
+})();
+</script>
+</body>
+</html>
